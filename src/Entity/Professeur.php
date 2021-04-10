@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use App\Repository\ProfesseurRepository;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Professeur
  *
  * @ORM\Table(name="professeur", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ProfesseurRepository::class)
  */
 class Professeur
 {

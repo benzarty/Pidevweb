@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
-use App\Repository\Apprenant2Repository;
+use App\Entity\Apprenant;
+use App\Entity\Article;
+use App\Repository\ApprenantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,17 +24,9 @@ class HomeController extends AbstractController
         ]);
     }
 
-    /**
-     * @param Apprenant2Repository $repo
-     * @return Response
-     * @Route("/Afficec",name="hahah")
-     */
-    public function Affiche(Apprenant2Repository $repo)
-    {
 
-        $classroom = $repo->findAll();
-        return $this->render('Apprenant/Affiche.html.twig', ['classroom' => $classroom]);
-    }
+
+
 
 
 }
