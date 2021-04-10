@@ -15,15 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfesseurController extends AbstractController
 {
-    /**
-     * @Route("/professeur", name="professeur")
-     */
-    public function index(): Response
-    {
-        return $this->render('professeur/index.html.twig', [
-            'controller_name' => 'ProfesseurController',
-        ]);
-    }
+
 
 
     /**
@@ -112,7 +104,7 @@ class ProfesseurController extends AbstractController
             return $this->redirectToRoute('aficherprof');
         }
 
-        return $this->render('Apprenant/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('Professeur/edit.html.twig', ['form' => $form->createView()]);
     }
 
     /**
