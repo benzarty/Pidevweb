@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,24 +32,31 @@ class ApprenantController extends AbstractController
      * @Route("/Apprenant/new", name="new_apprenant")
      * Method({"GET", "POST"})
      */
-    public function new(Request $request) {
+    public function new(Request $request)
+    {
         $article = new Apprenant();
-        $form = $this->createFormBuilder($article)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('email', TextType::class)
-            ->add('password', TextType::class)
-            ->add('status', TextType::class)
-            ->add('photo', TextType::class)
-
-            ->add('save', SubmitType::class, array(
-                    'label' => 'Créer')
-            )->getForm();
-
+        $form = $this->createForm(ApprenantType::class, $article);
+        $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $request->files->get('post')['my_file'];
+            $uploads_directory=$this->getParameter('uploads_directory');
+            $filename=md5(uniqid())  .  '.' . $file->guessExtension();
+
+           $file->move($uploads_directory,$filename);
+echo "<pre>";
+var_dump($file);die;
+
+
+
+
+
+
+
+
             $article = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -57,14 +65,15 @@ class ApprenantController extends AbstractController
 
             return $this->redirectToRoute('hahah');
         }
-        return $this->render('Apprenant/NewApprenant.html.twig',['form' => $form->createView()]);
+        return $this->render('Apprenant/NewApprenant.html.twig', ['form' => $form->createView()]);
     }
 
 
     /**
      * @Route("/Apprenant/{id}", name="apprenant_show")
      */
-    public function show($id) {
+    public function show($id)
+    {
         $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
 
         return $this->render('Apprenant/show.html.twig', array('article' => $article));
@@ -74,25 +83,20 @@ class ApprenantController extends AbstractController
      * @Route("/Apprenant/edit/{id}", name="edit_apprenant")
      * Method({"GET", "POST"})
      */
-    public function edit(Request $request, $id) {
-        $article = new Apprenant();
+    public function edit(Request $request, $id)
+    {
         $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
 
-        $form = $this->createFormBuilder($article)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('email', TextType::class)
-            ->add('password', TextType::class)
-            ->add('status', TextType::class)
-            ->add('photo', TextType::class)
-            ->add('save', SubmitType::class, array(
-                'label' => 'Modifier'
-            ))->getForm();
+        $form = $this->createForm(ApprenantType::class, $article);
+        $form->add('Modifier', SubmitType::class);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
             $entityManager->flush();
 
             return $this->redirectToRoute('hahah');
@@ -104,7 +108,8 @@ class ApprenantController extends AbstractController
     /**
      * @Route("/Apprenant/delete/{id}",name="delete_apprenant")
      */
-    public function delete(Request $request, $id) {
+    public function delete(Request $request, $id)
+    {
         $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();

@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Apprenant;
 use App\Entity\Professeur;
+use App\Form\ProfesseurType;
 use App\Repository\ApprenantRepository;
 use App\Repository\ProfesseurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,19 +37,8 @@ class ProfesseurController extends AbstractController
      */
     public function new(Request $request) {
         $article = new Professeur();
-        $form = $this->createFormBuilder($article)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('email', TextType::class)
-            ->add('photo', TextType::class)
-            ->add('password', TextType::class)
-            ->add('specialite', TextType::class)
-            ->add('profil', TextType::class)
-
-            ->add('save', SubmitType::class, array(
-                    'label' => 'Créer')
-            )->getForm();
-
+        $form = $this->createForm(ProfesseurType::class,$article);
+        $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
 
@@ -80,25 +69,18 @@ class ProfesseurController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function edit(Request $request, $id) {
-        $article = new Professeur();
         $article = $this->getDoctrine()->getRepository(Professeur::class)->find($id);
 
-        $form = $this->createFormBuilder($article)
-            ->add('nom', TextType::class)
-            ->add('prenom', TextType::class)
-            ->add('email', TextType::class)
-            ->add('photo', TextType::class)
-            ->add('password', TextType::class)
-            ->add('specialite', TextType::class)
-            ->add('profil', TextType::class)
-            ->add('save', SubmitType::class, array(
-                'label' => 'Modifier'
-            ))->getForm();
+        $form = $this->createForm(ProfesseurType::class,$article);
+        $form->add('Modifier', SubmitType::class);
 
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
             $entityManager->flush();
 
             return $this->redirectToRoute('aficherprof');

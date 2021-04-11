@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container-xl">
+
     <!-- Content here -->
 
 
-    {{ form_start(form) }}
+    {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
 
@@ -15,5 +15,5 @@
 
 
 
-</div>
+
 {% endblock %}

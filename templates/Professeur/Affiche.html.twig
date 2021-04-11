@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container-xl">
+
     <!-- Content here -->
 
 
@@ -37,8 +37,8 @@
 
 
                     <td>
-                        <a href="/ProfInfo/{{ article.idprofesseur }}" class="btn btn-dark">Détails</a>
-                        <a href="/Prof/edit/{{ article.idprofesseur }}" class="btn btn-dark">Modifier</a>
+                        <a href="/ProfInfo/{{ article.idprofesseur }}" class="btn btn-secondary">Détails</a>
+                        <a href="/Prof/edit/{{ article.idprofesseur }}" class="btn btn-info">Modifier</a>
                         <a href="/Prof/delete/{{ article.idprofesseur }}" class="btn btn-danger"
                            onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
                     </td>
@@ -49,5 +49,5 @@
     {% else %}
         <p>Aucun articles</p>
     {% endif %}
-</div>
+
 {% endblock %}

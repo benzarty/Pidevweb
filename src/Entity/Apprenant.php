@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use App\Repository\ApprenantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,13 @@ class Apprenant
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     *@Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le nom d'un article doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom d'un article doit comporter au plus {{ limit }} caractères"
+     * )
+     *@Assert\NotBlank (message="Vous devez remplir ce champs")
      */
     private $nom;
 
@@ -32,6 +41,13 @@ class Apprenant
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le prenom d'un article doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le prenom d'un article doit comporter au plus {{ limit }} caractères"
+     * )
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $prenom;
 
@@ -39,6 +55,13 @@ class Apprenant
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 250,
+     *      minMessage = "La photo d'un article doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "La photo d'un article doit comporter au plus {{ limit }} caractères"
+     * )
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $photo;
 
@@ -46,6 +69,9 @@ class Apprenant
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
+
      */
     private $email;
 
@@ -53,6 +79,13 @@ class Apprenant
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 20,
+     *      minMessage = "Le Password doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le Password doit comporter au plus {{ limit }} caractères"
+     * )
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $password;
 
@@ -60,6 +93,8 @@ class Apprenant
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=250, nullable=false, options={"default"="False"})
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     *
      */
     private $status = 'False';
 

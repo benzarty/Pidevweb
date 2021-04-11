@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Repository\ProfesseurRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,6 +27,13 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le nom  doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le nom  doit comporter au plus {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $nom;
 
@@ -33,6 +41,13 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le prenom  doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le prenom  doit comporter au plus {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $prenom;
 
@@ -40,6 +55,7 @@ class Professeur
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $photo;
 
@@ -47,6 +63,8 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $email;
 
@@ -54,6 +72,13 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le Password  doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le Password  doit comporter au plus {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $password;
 
@@ -61,6 +86,13 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="specialite", type="string", length=50, nullable=false)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le specialite  doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le specialite  doit comporter au plus {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $specialite;
 
@@ -68,6 +100,13 @@ class Professeur
      * @var string|null
      *
      * @ORM\Column(name="profil", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 50,
+     *      minMessage = "Le profil  doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "Le profil  doit comporter au plus {{ limit }} caractères"
+     * )
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $profil;
 
