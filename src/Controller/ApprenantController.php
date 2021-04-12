@@ -42,19 +42,14 @@ class ApprenantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $file = $request->files->get('post')['my_file'];
-            $uploads_directory=$this->getParameter('uploads_directory');
-            $filename=md5(uniqid())  .  '.' . $file->guessExtension();
+           //$file = $article->getPhoto();
+            $file = $form->get('photo')->getData();
 
-           $file->move($uploads_directory,$filename);
-echo "<pre>";
-var_dump($file);die;
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'),$fileName);
 
 
-
-
-
-
+            $article->setPhoto($fileName);
 
 
             $article = $form->getData();

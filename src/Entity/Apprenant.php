@@ -55,13 +55,7 @@ class Apprenant
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
-     * @Assert\Length(
-     *      min = 1,
-     *      max = 250,
-     *      minMessage = "La photo d'un article doit comporter au moins {{ limit }} caractères",
-     *      maxMessage = "La photo d'un article doit comporter au plus {{ limit }} caractères"
-     * )
-     *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     * @Assert\File(mimeTypes={"image/jpeg"})
      */
     private $photo;
 
@@ -127,12 +121,12 @@ class Apprenant
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getPhoto()
     {
         return $this->photo;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setPhoto($photo)
     {
         $this->photo = $photo;
 

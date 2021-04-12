@@ -13,6 +13,8 @@
                 <th>Prenom</th>
                 <th>email </th>
                 <th>password</th>
+                <th>Image</th>
+
                 <th>status</th>
                 <th>Action</th>
 
@@ -26,6 +28,8 @@
                     <td>{{ article.prenom }}</td>
                     <td>{{ article.email }}</td>
                     <td>{{ article.password }}</td>
+                    <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></td>
+
                     <td>{{ article.status }}</td>
 
 
