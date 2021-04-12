@@ -88,6 +88,16 @@ class ApprenantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'),$fileName);
+
+
+            $article->setPhoto($fileName);
+
+
             $article = $form->getData();
 
             $entityManager = $this->getDoctrine()->getManager();

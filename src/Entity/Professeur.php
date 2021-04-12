@@ -55,7 +55,7 @@ class Professeur
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
-     * @Assert\NotBlank(message="Vous devez remplir ce champs")
+     * @Assert\File(mimeTypes={"image/jpeg"},groups = {"create"})
      */
     private $photo;
 

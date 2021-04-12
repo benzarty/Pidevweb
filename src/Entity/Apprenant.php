@@ -55,7 +55,7 @@ class Apprenant
      * @var string|null
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
-     * @Assert\File(mimeTypes={"image/jpeg"})
+     * @Assert\File(mimeTypes={"image/jpeg"},groups = {"create"})
      */
     private $photo;
 
