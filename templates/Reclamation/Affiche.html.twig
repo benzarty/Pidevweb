@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <!-- Content here -->
+
+
+    {% if articles %}
+        <table id="articles" class="table  table-bordered table-hover table-dark   ">
+            <thead>
+            <tr>
+                <th>Id Reclamation</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Etat </th>
+                <th>Reclamation</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td>{{ article.title }}</td>
+                <!--     <td>{{ article.date }}</td>  -->
+                    <td>{{ article.etat }}</td>
+                    <td>{{ article.recl}}</td>
+                    <td>
+                        <a href="/ProfInfo/{{ article.id }}" class="btn btn-secondary">Détails</a>
+                        <a href="/Prof/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
+                        <a href="/Prof/delete/{{ article.id }}" class="btn btn-danger"
+                           onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun articles</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <!-- Content here -->
+    <div class="container">
+        {% block title %}Ajouter Reclamation{% endblock %}
+
+            {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+
+    </div>
+
+
+
+{% endblock %}

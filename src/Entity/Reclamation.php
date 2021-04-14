@@ -43,7 +43,7 @@ class Reclamation
     private $title;
 
     /**
-     * @var \DateTime
+     * @var Date
      *
      * @ORM\Column(name="date", type="date", nullable=false)
      */
