@@ -5,7 +5,7 @@
         <h1>{{ article.idprofesseur  }}</h1>
         <p>{{ article.nom }}</p>
         <h1>{{ article.prenom }}</h1>
-        <p>{{ article.photo }}</p>
+        <p><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></p>
         <h1>{{ article.email  }}</h1>
         <p>{{ article.password }}</p>
         <p>{{ article.specialite }}</p>

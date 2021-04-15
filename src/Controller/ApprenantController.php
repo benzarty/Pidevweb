@@ -22,7 +22,7 @@ class ApprenantController extends AbstractController
      */
     public function Affiche(ApprenantRepository $repo)
     {
-//ggrgrg
+
         $classroom = $repo->findAll();
         return $this->render('Apprenant/Affiche.html.twig', ['articles' => $classroom]);
     }

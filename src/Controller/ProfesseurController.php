@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Apprenant;
 use App\Entity\Professeur;
 use App\Form\ProfesseurType;
-use App\Repository\ApprenantRepository;
 use App\Repository\ProfesseurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -107,10 +107,12 @@ class ProfesseurController extends AbstractController
         return $this->render('Professeur/edit.html.twig', ['form' => $form->createView()]);
     }
 
+
     /**
-     * @Route("/Prof/delete/{id}",name="delete_prof")
+     * @Route("/Prof/deletenow/{id}",name="delete_profff")
      */
-    public function delete(Request $request, $id) {
+    public function deleteProff(Request $request, $id)
+    {
         $article = $this->getDoctrine()->getRepository(Professeur::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();
