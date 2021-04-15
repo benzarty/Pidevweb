@@ -19,11 +19,13 @@ class ReclamationController extends AbstractController
     /**
      * @param ReclamationRepository $repo
      * @return Response
-     * @Route("",name="Reclamation")
+     * @Route("/R",name="Reclamation")
      */
+
     public function Affiche(ReclamationRepository $repo)
     {   $classroom = $repo->findAll();
         return $this->render('Reclamation/Affiche.html.twig', ['articles' => $classroom]);}
+
 
 
     /**
@@ -49,15 +51,6 @@ class ReclamationController extends AbstractController
     }
 
 
-    /**
-     * @Route("/ReclamationInfo/{id}", name="Reclamation_show")
-     */
-    public function show($id) {
-        $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
-        return $this->render('Reclamation/show.html.twig', array('article' => $article)); }
-
-
-
 
     /**
      * @Route("/Reclamation/edit/{id}", name="edit_Reclamation")
@@ -65,31 +58,19 @@ class ReclamationController extends AbstractController
      */
     public function edit(Request $request, $id) {
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
-
         $form = $this->createForm(ReclamationType::class,$article);
         $form->add('Modifier', SubmitType::class);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('photo')->getData();
-
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'),$fileName);
-
-
-            $article->setPhoto($fileName);
-
 
             $article = $form->getData();
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
-
             return $this->redirectToRoute('Reclamation');
         }
-
         return $this->render('Reclamation/edit.html.twig', ['form' => $form->createView()]);
     }
 
