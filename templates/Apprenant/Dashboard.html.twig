@@ -1,4 +1,4 @@
-
+{% block body %}
 
     <!-- Content here -->
     <!DOCTYPE html>
@@ -207,83 +207,32 @@
         </aside>
         <!-- Content Wrapper. Contains page content -->
 
-<div class="content-wrapper">
-    <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES APPRENANTS</strong></span></h1>
-    <div class="container-xl">
-        <div class="float-sm-right"> <a href="/Apprenant/new" type="button"  ><i class="fas fa-plus-circle fa-2x"></i> </a></div>
-    </div>
-    <div class="content-header">
-    {% if articles %}
-        <table id="articles" class="table  table-bordered table-hover table-dark   ">
-            <thead>
-            <tr>
-                <th>Id apprenant</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>email </th>
-                <th>password</th>
-                <th>Image</th>
-
-                <th>status</th>
-                <th>Action</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.idapprenant }}</td>
-                    <td>{{ article.nom }}</td>
-                    <td>{{ article.prenom }}</td>
-                    <td>{{ article.email }}</td>
-                    <td>{{ article.password }}</td>
-                    <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></td>
-
-                    <td>{{ article.status }}</td>
+        <div class="content-wrapper">
+            {{ include('edit.html.twig')}}
 
 
+            <!-- /.content-header -->
 
+            <!-- Main content -->
 
-
-
-                    <td>
-                        <a href="/Apprenant/{{ article.idapprenant }}" class="btn btn-secondary">Détails</a>
-                        <a href="/Apprenant/edit/{{ article.idapprenant }}" class="btn btn-info">Modifier</a>
-                        <a href="/Apprenant/delete/{{ article.idapprenant }}" class="btn btn-danger"
-                           onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
-
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Aucun articles</p>
-    {% endif %}
-
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-
-    <!-- /.content -->
-</div>
-    <!-- /.content-wrapper -->
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-
-    <!-- Main Footer -->
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2021. POLYWAYS LEARNING </strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-            <b>POLYWAYS LEARNING</b>
+            <!-- /.content -->
         </div>
-    </footer>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2021. POLYWAYS LEARNING </strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>POLYWAYS LEARNING</b>
+            </div>
+        </footer>
     </div>
     <!-- ./wrapper -->
 
@@ -313,4 +262,4 @@
     </body>
     </html>
 
-
+{% endblock %}
