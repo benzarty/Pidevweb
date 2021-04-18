@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Entity;
+use Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\ApprenantRepository;
@@ -10,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Apprenant
  *
  * @ORM\Table(name="apprenant", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+
  * @ORM\Entity(repositoryClass=ApprenantRepository::class)
  */
 class Apprenant
@@ -80,9 +83,11 @@ class Apprenant
      *      maxMessage = "Le Password doit comporter au plus {{ limit }} caractères"
      * )
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     * @Assert\EqualTo(propertyPath="confirmPassword",message="votre mot de passe doit etre identique bro")
      */
     private $password;
 
+private $confirmPassword;
     /**
      * @var string
      *
@@ -91,6 +96,8 @@ class Apprenant
      *
      */
     private $status = 'False';
+
+
 
     public function getIdApprenant(): ?int
     {
@@ -107,6 +114,22 @@ class Apprenant
         $this->nom = $nom;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
+    }
+
+    /**
+     * @param mixed $confirmPassword
+     */
+    public function setConfirmPassword($confirmPassword): void
+    {
+        $this->confirmPassword = $confirmPassword;
     }
 
     public function getPrenom(): ?string
@@ -168,6 +191,9 @@ class Apprenant
 
         return $this;
     }
+
+
+
 
 
 }

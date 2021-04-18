@@ -3,14 +3,16 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\AdministrateurRepository;
 
 /**
  * Administrateur
- *
+ * @ORM\Entity(repositoryClass="App\Repository\AdministrateurRepository")
  * @ORM\Table(name="administrateur", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
  */
-class Administrateur
+class Administrateur implements UserInterface
 {
     /**
      * @var int
@@ -52,7 +54,7 @@ class Administrateur
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=50, nullable=false)
+     * @ORM\Column(name="password", type="string", length=250, nullable=false)
      */
     private $password;
 
@@ -122,4 +124,23 @@ class Administrateur
     }
 
 
+    public function getRoles()
+    {
+        return ['ROLE_ADMINISTRATEUR'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->nom;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
 }
