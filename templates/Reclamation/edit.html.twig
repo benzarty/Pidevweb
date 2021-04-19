@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-        <!-- Content here -->
-
+        {% block title %}Modifier Reclamation{% endblock %}
+<div class="content-wrapper"><br><br>
+        <div class="content-header">
+                <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>MODIFIER DES RECLAMATIONS</strong></span></h1><br>
         {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
         {{ form_widget(form) }}
         {{ form_end(form) }}
 
-
+        </div></div>
 
 {% endblock %}
+
