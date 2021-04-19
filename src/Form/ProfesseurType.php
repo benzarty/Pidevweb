@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Professeur;
+use App\Entity\Users;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,6 +20,8 @@ class ProfesseurType extends AbstractType
             ->add('photo',FileType::class, ['mapped' =>false])
             ->add('email')
             ->add('password',PasswordType::class)
+            ->add('confirmPassword',PasswordType::class)
+
             ->add('specialite')
             ->add('profil')
         ;
@@ -28,7 +30,7 @@ class ProfesseurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Professeur::class,
+            'data_class' => Users::class,
         ]);
     }
 }

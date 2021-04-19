@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Apprenant;
 use App\Entity\Professeur;
+use App\Entity\Users;
 use App\Form\ProfesseurType;
 use App\Repository\ProfesseurRepository;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,14 +21,15 @@ class ProfesseurController extends AbstractController
 
 
     /**
-     * @param ProfesseurRepository $repo
+     * @param UsersRepository $repo
      * @return Response
      * @Route("/AfficeProf",name="aficherprof")
      */
-    public function Affiche(ProfesseurRepository $repo)
+    public function Affiche(UsersRepository $repo)
     {
 
-        $classroom = $repo->findAll();
+        $classroom = $repo->findBy([
+            'role' => 'professeur']);
         return $this->render('Professeur/Affiche.html.twig', ['articles' => $classroom]);
     }
 
@@ -36,8 +39,10 @@ class ProfesseurController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function new(Request $request) {
-        $article = new Professeur();
+        $article = new Users();
         $form = $this->createForm(ProfesseurType::class,$article);
+        $article->setRole("professeur");
+
         $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
@@ -68,7 +73,7 @@ class ProfesseurController extends AbstractController
      * @Route("/ProfInfo/{id}", name="Prof_show")
      */
     public function show($id) {
-        $article = $this->getDoctrine()->getRepository(Professeur::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         return $this->render('Professeur/show.html.twig', array('article' => $article));
     }
@@ -78,7 +83,7 @@ class ProfesseurController extends AbstractController
      * Method({"GET", "POST"})
      */
     public function edit(Request $request, $id) {
-        $article = $this->getDoctrine()->getRepository(Professeur::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $form = $this->createForm(ProfesseurType::class,$article);
         $form->add('Modifier', SubmitType::class);
@@ -113,7 +118,7 @@ class ProfesseurController extends AbstractController
      */
     public function deleteProff(Request $request, $id)
     {
-        $article = $this->getDoctrine()->getRepository(Professeur::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($article);

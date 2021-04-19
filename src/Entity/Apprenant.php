@@ -83,11 +83,11 @@ class Apprenant
      *      maxMessage = "Le Password doit comporter au plus {{ limit }} caractères"
      * )
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
-     * @Assert\EqualTo(propertyPath="confirmPassword",message="votre mot de passe doit etre identique bro")
+     *@Assert\EqualTo(propertyPath="confirmPassword",message="votre mot de passe doit etre identique bro")
      */
     private $password;
 
-private $confirmPassword;
+    private $confirmPassword;
     /**
      * @var string
      *

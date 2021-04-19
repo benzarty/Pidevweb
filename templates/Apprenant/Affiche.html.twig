@@ -232,7 +232,7 @@
             <tbody>
             {% for article in articles %}
                 <tr>
-                    <td>{{ article.idapprenant }}</td>
+                    <td>{{ article.id }}</td>
                     <td>{{ article.nom }}</td>
                     <td>{{ article.prenom }}</td>
                     <td>{{ article.email }}</td>
@@ -247,9 +247,9 @@
 
 
                     <td>
-                        <a href="/Apprenant/{{ article.idapprenant }}" class="btn btn-secondary">Détails</a>
-                        <a href="/Apprenant/edit/{{ article.idapprenant }}" class="btn btn-info">Modifier</a>
-                        <a href="/Apprenant/delete/{{ article.idapprenant }}" class="btn btn-danger"
+                        <a href="/Apprenant/{{ article.id }}" class="btn btn-secondary">Détails</a>
+                        <a href="/Apprenant/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
+                        <a href="/Apprenant/delete/{{ article.id }}" class="btn btn-danger"
                            onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
 
                     </td>

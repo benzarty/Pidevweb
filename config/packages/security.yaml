@@ -1,6 +1,6 @@
 security:
   encoders:
-    App\Entity\Administrateur: plaintext
+    App\Entity\Users: plaintext
 
 
 
@@ -10,7 +10,11 @@ security:
     # used to reload user from session & other features (e.g. switch_user)
     app_user_provider:
       entity:
-        class: App\Entity\Administrateur
+        class: App\Entity\Users
+        property: email
+    app_user_provider2:
+      entity:
+        class: App\Entity\Users
         property: email
   firewalls:
     dev:
@@ -24,9 +28,10 @@ security:
           check_path: login
           provider: app_user_provider
           default_target_path : home
+
       logout:
          path: /logout
-         target: /
+         target: homee
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication

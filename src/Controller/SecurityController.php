@@ -32,18 +32,7 @@ class SecurityController extends AbstractController
 
     }
 
-    /**
-     * @Route("/hom", name="hom")
-     */
-    public function home(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if ($user->getRole() == 1)
-            return $this->render('base.html.twig');
-        else
-            return $this->render('security/home.html.twig');
 
-    }
 
 
     /**

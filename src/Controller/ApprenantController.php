@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Entity\Users;
 use App\Form\ApprenantInscriptionType;
 use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,14 +21,15 @@ class ApprenantController extends AbstractController
 {
 
     /**
-     * @param ApprenantRepository $repo
+     * @param UsersRepository $repo
      * @return Response
      * @Route("/Afficec",name="hahah")
      */
-    public function Affiche(ApprenantRepository $repo)
+    public function Affiche(UsersRepository $repo)
     {
 
-        $classroom = $repo->findAll();
+        $classroom = $repo->findBy([
+            'role' => 'apprenant']);
         return $this->render('Apprenant/Affiche.html.twig', ['articles' => $classroom]);
     }
 
@@ -37,8 +40,9 @@ class ApprenantController extends AbstractController
      */
     public function new(Request $request)
     {
-        $article = new Apprenant();
+        $article = new Users();
         $form = $this->createForm(ApprenantType::class, $article);
+         $article->setRole("apprenant");
         $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
@@ -73,7 +77,7 @@ class ApprenantController extends AbstractController
      */
     public function show($id)
     {
-        $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         return $this->render('Apprenant/show.html.twig', array('article' => $article));
     }
@@ -84,7 +88,7 @@ class ApprenantController extends AbstractController
      */
     public function edit(Request $request, $id)
     {
-        $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $form = $this->createForm(ApprenantType::class, $article);
         $form->add('Modifier', SubmitType::class);
@@ -120,7 +124,7 @@ class ApprenantController extends AbstractController
      */
     public function delete(Request $request, $id)
     {
-        $article = $this->getDoctrine()->getRepository(Apprenant::class)->find($id);
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($article);

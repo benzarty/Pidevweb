@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Apprenant;
+use App\Entity\Users;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -37,7 +37,7 @@ class ApprenantType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Apprenant::class,
+            'data_class' => Users::class,
         ]);
     }
 }

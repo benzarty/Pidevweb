@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reclamation
  *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="IDU", columns={"id_user"}), @ORM\Index(name="IDP", columns={"id_prof"})})
+ * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="IDP", columns={"id_prof"}), @ORM\Index(name="IDU", columns={"id_user"})})
  * @ORM\Entity
  */
 class Reclamation
@@ -43,7 +43,7 @@ class Reclamation
     private $title;
 
     /**
-     * @var Date
+     * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
      */

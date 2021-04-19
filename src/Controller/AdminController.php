@@ -29,8 +29,28 @@ class AdminController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
-    public function indexHomefront(): Response
+    public function home(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
-        return $this->render('HomeFront/FrontClient.html.twig');
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if ($user->getRole() == "apprenant")
+            return $this->render('HomeFront/FrontClient.html.twig');
+        else if($user->getRole() == "professeur")
+            return $this->render('Test/professeur.html.twig');
+        else
+            return $this->redirectToRoute('hahah');
+
+
     }
+
+    /**
+     * @Route("/homee", name="homee")
+     */
+    public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {
+
+        return $this->render('HomeFront/FrontClient.html.twig');
+
+
+    }
+
 }
