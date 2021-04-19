@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Polyways Learning</title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
-</head>
+{% block content %}
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" src="dist/img/images.png" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__wobble" src="dist/img/images.png" alt="Logo" height="60" width="60">
         <h1>Polyways Learning</h1>
     </div>
 
@@ -80,8 +65,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
-            <img src="dist/img/images.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <a href="/admin" class="brand-link">
+            <img src="dist/img/images.png" alt="LOGO" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">Polyways Learning</span>
         </a>
 
@@ -124,7 +109,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/AfficeProf" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
                                 Gestion des Professeurs
@@ -133,7 +118,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/Afficec" class="nav-link">
                             <i class="nav-icon fas fa-tree"></i>
                             <p>
                                 Gestion des Apprenants
@@ -203,4 +188,50 @@
         <!-- /.sidebar -->
     </aside>
     <!-- Content Wrapper. Contains page content -->
+{% endblock %}
+{% block footer%}
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2021. POLYWAYS LEARNING </strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>POLYWAYS LEARNING</b>
+        </div>
+    </footer>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.js"></script>
+
+    <!-- PAGE PLUGINS -->
+    <!-- jQuery Mapael -->
+    <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+    <script src="plugins/raphael/raphael.min.js"></script>
+    <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
+    <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
+    <!-- ChartJS -->
+    <script src="plugins/chart.js/Chart.min.js"></script>
+
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="dist/js/pages/dashboard2.js"></script> </body>
+{% endblock %}
+
 </div>
