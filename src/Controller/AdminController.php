@@ -33,7 +33,7 @@ class AdminController extends AbstractController
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if ($user->getRole() == "apprenant")
-            return $this->render('HomeFront/FrontClient.html.twig');
+            return $this->render('HomeFront/FrontApprenantMain.html.twig');
         else if($user->getRole() == "professeur")
             return $this->render('Test/professeur.html.twig');
         else
@@ -48,9 +48,11 @@ class AdminController extends AbstractController
     public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
 
-        return $this->render('HomeFront/FrontClient.html.twig');
+        return $this->render('HomeFront/FrontApprenantMain.html.twig');
 
 
     }
+
+
 
 }

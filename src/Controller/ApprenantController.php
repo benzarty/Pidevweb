@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ApprenantController extends AbstractController
 {
@@ -177,5 +178,30 @@ class ApprenantController extends AbstractController
         return $this->render('Apprenant/Goregister.html.twig', ['form' => $form->createView()]);
     }
 
+
+    /**
+     * @Route("/HomeGeneral", name="HomeGeneral")
+     */
+    public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {
+
+        return $this->render('HomeFront/FrontApprenantMain.html.twig');
+
+
+    }
+
+
+
+
+    /**
+     * @Route("/PagesFrontApprenant", name="PagesFrontApprenant")
+     */
+    public function Pages(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {
+
+        return $this->render('HomeFront/test.html.twig');
+
+
+    }
 
 }
