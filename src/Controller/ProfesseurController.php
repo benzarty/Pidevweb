@@ -18,7 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfesseurController extends AbstractController
 {
 
-
+    /**
+     * @Route("/prof", name="prof")
+     */
+    public function index(): Response
+    {
+        return $this->render('Professeur/dashboardProf.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
 
     /**
      * @param UsersRepository $repo
