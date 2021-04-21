@@ -1,0 +1,41 @@
+{% block title %}Formation{% endblock %}
+
+{% block body %}
+    <h1>Formation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdFormation</th>
+                <td>{{ Formation.idFormation }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ Formation.intitule }}</td>
+            </tr>
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ Formation.dateDebut ? Formation.dateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ Formation.dateFin ? Formation.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>VolumeHoraire</th>
+                <td>{{ Formation.volumeHoraire }}</td>
+            </tr>
+            <tr>
+                <th>Langue</th>
+                <td>{{ Formation.langue }}</td>
+            </tr>
+            <tr>
+                <th>ModeEnseignement</th>
+                <td>{{ Formation.modeEnseignement }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

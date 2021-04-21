@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ApprenantController extends AbstractController
 {
@@ -140,12 +141,12 @@ class ApprenantController extends AbstractController
 
     /**
 
-     * @Route("/RegisterApprenant",name="gogo")
+     * @Route("/RegisterApprenant",name="RegisterApprenanr")
      * Method({"GET", "POST"})
      */
     public function RegisterApprenant(Request $request)
     {
-        $article = new Apprenant();
+        $article = new Users();
         $form = $this->createForm(ApprenantInscriptionType::class, $article);
         $form->add('ajouter', SubmitType::class);
 
@@ -153,7 +154,8 @@ class ApprenantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+$article->setStatus("False");
+            $article->setRole("apprenant");
 
             $file = $form->get('photo')->getData();
 
@@ -172,10 +174,35 @@ class ApprenantController extends AbstractController
 
 
 
-            return $this->redirectToRoute('authentification');
+            return $this->redirectToRoute('HomeGeneral');
         }
         return $this->render('Apprenant/Goregister.html.twig', ['form' => $form->createView()]);
     }
 
+
+    /**
+     * @Route("/HomeGeneral", name="HomeGeneral")
+     */
+    public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {
+
+        return $this->render('HomeFront/FrontApprenantMain.html.twig');
+
+
+    }
+
+
+
+
+    /**
+     * @Route("/PagesFrontApprenant", name="PagesFrontApprenant")
+     */
+    public function Pages(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {
+
+        return $this->render('HomeFront/test.html.twig');
+
+
+    }
 
 }
