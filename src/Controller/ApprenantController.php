@@ -8,6 +8,7 @@ use App\Form\ApprenantInscriptionType;
 use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
 use App\Repository\UsersRepository;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -43,7 +44,7 @@ class ApprenantController extends AbstractController
     {
         $article = new Users();
         $form = $this->createForm(ApprenantType::class, $article);
-         $article->setRole("apprenant");
+        $article->setRole("apprenant");
         $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
@@ -51,11 +52,11 @@ class ApprenantController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-           //$file = $article->getPhoto();
+            //$file = $article->getPhoto();
             $file = $form->get('photo')->getData();
 
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'),$fileName);
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
 
 
             $article->setPhoto($fileName);
@@ -101,8 +102,8 @@ class ApprenantController extends AbstractController
 
             $file = $form->get('photo')->getData();
 
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'),$fileName);
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
 
 
             $article->setPhoto($fileName);
@@ -138,9 +139,7 @@ class ApprenantController extends AbstractController
     }
 
 
-
     /**
-
      * @Route("/RegisterApprenant",name="RegisterApprenanr")
      * Method({"GET", "POST"})
      */
@@ -154,13 +153,13 @@ class ApprenantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-$article->setStatus("False");
+            $article->setStatus("False");
             $article->setRole("apprenant");
 
             $file = $form->get('photo')->getData();
 
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'),$fileName);
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
 
 
             $article->setPhoto($fileName);
@@ -171,10 +170,9 @@ $article->setStatus("False");
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
+            $this->addFlash('info', 'Your request has been added succesfully !!');
 
-
-
-            return $this->redirectToRoute('HomeGeneral');
+            return $this->redirectToRoute('RegisterApprenanr');
         }
         return $this->render('Apprenant/Goregister.html.twig', ['form' => $form->createView()]);
     }
@@ -192,17 +190,43 @@ $article->setStatus("False");
     }
 
 
-
-
     /**
      * @Route("/PagesFrontApprenant", name="PagesFrontApprenant")
      */
     public function Pages(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
 
-        return $this->render('HomeFront/test.html.twig');
+        return $this->render('HomeFront/FrontApprenantPagesAfterLogin.html.twig');
 
 
     }
+
+    /**
+     * @Route("/ResetPasswordApprenant", name="ResetPasswordApprenant")
+     */
+    public function ResetPasswordApprenant(Request $request)
+    {
+        $article = $this->getDoctrine()->getRepository(Users::class);
+
+        $form = $this->createForm(ApprenantType::class, $article);
+        $form->add('Modifier', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('hahah');
+        }
+
+        return $this->render('Apprenant/ResetPasswordApprenant.html.twig', ['form' => $form->createView()]);
+    }
+
 
 }

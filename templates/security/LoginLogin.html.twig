@@ -24,11 +24,15 @@
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('logout') }}">Logout</a>
+
+
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
         </div>
-    {% endif %}
+
+
+    {% endfor %}
     <div class="d-flex justify-content-center h-100">
         <div class="card">
             <div class="card-header">
@@ -81,7 +85,7 @@
                     Don't have an account?<a href="/RegisterApprenant">Sign Up</a>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <a href="#">Forgot your password?</a>
+                    <a href="/RestPassword">Forgot your password?</a>
                 </div>
             </div>
         </div>

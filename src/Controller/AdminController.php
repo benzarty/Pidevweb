@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Administrateur;
 use App\Entity\Apprenant;
+use App\Entity\Users;
 use App\Form\AdminFomType;
+use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,26 +34,69 @@ class AdminController extends AbstractController
     public function home(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        if ($user->getRole() == "apprenant")
+        if (($user->getRole() == "apprenant") and ($user->getStatus() == "True" ))
             return $this->render('HomeFront/FrontApprenantMain.html.twig');
         else if($user->getRole() == "professeur")
             return $this->render('Test/professeur.html.twig');
         else
-            return $this->redirectToRoute('hahah');
+            $this->addFlash(
+                'info','Your have entred wrong Password or your account is blocked Sir or maybe you dont have access  !!');
+            return $this->redirectToRoute('login');
+
+
+    }
+
+
+
+
+    /**
+     * @Route("/", name="homee")
+     */
+    public function FontAllUsers()
+    {
+
+        return $this->render('HomeFront/HomeFrontAllUsers.html.twig');
 
 
     }
 
     /**
-     * @Route("/homee", name="homee")
+     * @param UsersRepository $repo
+     * @return Response
+     * @Route("/Unblock", name="Unblock")
      */
-    public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    public function UnblockUsersPage(UsersRepository $repo)
     {
+        $classroom = $repo->findBy([
+            'status' => 'false']);
 
-        return $this->render('HomeFront/FrontApprenantMain.html.twig');
-
+        return $this->render('admin/UnblockUser.html.twig', ['articles' => $classroom]);
 
     }
+
+
+    /**
+     * @Route("/Admin/Unblock/{id}",name="unblockbenz")
+     */
+    public function unblock(Request $request, $id)
+    {
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
+
+        $article->setStatus('True');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+
+        return $this->redirectToRoute('Unblock');
+    }
+
+
+
+
+
+
 
 
 
