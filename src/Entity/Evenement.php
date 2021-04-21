@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EvenementRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Evenement
  *
  * @ORM\Table(name="evenement")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=EvenementRepository::class)
  */
 class Evenement
 {
@@ -25,6 +27,9 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="lien", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Url(message = "Gickel url '{{ value }}' is not a valid url", protocols = {"http", "https"})
+     *
      */
     private $lien;
 
@@ -32,6 +37,13 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="theme", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Length (
+     *     min = "5",
+     *     max = "50",
+     *     minMessage =" Veuillez saisir plus de 5 caractere",
+     *     maxMessage =" Veuillez saisir moins de 50 caractere")
+     *
      */
     private $theme;
 
@@ -39,6 +51,9 @@ class Evenement
      * @var \DateTime
      *
      * @ORM\Column(name="date_evenement", type="date", nullable=false)
+     * @Assert\NotBlank
+     * @ORM\Column(name="date_evenement", type="date", nullable=false)
+     *
      */
     private $dateEvenement;
 
@@ -46,13 +61,19 @@ class Evenement
      * @var string
      *
      * @ORM\Column(name="presentateur", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message = "Veuillez saisir le presentateur")
+     * @Assert\Length(
+     *     max = "50"
+     *     )
+     *
      */
     private $presentateur;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="image", type="blob", length=16777215, nullable=true)
+     * @ORM\Column(name="image", type="string", length=500, nullable=false)
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $image;
 
@@ -109,12 +130,12 @@ class Evenement
         return $this;
     }
 
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage($image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
