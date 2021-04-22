@@ -6,6 +6,7 @@ use App\Entity\Administrateur;
 use App\Entity\Apprenant;
 use App\Entity\Users;
 use App\Form\AdminFomType;
+use App\Repository\ReclamationRepository;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +19,14 @@ class AdminController extends AbstractController
 {
 
     /**
+     * @param ReclamationRepository $repo
+     * @return Response
      * @Route("/admin", name="admin")
      */
-    public function index(): Response
-    {
+    public function index(ReclamationRepository $repo): Response
+    {   $NotifNB = $repo->NotifCount();
         return $this->render('admin/backendAdmin.html.twig', [
-            'controller_name' => 'AdminController',
+            'controller_name' => 'AdminController','NotifNB' => $NotifNB
         ]);
     }
 
@@ -93,6 +96,7 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('Unblock');
     }
+
 
 
 
