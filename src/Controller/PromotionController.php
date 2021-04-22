@@ -43,6 +43,26 @@ class PromotionController extends AbstractController
             'promotions' => $promotionRepository->Top5Promo()
         ]);
     }
+
+    /**
+     * @Route("/moisf", name="promotion_mois_front", methods={"GET"})
+     */
+    public function promotionMoisF(PromotionRepository $promotionRepository): Response
+    {
+        return $this->render('promotion/promotionfront.html.twig', [
+            'promotions' => $promotionRepository->promotionMois()
+        ]);
+    }
+    /**
+     * @Route("/top5front", name="promotion_top_front", methods={"GET"})
+     */
+    public function Top5Promosfront(PromotionRepository $promotionRepository): Response
+    {
+        return $this->render('promotion/promotionfront.html.twig', [
+            'promotions' => $promotionRepository->Top5Promo()
+        ]);
+    }
+
     /**
      * @Route("/promo", name="promotion_promo", methods={"GET","POST"})
      */
