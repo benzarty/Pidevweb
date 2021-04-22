@@ -19,6 +19,19 @@ class ReclamationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reclamation::class);
     }
 
+    public function findAllRC(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager ->createQuery('SELECT r FROM App\Entity\Reclamation r WHERE r.msgA LIKE :msgA')
+            ->setParameter('msgA','%ACORBEILLE');
+        return $query->getResult(); }
+
+
+    public function NotifCount(){
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('SELECT count(r) FROM App\Entity\Reclamation r WHERE r.exp <> :exp')
+->setParameter('exp','ADMIN');
+return $query->getSingleScalarResult(); }
+
     // /**
     //  * @return Reclamation[] Returns an array of Reclamation objects
     //  */

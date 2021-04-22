@@ -1,7 +1,4 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
--->
+
 <!doctype html>
 <html lang="en">
 
@@ -11,8 +8,10 @@ Author URL: http://w3layouts.com
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 
     <title>The squad</title>
+
 
     <!-- Google fonts -->
     <link href="http://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -28,6 +27,7 @@ Author URL: http://w3layouts.com
 
 
 <script>
+
     (function(){
         if(typeof _bsa !== 'undefined' && _bsa) {
             // format, zoneKey, segment:value, options
@@ -231,7 +231,7 @@ Author URL: http://w3layouts.com
 <header id="site-header" class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg stroke px-0">
-            <h1> <a class="navbar-brand" href="index.html">
+            <h1> <a class="navbar-brand" href="/">
                      Polyways learning
                 </a></h1>
             <!-- if logo is image enable this
@@ -271,25 +271,38 @@ Author URL: http://w3layouts.com
                     </li>
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#whoweare">Who we are</a>
                     </li>
 
-
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Services </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/FR">Reclamations</a>
+                            <a class="dropdown-item" href="#why">Emploi de temps</a>
+                            <a class="dropdown-item" href="#testimonials">Testimonials</a>
+                            <a class="dropdown-item" href="#blog">Blog posts</a>
+                            <a class="dropdown-item" href="#subscribe">Subscribe</a>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="{{ path('logout') }}">Logout</a>
                     </li>
-
-
                     <!--/search-right-->
 
                     <!--//search-right-->
-
+                    <div class="box-support ml-lg-3 mr-lg-4">
+                        <p>Welcome Mr/Mrs </p>
+                        <h5><a>{{ app.user.username }} {{ app.user.prenom }}</a></h5>
+                    </div>
                 </ul>
             </div>
             <!-- toggle switch for light and dark theme -->
@@ -461,6 +474,7 @@ Author URL: http://w3layouts.com
 
 {% endblock%}
 <!-- footer -->
+        {% block footer%}
 <footer class="py-5">
     <div class="container py-md-3">
         <div class="footer-grids">
@@ -745,13 +759,16 @@ Author URL: http://w3layouts.com
 <!-- //disable body scroll which navbar is in active -->
 
 <!--bootstrap-->
-<script src="assets/js/bootstrap.min.js"></script>
-<!-- //bootstrap-->
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}">
 
+        <script src="assets/js/bootstrap.min.js"></script>
+<!-- //bootstrap-->
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 
 
 
 <div id = "v-w3layouts"></div><script>(function(v,d,o,ai){ai=d.createElement('script');ai.defer=true;ai.async=true;ai.src=v.location.protocol+o;d.head.appendChild(ai);})(window, document, '../../../../../../../a.vdo.ai/core/v-w3layouts/vdo.ai.js');</script>
+{% endblock %}
 </body>
 
 
