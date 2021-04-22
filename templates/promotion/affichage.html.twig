@@ -1,0 +1,84 @@
+<head>
+    <title>Promotion</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="Studies Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--// Meta tag Keywords -->
+
+    <!-- Custom-Files -->
+    <link rel="stylesheet" href="{{ asset("assets/css/bootstrap1.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.css") }}">
+    <!-- Bootstrap-Core-CSS -->
+    <link href="{{ asset("assets/css/css_slider.css") }}" type="text/css" rel="stylesheet" media="all">
+    <!-- banner slider -->
+    <link rel="stylesheet" href="{{ asset("assets/css/style1.css") }}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset("assets/css/style.css") }}" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link href="{{ asset("assets/css/font-awesome.min.css") }}" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+
+    <!-- Web-Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext"
+          rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=latin-ext"
+          rel="stylesheet">
+    <!-- //Web-Fonts -->
+
+</head>
+
+{% block body %}
+    <section class="blog py-5" id="blog">
+        <div class="container py-xl-5 py-lg-3">
+            <div class="row">
+
+
+                {% for promotion in promotions %}
+
+                    <!-- blog grid -->
+                    <div class="col-lg-4 col-md-6 px-2 mt-sm-0 mt-4">
+                        <div class="card">
+                            <div class="card-header p-0 position-relative">
+                                <a href="#">
+                                    <img class="card-img-bottom" src="{{ asset('uploads/' ~ promotion.photoAp )}}" alt="Card image cap">
+                                    <span class="fa fa-user post-icon" aria-hidden="true"></span>
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="text-colors let-spa mb-3">{{promotion.date_promotion ? promotion.date_promotion|date('Y-m-d') : '' }}</h6>
+                                <h5 class="blog-title card-title font-weight-bold">
+                                    <a href="#" class="text-bl">{{  promotion.nomAp ~' '~ promotion.prenomAp }}</a>
+                                </h5>
+                                <div class="row mt-5">
+                                    <div class="col-3 testi-img-res px-2">
+                                        <img src="{{ asset('uploads/' ~ promotion.photo) }}" alt=" " class="img-fluid rounded-circle" />
+                                    </div>
+                                    <div class="col-9 w3_testi_grid mt-xl-2 mt-lg-0 mt-md-2 mt-4">
+                                        <h5 class="text-colors mb-1">{{promotion.nom ~' '~ promotion.prenom }}</h5>
+                                        <p><a href="#" target="_blank">Participer</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //blog grid -->
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+{% endblock %}

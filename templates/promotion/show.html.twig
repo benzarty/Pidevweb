@@ -1,34 +1,75 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block title %}Evenement{% endblock %}
 
-{% block title %}Promotion{% endblock %}
+{% block central %}
 
-{% block body %}
-    <h1>Promotion</h1>
 
-    <table class="table">
+    {#<table class="table">
         <tbody>
             <tr>
-                <th>IdPromotion</th>
-                <td>{{ promotion.idPromotion }}</td>
+                <th>IdEvenement</th>
+                <td>{{ evenement.idEvenement }}</td>
             </tr>
             <tr>
-                <th>Promotion</th>
-                <td>{{ promotion.promotion }}</td>
+                <th>Lien</th>
+                <td>{{ evenement.lien }}</td>
             </tr>
             <tr>
-                <th>RaisonPromotion</th>
-                <td>{{ promotion.raisonPromotion }}</td>
+                <th>Theme</th>
+                <td>{{ evenement.theme }}</td>
             </tr>
             <tr>
-                <th>DatePromotion</th>
-                <td>{{ promotion.datePromotion ? promotion.datePromotion|date('Y-m-d') : '' }}</td>
+                <th>DateEvenement</th>
+                <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Presentateur</th>
+                <td>{{ evenement.presentateur }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ evenement.image }}</td>
             </tr>
         </tbody>
-    </table>
+    </table>#}
 
-    <a href="{{ path('promotion_index') }}">back to list</a>
+    <!-- blog grid -->
+    <div class="col-lg-4 col-md-6 px-2 mt-sm-0 mt-4">
 
-    <a href="{{ path('promotion_edit', {'idPromotion': promotion.idPromotion}) }}">edit</a>
+        <div class="card">
+            <div class="card-header p-0 position-relative">
+                <a href="#">
+                    <img class="card-img-bottom" src="{{ asset('uploads/' ~ promotion.photoAp )}}" alt="Card image cap">
+                    <span class="fa fa-user post-icon" aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="card-body">
+                <h6 class="text-colors let-spa mb-3">{{promotion.date_promotion ? promotion.date_promotion|date('Y-m-d') : '' }}</h6>
+                <h5 class="blog-title card-title font-weight-bold">
+                    <a href="#" class="text-bl">{{  promotion.nomAp ~' '~ promotion.prenomAp }}</a>
+                </h5>
+                <div class="row mt-5">
+                    <div class="col-3 testi-img-res px-2">
+                        <img src="{{ asset('uploads/' ~ promotion.photo) }}" alt=" " class="img-fluid rounded-circle" />
+                    </div>
+                    <div class="col-9 w3_testi_grid mt-xl-2 mt-lg-0 mt-md-2 mt-4">
+                        <h5 class="text-colors mb-1">{{promotion.nom ~' '~ promotion.prenom }}</h5>
+                        <p><a href="#" target="_blank">Participer</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('promotion_index') }}">back to list</a>
 
-    {{ include('promotion/_delete_form.html.twig') }}
+        <a href="{{ path('promotion_edit', {'idPromotion': promotion.idPromotion}) }}">edit</a>
+
+        {{ include('promotion/_delete_form.html.twig') }}
+
+    </div>
+    <!-- //blog grid -->
+
+
+
+
+
 {% endblock %}

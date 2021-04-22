@@ -21,9 +21,43 @@ class PromotionController extends AbstractController
     public function index(PromotionRepository $promotionRepository): Response
     {
         return $this->render('promotion/index.html.twig', [
-            'promotions' => $promotionRepository->findAll(),
+            'promotions' => $promotionRepository->promotionWithApPr()
         ]);
     }
+
+    /**
+     * @Route("/mois", name="promotion_mois", methods={"GET"})
+     */
+    public function promotionMois(PromotionRepository $promotionRepository): Response
+    {
+        return $this->render('promotion/index.html.twig', [
+            'promotions' => $promotionRepository->promotionMois()
+        ]);
+    }
+    /**
+     * @Route("/top5", name="promotion_top", methods={"GET"})
+     */
+    public function Top5Promos(PromotionRepository $promotionRepository): Response
+    {
+        return $this->render('promotion/index.html.twig', [
+            'promotions' => $promotionRepository->Top5Promo()
+        ]);
+    }
+    /**
+     * @Route("/promo", name="promotion_promo", methods={"GET","POST"})
+     */
+    public function promotionPromo( PromotionRepository $promotionRepository) : Response
+    {
+
+        $promo = $_GET['promo'];
+
+        return $this->render('promotion/index.html.twig', [
+            'promotions' => $promotionRepository->promotionPromo('"'.$promo.'"'),
+        ]);
+
+    }
+
+
 
     /**
      * @Route("/new", name="promotion_new", methods={"GET","POST"})
