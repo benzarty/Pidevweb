@@ -27,6 +27,14 @@ class EvenementRepository extends ServiceEntityRepository
         return $stmt->fetchAll();
     }
 
+    public  function evenementAujourdhui(){
+        $requette = "SELECT Id_evenement as idEvenement, lien, theme, date_evenement as dateEvenement, presentateur, image from evenement where date_evenement = CURRENT_DATE ;";
+        $stmt = $this->getEntityManager()->getConnection()->prepare($requette);
+        $stmt->execute([]);
+
+        return $stmt->fetchAll();
+    }
+
     public  function evenementDate($date){
         $requette = "SELECT Id_evenement as idEvenement, lien, theme, date_evenement as dateEvenement, presentateur, image from evenement where date_evenement  = $date;";
         $stmt = $this->getEntityManager()->getConnection()->prepare($requette);

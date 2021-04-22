@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PromotionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Promotion
  *
  * @ORM\Table(name="promotion", indexes={@ORM\Index(name="id_apprenant", columns={"id_apprenant"}), @ORM\Index(name="id_professeur", columns={"id_professeur"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PromotionRepository::class)
  */
 class Promotion
 {

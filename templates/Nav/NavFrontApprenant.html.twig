@@ -99,9 +99,9 @@
 <!-- Common jquery plugin -->
 
 <!-- responsive tabs -->
-<script src="assets/js/jquery-1.9.1.min.js"></script>
+<script src="{{ asset("assets/js/jquery-1.9.1.min.js") }}"></script>
 
-<script src="assets/js/easyResponsiveTabs.js"></script>
+<script src="{{ asset("assets/js/easyResponsiveTabs.js") }}"></script>
     <script>
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function () {
@@ -142,9 +142,9 @@
     });
 </script>
 
-<script src="assets/js/theme-change.js"></script><!-- theme switch js (light and dark)-->
+<script src="{{ asset("assets/js/theme-change.js" )}}"></script><!-- theme switch js (light and dark)-->
 
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ asset("assets/js/jquery.magnific-popup.min.js") }}"></script>
 <script>
     $(document).ready(function () {
         $('.popup-with-zoom-anim').magnificPopup({
@@ -182,7 +182,7 @@
 </script>
 
 
-<script src="assets/js/particles.js"></script>
+<script src="{{ asset("assets/js/particles.js") }}"></script>
 
 <script>
     particlesJS("particles-js", {
@@ -291,7 +291,7 @@
         "retina_detect": true
     });
 </script>
-<script src="assets/js/owl.carousel.js"></script><!-- owl carousel -->
+<script src="{{ asset("assets/js/owl.carousel.js") }}"></script><!-- owl carousel -->
 
 <!-- script for tesimonials carousel slider -->
 <script>
@@ -357,7 +357,7 @@
 <!-- //disable body scroll which navbar is in active -->
 
 <!--bootstrap-->
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="{{ asset("assets/js/bootstrap.min.js") }}"></script>
 <!-- //bootstrap-->
 
 

@@ -34,6 +34,19 @@ class EvenementController extends AbstractController
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
+
+
+    /*testeeeeeeeeeeeeeeeeeeeeee*/
+
+    /**
+     * @Route("/affichagefront", name="evenement_affichage_front", methods={"GET"})
+     */
+    public function affichageFront(EvenementRepository $evenementRepository): Response
+    {
+        return $this->render('evenement/evenementfront.html.twig');
+    }
+    /*testeeeeeeeeeeeeeeeeeeeeee*/
+
     /**
      * @Route("/prochainEvenementA", name="evenement_prochain", methods={"GET"})
      */
@@ -67,6 +80,56 @@ class EvenementController extends AbstractController
             'evenements' => $evenementRepository->evenementSemaine(),
         ]);
     }
+
+    /*font*/
+
+    /**
+     * @Route("/prochainEvenementF", name="evenement_prochainF", methods={"GET"})
+     */
+    public function evenementProchainsF( EvenementRepository $evenementRepository) : Response
+    {
+        return $this->render('evenement/evenementfront.html.twig', [
+            'evenements' => $evenementRepository->evenementProhain(),
+        ]);
+    }
+
+    /**
+     * @Route("/evenementDateF/{dat}", name="evenement_dateF", methods={"GET","POST"})
+     */
+    public function evenementDateF( EvenementRepository $evenementRepository) : Response
+    {
+
+        $date = $_GET['dateR'];
+
+        return $this->render('evenement/evenementfront.html.twig', [
+            'evenements' => $evenementRepository->evenementDate('"'.$date.'"'),
+        ]);
+
+    }
+
+    /**
+     * @Route("/semaineF", name="evenement_semaineF", methods={"GET"})
+     */
+    public function evenementSemaineF( EvenementRepository $evenementRepository) : Response
+    {
+        return $this->render('evenement/evenementfront.html.twig', [
+            'evenements' => $evenementRepository->evenementSemaine(),
+        ]);
+    }
+
+    /*font*/
+
+    /**
+     * @Route("/aujourdhui", name="evenement_aujourdhui", methods={"GET"})
+     */
+    public function evenementAujourdhui( EvenementRepository $evenementRepository) : Response
+    {
+        return $this->render('evenement/evenementfront.html.twig', [
+            'evenements' => $evenementRepository->evenementAujourdhui(),
+        ]);
+    }
+
+    /*font*/
 
 
     /**
