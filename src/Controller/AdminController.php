@@ -37,7 +37,9 @@ class AdminController extends AbstractController
         if (($user->getRole() == "apprenant") and ($user->getStatus() == "True" ))
             return $this->render('HomeFront/FrontApprenantMain.html.twig');
         else if($user->getRole() == "professeur")
-            return $this->render('Test/professeur.html.twig');
+            return $this->render('Professeur/dashboardProf.html.twig');
+        else if($user->getRole() == "admin")
+            return $this->render('admin/backendAdmin.html.twig');
         else
             $this->addFlash(
                 'info','Your have entred wrong Password or your account is blocked Sir or maybe you dont have access  !!');

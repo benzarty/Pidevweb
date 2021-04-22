@@ -3,62 +3,75 @@
 
 
     <div class="content-wrapper">
-    <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES PROFESSEURS </strong></span></h1>
+        <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES PROFESSEURS </strong></span>
+        </h1>
 
         <div class="container-xl">
-        <div class="float-sm-right"> <a href="/Professeur/new" type="button"  ><i class="fas fa-plus-circle fa-2x"></i> </a></div>
+            <h1 style="text-align: center;"><span
+                        style="color: #ffffff;"><strong>GESTIONS DES PROFESSEURS </strong></span></h1>
+
+            <div class="float-sm-right"><a href="/Professeur/new" type="button"><i class="fas fa-plus-circle fa-2x"></i>
+                </a></div>
+
+            <div class="input-group mb-3">
+
+                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..."
+                       aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">Search</span>
+                </div>
+            </div>
+
+
         </div>
-    <div class="content-header">
+        <div class="content-header">
 
-    {% if articles %}
-        <table id="articles" class="table  table-bordered table-hover table-dark   ">
-            <thead>
-            <tr>
-                <th>Id Professeur</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>email </th>
-                <th>password</th>
-                <th>specialite</th>
-                <th>Profil</th>
-                <th>Photo</th>
+            {% if articles %}
+                <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                    <thead>
+                    <tr>
+                        <th>Id Professeur</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>email</th>
+                        <th>password</th>
+                        <th>specialite</th>
+                        <th>Profil</th>
+                        <th>Photo</th>
 
-                <th>Action</th>
+                        <th>Action</th>
 
-            </tr>
-            </thead>
-            <tbody>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.nom }}</td>
-                    <td>{{ article.prenom }}</td>
-                    <td>{{ article.email }}</td>
-                    <td>{{ article.password }}</td>
-                    <td>{{ article.specialite }}</td>
-                    <td>{{ article.profil }}</td>
-                    <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></td>
-
-
-
+                    </tr>
+                    </thead>
+                    <tbody id="geeks">
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.id }}</td>
+                            <td>{{ article.nom }}</td>
+                            <td>{{ article.prenom }}</td>
+                            <td>{{ article.email }}</td>
+                            <td>{{ article.password }}</td>
+                            <td>{{ article.specialite }}</td>
+                            <td>{{ article.profil }}</td>
+                            <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px">
+                            </td>
 
 
+                            <td>
+                                <a href="/ProfInfo/{{ article.id }}" class="btn btn-secondary">Détails</a>
+                                <a href="/Prof/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
+                                <a href="/Prof/deletenow/{{ article.id }}" class="btn btn-danger"
+                                   onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun articles</p>
+            {% endif %}
 
-                    <td>
-                        <a href="/ProfInfo/{{ article.id }}" class="btn btn-secondary">Détails</a>
-                        <a href="/Prof/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
-                        <a href="/Prof/deletenow/{{ article.id }}" class="btn btn-danger"
-                           onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Aucun articles</p>
-    {% endif %}
-
-    </div>
+        </div>
         <!-- /.content-header -->
 
         <!-- Main content -->
@@ -81,9 +94,19 @@
             <b>POLYWAYS LEARNING</b>
         </div>
     </footer>
-</div>
-<!-- ./wrapper -->
-
+    </div>
+    <!-- ./wrapper -->
+    <script>
+        $(document).ready(function () {
+            $("#gfg").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function () {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 
 
 {% endblock %}

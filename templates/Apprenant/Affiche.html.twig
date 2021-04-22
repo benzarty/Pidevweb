@@ -6,9 +6,24 @@
 
 <div class="content-wrapper">
     <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES APPRENANTS</strong></span></h1>
+
     <div class="container-xl">
+
+
+        <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES APPRENANTS</strong></span></h1>
         <div class="float-sm-right"> <a href="/Apprenant/new" type="button"  ><i class="fas fa-plus-circle fa-2x"></i> </a></div>
+
+        <div class="input-group mb-3">
+
+            <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Search</span>
+            </div>
+        </div>
     </div>
+
+
+    </b>
     <div class="content-header">
     {% if articles %}
         <table id="articles" class="table  table-bordered table-hover table-dark   ">
@@ -26,7 +41,7 @@
 
             </tr>
             </thead>
-            <tbody>
+            <tbody id="geeks">
             {% for article in articles %}
                 <tr>
                     <td>{{ article.id }}</td>
@@ -66,7 +81,19 @@
     <!-- /.content -->
 
 <!-- Content Wrapper. Contains page content -->
-
+    <script>
+        $(document).ready(function() {
+            $("#gfg").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function() {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 
 {% endblock %}
+
+
 
