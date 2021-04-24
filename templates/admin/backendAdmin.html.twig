@@ -26,9 +26,6 @@
     <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.css") }}">
     <!-- Bootstrap-Core-CSS -->
     <link href="{{ asset("assets/css/css_slider.css") }}" type="text/css" rel="stylesheet" media="all">
-    <!-- banner slider -->
-    <link rel="stylesheet" href="{{ asset("assets/css/style1.css") }}" type="text/css" media="all" />
-    <link rel="stylesheet" href="{{ asset("assets/css/style.css") }}" type="text/css" media="all" />
     <!-- Style-CSS -->
     <link href="{{ asset("assets/css/font-awesome.min.css") }}" rel="stylesheet">
     <!-- Font-Awesome-Icons-CSS -->
@@ -130,7 +127,7 @@
         <!-- Brand Logo -->
 
 
-        <a href="index3.html" class="brand-link">
+        <a href="/admin" class="brand-link">
             <img src="{{ asset("dist/img/images.png") }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">Polyways Learning</span>
         </a>
@@ -139,11 +136,14 @@
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <center><a class="badge badge-danger" href="{{ path('logout') }}">LOGOUT</a></center><br>
                 <div class="image">
                     <img src="{{ asset("dist/img/user2-160x160.jpg") }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">USERNAME</a>
+                    {% if app.user %}
+                        {{ app.user.username }}&nbsp; ,&nbsp;  <a href="{{ path('logout') }}">Logout</a>
+                    {% endif %}
                 </div>
             </div>
 
@@ -165,11 +165,10 @@
 
                     <li class="nav-item">
                         <a href="/R" class="nav-link">
-                            <i class="nav-icon fas fa-copy"></i>
-                            <p>
+             <i class="nav-icon fas fa-copy"> &nbsp;&nbsp;<span class="badge badge-info right"><strong>Notification : </strong></span></i>
+                            <br> <p>
                                 Gestion des Reclamations
                                 <i class="fas fa-angle-left right"></i>
-                                <span class="badge badge-info right"></span>
                             </p>
                         </a>
                     </li>

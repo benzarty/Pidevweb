@@ -13,9 +13,43 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ReclamationController extends AbstractController
 {
+
+    /**
+     * @param ReclamationRepository $repo
+     * @return Response
+     * @Route("/PDF",name="PDF")
+     */
+    public function PDF(ReclamationRepository $repo)
+    {
+        // Configure Dompdf according to your needs
+        $classroom = $repo->findBy(['msgA' => 'ABR']);
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('Reclamation/pdf.html.twig', ['title' => "Liste des reclamations ",'articles' => $classroom]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A3', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("pdf.pdf", ["Attachment" => false]);
+    }
+
 
     /**
      * @param ReclamationRepository $repo

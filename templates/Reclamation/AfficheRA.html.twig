@@ -1,16 +1,27 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-<div class="content-wrapper"><br><br>
-    <div class="content-header">
-        <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES RECLAMATIONS</strong></span></h1><br>
-        <div><center><a href="/Reclamation/new" type="button"  ><i class="fas fa-plus-circle fa-2x"></i> </a>
-                <a href="/R" class="btn btn-primary">Boite Reception : <b>{{ NotifNB }}</b></a>&nbsp;
-                <a href="/RC" class="btn btn-primary">Corbeille</a>
-                <a href="/RA" class="btn btn-primary">Archive</a></center></div><br>
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block nouvelle %}
+    <span style="color: #61aac9;"><h4><p style="text-align: left;"><strong>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p></h4></span>
+{% endblock %}
+{% block central %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <div class="container-xl">
+        <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
+        <div><center><a href="/Reclamation/new" type="button"  class="btn btn-primary" ><b>+</b> </a>
+                <a href="/R" class="btn btn-primary"><b>BOITE RECEPTION : {{ NotifNB }}</b> </a>&nbsp;
+                <a href="/RC" class="btn btn-primary"><b>CORBEILLE</b></a>
+                <a href="/RA" class="btn btn-primary"><b>ARCHIVE</b></a>
+                &nbsp;<a href="/PDF" class="btn btn-primary"><b>PDF</b></a></center>
+
+        </div><br>
         <div class="input-group mb-3">
             <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
             <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
         </div></div>
+    <div class="content-header">
         {% if articles %}
             <table id="articles" class="table  table-bordered table-hover table-dark   ">
                 <thead>
@@ -41,7 +52,7 @@
                 </tbody>
             </table><br><br><br><br>
         {% else %}
-            <p>Aucun articles</p>
+            <p>Aucune reclamation</p>
         {% endif %}
 
     </div>

@@ -1,17 +1,16 @@
-
-{% block body %}
-    <!-- Content here -->
+{% extends 'admin/backendAdmin.html.twig' %}
 
         {% block title %}Ajouter Reclamation{% endblock %}
-    <div class="content-wrapper"><br><br>
+    {% block central %}
+        <div class="container-xl">
+            <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>AJOUTER UNE RECLAMATION </strong></span></h1>
     <div class="content-header">
-    <div class="container">
         <table id="articles" class="table  table-bordered table-hover table-dark   ">
             {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
             {{ form_widget(form) }}
             {{ form_end(form) }}
         </table>
-    </div></div></div>
+    </div></div>
 
 
 {% endblock %}

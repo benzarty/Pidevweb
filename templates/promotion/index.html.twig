@@ -1,16 +1,19 @@
 {% extends 'admin/backendAdmin.html.twig' %}
 
 {% block nouvelle %}
-
     <li class="nav-item">
-        <a href="{{ path('promotion_top') }}">Top 5 promos</a>
-    </li>
+        <a href="{{ path('promotion_top') }}" class="btn btn-default"><span style="color: #7dace0;"><b>Top 5 promos</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
     <li class="nav-item">
-        <a href="{{ path('promotion_mois') }}">Promotion du mois</a>
-    </li>
+        <a href="{{ path('promotion_mois') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Promotion du mois</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
     <li class="nav-item">
-        <a href="{{ path('promotion_new') }}">Ajouter Promotion</a>
-    </li>
+        <a href="{{ path('promotion_new') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Ajouter Promotion</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 {% endblock %}
 {% block form %}<form class="form-inline" action="{{ path('promotion_promo')}} " method="GET">

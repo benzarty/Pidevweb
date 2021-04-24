@@ -30,8 +30,7 @@ class ApprenantController extends AbstractController
     public function Affiche(UsersRepository $repo)
     {
 
-        $classroom = $repo->findBy([
-            'role' => 'apprenant']);
+        $classroom = $repo->findBy(['role' => 'apprenant']);
         return $this->render('Apprenant/Affiche.html.twig', ['articles' => $classroom]);
     }
 

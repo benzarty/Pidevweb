@@ -3,15 +3,18 @@
 {% block nouvelle %}
 
     <li class="nav-item">
-        <a href="{{ path('evenement_semaine') }}">Evenements de la semaine</a>
-    </li>
+        <a href="{{ path('evenement_semaine') }}" class="btn btn-default"><span style="color: #7dace0;"><b>Evenements de la semaine</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
     <li class="nav-item">
-        <a href="{{ path('evenement_prochain') }}">Evenements prochains</a>
-    </li>
+        <a href="{{ path('evenement_prochain') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Evenements prochains</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
     <li class="nav-item">
-        <a href="{{ path('evenement_new') }}">Ajouter Evenement</a>
-    </li>
-
+        <a href="{{ path('evenement_new') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Ajouter Evenement</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 {% endblock %}
 
 {% block form %}<form class="form-inline" action="{{ path('evenement_date',{'dat':'5555'})}} " method="GET">

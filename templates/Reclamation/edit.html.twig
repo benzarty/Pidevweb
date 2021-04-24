@@ -1,16 +1,15 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+
+    {% block central %}
+        <div class="container-xl">
+            <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>MODIFIER UNE RECLAMATION </strong></span></h1>
+            <div class="content-header">
+                <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                </table>
+            </div></div>
 
 
-{% block body %}
-
-
- <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>MODIFIER DES RECLAMATIONS</strong></span></h1><br>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-
-
-        <br><br><br><br><br><br>
-
-{% endblock %}
-
+    {% endblock %}

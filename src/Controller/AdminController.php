@@ -34,15 +34,15 @@ class AdminController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
-    public function home(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
-    {
+    public function home(ReclamationRepository $repo ,Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
+    {   $NotifNB = $repo->NotifCount();
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if (($user->getRole() == "apprenant") and ($user->getStatus() == "True" ))
             return $this->render('HomeFront/FrontApprenantMain.html.twig');
         else if($user->getRole() == "professeur")
             return $this->render('Professeur/dashboardProf.html.twig');
         else if($user->getRole() == "admin")
-            return $this->render('admin/backendAdmin.html.twig');
+            return $this->render('admin/backendAdmin.html.twig' ,['NotifNB' => $NotifNB]);
         else
             $this->addFlash(
                 'info','Your have entred wrong Password or your account is blocked Sir or maybe you dont have access  !!');
