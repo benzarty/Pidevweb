@@ -295,6 +295,19 @@ class ApprenantController extends AbstractController
     }
 
 
+    /**
+     * @param UsersRepository $repo
+     * @param Request $request
+     * @Route("gogogo", name="gogogogogogo")
+     */
+    public function RechercheApprenantgo(UsersRepository $repo, Request $request)
+    {
+        $data = $request->get('search');
+        $student = $repo->SearchApprenant($data);
+        return $this->render('Apprenant/Affiche.html.twig', ['articles' => $student]);
+
+    }
+
 
 
 
