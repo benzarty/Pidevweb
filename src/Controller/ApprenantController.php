@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Entity\Emploidetemps;
 use App\Entity\Users;
 use App\Form\ApprenantInscriptionType;
 use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
+use App\Repository\EmploidetempsRepository;
 use App\Repository\UsersRepository;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -225,6 +227,31 @@ class ApprenantController extends AbstractController
         }
 
         return $this->render('Apprenant/ResetPasswordApprenant.html.twig', ['form' => $form->createView()]);
+    }
+
+
+    /**
+     * @param EmploidetempsRepository $repo
+     * @return Response
+     * @Route("/AfficheALLEmploi",name="AfficheALLEmploi")
+     */
+    public function AfficheAllEmplois(EmploidetempsRepository $repo)
+    {
+
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->findAll();
+
+        return $this->render('Apprenant/AfficheTousEmploiTemps.html.twig', ['articles' => $article]);
+    }
+
+
+    /**
+     * @Route("/EmploiDetailApprenant/{id}", name="EmploiDetailApprenant")
+     */
+    public function showDetailEmploiApprenant($id)
+    {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        return $this->render('Apprenant/showDetailEmploiApprenant.html.twig', ['articles' => $article]);
     }
 
 

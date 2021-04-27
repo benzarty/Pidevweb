@@ -51,6 +51,13 @@ class Users implements UserInterface
      */
     private $role;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codesecurity", type="integer", nullable=true)
+     */
+    private $codesecurity;
     /**
      * @var string
      *
@@ -77,8 +84,10 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     *@Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     *@Assert\Email(message = "The email '{{ value }}' is not a valid email.",
+     * mode = "strict")
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     *
      */
     private $email;
 
@@ -273,4 +282,28 @@ class Users implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->nom . "   " . $this->prenom;
+        // to show the id of the Category in the select
+        // return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCodesecurity(): string
+    {
+        return $this->codesecurity;
+    }
+
+    /**
+     * @param string $codesecurity
+     */
+    public function setCodesecurity(string $codesecurity): void
+    {
+        $this->codesecurity = $codesecurity;
+    }
+
 }

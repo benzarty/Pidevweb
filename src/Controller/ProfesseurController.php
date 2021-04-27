@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Entity\Emploidetemps;
 use App\Entity\Professeur;
 use App\Entity\Users;
+use App\Form\EmploiTempsType;
 use App\Form\ProfesseurType;
 use App\Repository\ProfesseurRepository;
 use App\Repository\UsersRepository;
@@ -19,13 +21,15 @@ class ProfesseurController extends AbstractController
 {
 
     /**
-     * @Route("/prof", name="prof")
+     * @Route("/AfficheEmploiProf", name="AfficheEmploiProf")
      */
-    public function index(): Response
+    public function AfficheEmploiProf(): Response
     {
-        return $this->render('Professeur/dashboardProf.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->findAll($user->getId());
+
+
+        return $this->render('Professeur/GestionEmploitempsProf.html.twig',['articles' => $article]);
     }
 
     /**
@@ -137,4 +141,68 @@ class ProfesseurController extends AbstractController
 
         return $this->redirectToRoute('aficherprof');
     }
+    /**
+     * @Route("/Prof/newEmploiTemps", name="newEmploiTemps")
+     * Method({"GET", "POST"})
+     */
+    public function newEmploiTemps(Request $request)
+    {        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $article = new Emploidetemps();
+        $form = $this->createForm(EmploiTempsType::class, $article);
+        $form->add('ajouter', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+$article->setIdprof($user);
+            //$file = $article->getPhoto();
+            $file = $form->get('emploi')->getData();
+
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+            $article->setEmploi($fileName);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('AfficheEmploiProf');
+        }
+        return $this->render('Professeur/AddEmploisTemps.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/SupprimerEmploiTemps/{id}",name="SupprimerEmploiTemps")
+     */
+    public function SupprimerEmploistemps(Request $request, $id)
+    {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+
+        return $this->redirectToRoute('AfficheEmploiProf');
+    }
+
+
+    /**
+     * @Route("/showDetailEmploiProf/{id}", name="showDetailEmploiProf")
+     */
+    public function showDetailEmploiProf($id) {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        return $this->render('Professeur/DetailEmploiTemps.html.twig', array('article' => $article));
+    }
 }
+

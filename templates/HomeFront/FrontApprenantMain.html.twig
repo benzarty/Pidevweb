@@ -316,6 +316,13 @@
         <div class="align-items-center py-4">
             <div class="banner-content mt-5">
                 <h3 class="mb-2">Learnings new Things has never been so easy!!!!!!!!</h3>
+                {% for message in app.flashes('info') %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+
+
+                {% endfor %}
 
             </div>
         </div>
