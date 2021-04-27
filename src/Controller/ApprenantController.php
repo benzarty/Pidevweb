@@ -255,4 +255,48 @@ class ApprenantController extends AbstractController
     }
 
 
+    /**
+     * @Route("/ReglageProfilApprenant", name="ReglageProfilApprenant")
+     * Method({"GET", "POST"})
+     */
+    public function ReglageProfilApprenant(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
+
+        $form = $this->createForm(ApprenantInscriptionType::class, $article);
+        $form->add('Modifier Profil', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $file = $form->get('photo')->getData();
+
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+            $article->setPhoto($fileName);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('Apprenant/EditProfilApprenant.html.twig', ['form' => $form->createView()]);
+    }
+
+
+
+
+
+
 }

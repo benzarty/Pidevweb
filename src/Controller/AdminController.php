@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Administrateur;
 use App\Entity\Apprenant;
+use App\Entity\Formation;
 use App\Entity\Users;
 use App\Form\AdminFomType;
 use App\Repository\ReclamationRepository;
@@ -27,11 +28,24 @@ class AdminController extends AbstractController
     public function indexAction()
     {
         $repository = $this->getDoctrine()->getRepository(Users::class);
+
+        $repository2 = $this->getDoctrine()->getRepository(Formation::class);
+
         $Users = $repository->findAll();
+
+        $Formations = $repository2->findAll();
+
+
+
         $em = $this->getDoctrine()->getManager();
 
         $rd = 0;
         $es = 0;
+
+
+
+        $engline = 0;
+        $presentiel = 0;
 
         foreach ($Users as $Users) {
             if ($Users->getRole() == 'apprenant')  :
@@ -44,24 +58,65 @@ class AdminController extends AbstractController
 
         }
 
+        foreach ($Formations as $Formations) {
+            if ($Formations->getModeEnseignement() == 'en ligne')  :
+
+                $engline += 1;
+            else :
+                $presentiel += 1;
+
+            endif;
+
+        }
+
 
         $pieChart = new PieChart();
+
+        $pieChart2 = new PieChart();
+
         $pieChart->getData()->setArrayToDataTable(
             [['Superieur à 2021', 'nombres'],
                 ['apprenant', $rd],
                 ['professeur', $es]
             ]
         );
-        $pieChart->getOptions()->setTitle('Role des admins');
-        $pieChart->getOptions()->setHeight(500);
-        $pieChart->getOptions()->setWidth(900);
+        $pieChart->getOptions()->setTitle('Pourcentage Usage sur site');
+        $pieChart->getOptions()->setHeight(400);
+        $pieChart->getOptions()->setWidth(500);
+        $pieChart->getOptions()->setBackgroundColor('#696969');
+
         $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
-        $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#191970');
         $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
         $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
         $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
 
-        return $this->render('admin/stat.html.twig', array('piechart' => $pieChart));
+
+
+
+        $pieChart2->getData()->setArrayToDataTable(
+            [['Superieur à 2021', 'nombres'],
+                ['en ligne', $engline],
+                ['presentiel', $presentiel]
+            ]
+        );
+        $pieChart2->getOptions()->setTitle("Mode D'enseignement");
+        $pieChart2->getOptions()->setHeight(400);
+        $pieChart2->getOptions()->setWidth(500);
+        $pieChart2->getOptions()->setBackgroundColor('#696969');
+
+        $pieChart2->getOptions()->getTitleTextStyle()->setBold(true);
+        $pieChart2->getOptions()->getTitleTextStyle()->setColor('#191970');
+        $pieChart2->getOptions()->getTitleTextStyle()->setItalic(true);
+        $pieChart2->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $pieChart2->getOptions()->getTitleTextStyle()->setFontSize(20);
+
+
+
+
+
+
+        return $this->render('admin/stat.html.twig', ['piechart' => $pieChart,'piechart2' => $pieChart2]);
     }
 
     /**
@@ -71,10 +126,8 @@ class AdminController extends AbstractController
      */
     public function index(ReclamationRepository $repo): Response
     {
-        $NotifNB = $repo->NotifCount();
-        return $this->render('admin/backendAdmin.html.twig', [
-            'controller_name' => 'AdminController', 'NotifNB' => $NotifNB
-        ]);
+
+        return $this->redirectToRoute('stati');
     }
 
 
@@ -92,7 +145,8 @@ class AdminController extends AbstractController
         else if ($user->getRole() == "professeur")
             return $this->redirectToRoute('AfficheEmploiProf');
         else if ($user->getRole() == "admin")
-            return $this->render('admin/backendAdmin.html.twig', ['NotifNB' => $NotifNB]);
+            return $this->redirectToRoute('stati');
+
         else
             $this->addFlash(
                 'info', 'Your have entred wrong Password or your account is blocked Sir or maybe you dont have access  !!');

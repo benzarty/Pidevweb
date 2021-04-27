@@ -1,15 +1,35 @@
-{% block body %}
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block central %}
+    <h1 style="text-align: center"> <span style="font-family: URW Chancery L; ">Statistic of your website </span>
+        </h1>
+
+    <div class="content-wrapper">
+
     <div class="app-content">
-        <div class="side-app">
-            <div class="page-header">
+
+            <div class="side-app">
+                <div class="page-header">
+
+                </div>
+                <div id="div_chart"></div>
+
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+                <script type="text/javascript">
+
+
+                    {{ gc_draw(piechart, 'div_chart') }}
+
+
+                </script>
+
 
             </div>
-            <div id="div_chart"></div>
-
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-            <script type="text/javascript">
-                {{ gc_draw(piechart, 'div_chart') }}
-            </script>
         </div>
+
+        </div>
+
+
+
     </div>
 {% endblock %}

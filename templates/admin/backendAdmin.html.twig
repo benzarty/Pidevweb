@@ -136,13 +136,13 @@
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <center><a class="badge badge-danger" href="{{ path('logout') }}">LOGOUT</a></center><br>
                 <div class="image">
                     <img src="{{ asset("dist/img/user2-160x160.jpg") }}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                     {% if app.user %}
-                        {{ app.user.username }}&nbsp; ,&nbsp;  <a href="{{ path('logout') }}">Logout</a>
+                        {{ app.user.username }}&nbsp; ,&nbsp;<i class="fas fa-sign-out-alt"></i>
+                        <a href="{{ path('logout') }}">Logout</a>
                     {% endif %}
                 </div>
             </div>
@@ -199,15 +199,7 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-table"></i>
-                            <p>
-                                Gestion des Emplois du temps
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="{{ path('promotion_index')}}" class="nav-link">
                             <i class="nav-icon far fa-envelope"></i>
