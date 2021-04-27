@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Formation;
+use App\Entity\Supportcours;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Formation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Formation|null findOneBy(array $criteria, array $orderBy = null)
- * @method Formation[]    findAll()
- * @method Formation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Supportcours|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Supportcours|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Supportcours[]    findAll()
+ * @method Supportcours[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FormationRepository extends ServiceEntityRepository
+class SupportcoursRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Formation::class);
+        parent::__construct($registry, Supportcours::class);
     }
 
     // /**
-    //  * @return Formation[] Returns an array of Formation objects
+    //  * @return Supportcours[] Returns an array of Supportcours objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FormationRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Formation
+    public function findOneBySomeField($value): ?Supportcours
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

@@ -1,4 +1,3 @@
-{% extends 'base.html.twig' %}
 
 {% block title %}Supportcours{% endblock %}
 
@@ -30,9 +29,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('supportcours_index') }}">back to list</a>
-
-    <a href="{{ path('supportcours_edit', {'idSupportcours': supportcour.idSupportcours}) }}">edit</a>
-
-    {{ include('supportcours/_delete_form.html.twig') }}
 {% endblock %}

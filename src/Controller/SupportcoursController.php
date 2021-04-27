@@ -48,24 +48,24 @@ class SupportcoursController extends AbstractController
             $support = $form->getData();
 
 
-                /*   // $file = $formation->getPhoto();
-                    $file = $form->get('photo')->getData();
+            /*   // $file = $formation->getPhoto();
+                $file = $form->get('photo')->getData();
 
-                    $fileName= md5(uniqid()).'.'.$file->guessExtension();
-                    $file->move($this->getParameter('imagedirectory'),$fileName);
-
-
-                    $formation->setPhoto($fileName);
-     */
+                $fileName= md5(uniqid()).'.'.$file->guessExtension();
+                $file->move($this->getParameter('imagedirectory'),$fileName);
 
 
+                $formation->setPhoto($fileName);
+ */
 
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($support);
-                $entityManager->flush();
 
-                return $this->redirectToRoute('afficher1');
-            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($support);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('afficher1');
+        }
 
 
         return $this->render('supportcours/new.html.twig', ['form' => $form->createView()]);
@@ -79,13 +79,13 @@ class SupportcoursController extends AbstractController
      */
     public function show($id)
     {
-        $support = $this->getDoctrine()->getRepository(Support::class)->find($id);
+        $support = $this->getDoctrine()->getRepository(Supportcours::class)->find($id);
 
-        return $this->render('supportcours/show.html.twig', array('support' => $support));
+        return $this->render('supportcours/show.html.twig', array('supportcour' => $support));
     }
 
     /**
-     * @Route("/Support/edit/{id}", name="edit_Formation")
+     * @Route("/Support/edit/{id}", name="edit_Support")
      * Method({"GET", "POST"})
      * @param Request $request
      * @param $id
@@ -118,7 +118,7 @@ class SupportcoursController extends AbstractController
     }
 
     /**
-     * @Route("/Support/delete/{id}",name="delete_apprenant")
+     * @Route("/Support/delete/{id}",name="delete_support")
      * @param Request $request
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -138,4 +138,3 @@ class SupportcoursController extends AbstractController
     }
 
 }
-

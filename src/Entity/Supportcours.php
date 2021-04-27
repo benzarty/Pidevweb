@@ -24,104 +24,94 @@ class Supportcours
     /**
      * @var string
      *
-     * @ORM\Column(name="support", type="string", length=300, nullable=false)
+     * @ORM\Column(name="Nom_support", type="string", length=300, nullable=false)
      */
-    private $support;
+    private $nom;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image_cours", type="string", length=200, nullable=false)
-     */
-    private $imageCours;
 
     /**
      * @var string
      *
      * @ORM\Column(name="date_depot", type="string", length=200, nullable=false)
      */
-    private $dateDepot;
+    private $datedepot="220";
 
     /**
      * @var string
      *
-     * @ORM\Column(name="langue_cours", type="string", length=300, nullable=false)
+     * @ORM\Column(name="langue_cours", type="string", length=300, nullable=false,options={"default"="French"})
      */
-    private $langueCours;
+    private $languecours;
+
 
     /**
-     * @var \Professeur
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Professeur")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Id_professeur", referencedColumnName="Id_professeur")
-     * })
+     * @ORM\Column(name="lien_cours", type="string", length=300, nullable=false)
      */
-    private $idProfesseur;
+    private $liencours;
+
+
 
     public function getIdSupportcours(): ?int
     {
         return $this->idSupportcours;
     }
 
-    public function getSupport(): ?string
+
+
+    public function getNom(): ?string
     {
-        return $this->support;
+        return $this->nom;
     }
 
-    public function setSupport(string $support): self
+    public function setNom(string $nom): self
     {
-        $this->support = $support;
-
-        return $this;
-    }
-
-    public function getImageCours(): ?string
-    {
-        return $this->imageCours;
-    }
-
-    public function setImageCours(string $imageCours): self
-    {
-        $this->imageCours = $imageCours;
+        $this->nom = $nom;
 
         return $this;
     }
 
     public function getDateDepot(): ?string
     {
-        return $this->dateDepot;
+        return $this->datedepot;
     }
 
-    public function setDateDepot(string $dateDepot): self
+    public function setDateDepot(string $datedepot): self
     {
-        $this->dateDepot = $dateDepot;
+        $this->datedepot = $datedepot;
 
         return $this;
     }
 
     public function getLangueCours(): ?string
     {
-        return $this->langueCours;
+        return $this->languecours;
     }
 
-    public function setLangueCours(string $langueCours): self
+    public function setLangueCours(string $languecours): self
     {
-        $this->langueCours = $langueCours;
+        $this->languecours = $languecours;
 
         return $this;
     }
 
-    public function getIdProfesseur(): ?Professeur
+
+
+    /**
+     * @return string
+     */
+    public function getLiencours(): ?string
     {
-        return $this->idProfesseur;
+        return $this->liencours;
     }
 
-    public function setIdProfesseur(?Professeur $idProfesseur): self
+    /**
+     * @param string $liencours
+     */
+    public function setLiencours(string $liencours): void
     {
-        $this->idProfesseur = $idProfesseur;
-
-        return $this;
+        $this->liencours = $liencours;
     }
 
 

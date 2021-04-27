@@ -48,4 +48,25 @@ class UsersRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    function SearchApprenant($nsc)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.nom LIKE :nom')
+            ->setParameter('nom','%'.$nsc.'%')
+            ->andWhere('s.role LIKE :apprenant')
+            ->setParameter('professeur','professeur')
+            ->getQuery()
+            ->getResult();
+    }
+    function SearchProf($nsc)
+    {
+        return $this->createQueryBuilder('s')
+            ->where('s.nom LIKE :nom')
+            ->setParameter('nom','%'.$nsc.'%')
+            ->andWhere('s.role LIKE :professeur')
+            ->setParameter('professeur','professeur')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -2,6 +2,11 @@
 
 namespace App\Entity;
 
+use Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
+use App\Repository\ApprenantRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,23 +26,60 @@ class Formation
      */
     private $idFormation;
 
+
+    /**
+     * @var \Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_users", referencedColumnName="id")
+     * })
+     */
+    private $idprof;
+
+    /**
+     * @return \Users
+     */
+    public function getIdprof(): \Users
+    {
+        return $this->idprof;
+    }
+
+    /**
+     * @param \Users $idprof
+     */
+    public function setIdprof(\Users $idprof): void
+    {
+        $this->idprof = $idprof;
+    }
+
+
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="intitule", type="string", length=50, nullable=false)
+     *@Assert\Length(
+     *      min = 8,
+     *      max = 50,
+     *      minMessage = "L'intitulé d'une formation doit contenir au moins {{ limit }} caractères",
+     *      maxMessage = "L'intitulé d'une formation ne doit pas depasser {{ limit }} caractères"
+     * )
+     *@Assert\NotBlank (message="Vous devez remplir ce champs")
      */
     private $intitule;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      */
     private $dateDebut;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank
      * @ORM\Column(name="date_fin", type="date", nullable=false)
      */
     private $dateFin;
@@ -46,20 +88,43 @@ class Formation
      * @var int
      *
      * @ORM\Column(name="volume_horaire", type="integer", nullable=false)
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $volumeHoraire;
 
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="langue", type="string", length=50, nullable=false)
+     * @return string
      */
-    private $langue;
+    public function getPhoto(): string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string $photo
+     */
+    public function setPhoto(string $photo): void
+    {
+        $this->photo = $photo;
+    }
+
+
+
+
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mode_enseignement", type="string", length=50, nullable=false)
+     * @ORM\Column(name="langue", type="string", length=50, nullable=false, options={"default"="French"})
+     *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     */
+    private $langue;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mode_enseignement", type="string", length=50, nullable=false, options={"default"="presentiel"})
+     *@Assert\NotBlank(message="Vous devez remplir ce champ")
      */
     private $modeEnseignement;
 
@@ -140,5 +205,15 @@ class Formation
         return $this;
     }
 
-
 }
+
+
+
+
+
+
+
+
+
+
+

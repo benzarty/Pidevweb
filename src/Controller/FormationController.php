@@ -9,12 +9,41 @@ use App\Repository\FormationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FormationController extends AbstractController
 {
+
+
+    //Partie apprenant
+
+    /**
+     * @param FormationRepository $repo
+     * @return Response
+     * @Route("/AfficheFormationFront",name="afficherFront")
+     */
+    public function AfficheFormationFront(FormationRepository $repo)
+    {
+
+        $formation = $repo->findAll();
+        return $this->render('Formation/AjouterFormationFront.html.twig', ['formations' => $formation]);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    //Partie professeur
 
     /**
      * @param FormationRepository $repo
@@ -29,12 +58,18 @@ class FormationController extends AbstractController
     }
 
 
+
+
+
     /**
      * @Route("/Formation/new", name="new_Formation")
      * Method({"GET", "POST"})
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function new(Request $request)
     {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $formation = new Formation();
         $form = $this->createForm(FormationType::class, $formation);
         $form->add('ajouter', SubmitType::class);
@@ -42,24 +77,24 @@ class FormationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /*
-                        //$file = $article->getPhoto();
-                        $file = $form->get('photo')->getData();
-
-                        $fileName= md5(uniqid()).'.'.$file->guessExtension();
-                        $file->move($this->getParameter('imagedirectory'),$fileName);
-
-
-                        $Formation->setPhoto($fileName);
-            */
 
             $formation = $form->getData();
+            if($formation->getDateDebut()<$formation->getDateFin()){
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($formation);
-            $entityManager->flush();
+                $formation->setIdprof($user);
 
-            return $this->redirectToRoute('afficher');
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($formation);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('afficher');
+            }
+            else
+            {
+
+                return $this->redirectToRoute('new_Formation');
+
+            }
         }
         return $this->render('Formation/new.html.twig', ['form' => $form->createView()]);
     }
@@ -67,6 +102,8 @@ class FormationController extends AbstractController
 
     /**
      * @Route("/Formation/{id}", name="Formation_show")
+     * @param $id
+     * @return Response
      */
     public function show($id)
     {
@@ -78,6 +115,9 @@ class FormationController extends AbstractController
     /**
      * @Route("/Formation/edit/{id}", name="edit_Formation")
      * Method({"GET", "POST"})
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse|Response
      */
     public function edit(Request $request, $id)
     {
@@ -89,15 +129,7 @@ class FormationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /*
-                        $file = $form->get('photo')->getData();
 
-                        $fileName= md5(uniqid()).'.'.$file->guessExtension();
-                        $file->move($this->getParameter('imagedirectory'),$fileName);
-
-
-                        $Formation->setPhoto($fileName);
-            */
 
             $formation = $form->getData();
 
@@ -115,8 +147,11 @@ class FormationController extends AbstractController
 
     /**
      * @Route("/Formation/delete/{id}",name="delete_apprenant")
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
      */
-    public function delete(Request $request, $id)
+    public function delete(Request $request, $id): RedirectResponse
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($id);
 
@@ -131,4 +166,3 @@ class FormationController extends AbstractController
     }
 
 }
-
