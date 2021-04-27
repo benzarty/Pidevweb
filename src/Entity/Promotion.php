@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PromotionRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Promotion
  *
  * @ORM\Table(name="promotion", indexes={@ORM\Index(name="id_apprenant", columns={"id_apprenant"}), @ORM\Index(name="id_professeur", columns={"id_professeur"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PromotionRepository::class)
  */
 class Promotion
 {
@@ -61,6 +63,11 @@ class Promotion
      * })
      */
     private $idApprenant;
+
+    /**
+     * @var string
+     */
+    private $description;
 
     public function getIdPromotion(): ?int
     {
@@ -125,6 +132,41 @@ class Promotion
         $this->idApprenant = $idApprenant;
 
         return $this;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Promotion
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Generates the magic method
+     *
+     */
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->promotion;
+        // to show the id of the Category in the select
+        // return $this->id;
     }
 
 

@@ -89,7 +89,7 @@ class Reclamation
      *
      * @ORM\Column(name="msgA", type="string", length=222, nullable=false)
      */
-    private $msga;
+    private $msgA;
 
     public function getId(): ?int
     {
@@ -204,14 +204,14 @@ class Reclamation
         return $this;
     }
 
-    public function getMsga(): ?string
+    public function getMsgA(): ?string
     {
-        return $this->msga;
+        return $this->msgA;
     }
 
-    public function setMsga(string $msga): self
+    public function setMsgA(string $msgA): self
     {
-        $this->msga = $msga;
+        $this->msgA = $msgA;
 
         return $this;
     }

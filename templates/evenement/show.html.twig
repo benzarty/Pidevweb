@@ -1,0 +1,75 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block title %}Evenement{% endblock %}
+
+{% block central %}
+
+
+    {#<table class="table">
+        <tbody>
+            <tr>
+                <th>IdEvenement</th>
+                <td>{{ evenement.idEvenement }}</td>
+            </tr>
+            <tr>
+                <th>Lien</th>
+                <td>{{ evenement.lien }}</td>
+            </tr>
+            <tr>
+                <th>Theme</th>
+                <td>{{ evenement.theme }}</td>
+            </tr>
+            <tr>
+                <th>DateEvenement</th>
+                <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Presentateur</th>
+                <td>{{ evenement.presentateur }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ evenement.image }}</td>
+            </tr>
+        </tbody>
+    </table>#}
+
+                <!-- blog grid -->
+                <div class="col-lg-4 col-md-6 px-2 mt-sm-0 mt-4">
+
+                    <div class="card">
+                        <h4>Evenement Id = {{ evenement.idEvenement }}</h4>
+                        <div class="card-header p-0 position-relative">
+                            <a href="#">
+                                <img class="card-img-bottom" src="{{ asset('uploads/' ~ evenement.image )}}" alt="Card image cap">
+                                <span class="fa fa-user post-icon" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="text-colors let-spa mb-3">{{ evenement.dateEvenement ? evenement.dateEvenement|date('d-m-Y') : '' }}</h6>
+                            <h5 class="blog-title card-title font-weight-bold">
+                                <a href="#" class="text-bl">{{ evenement.theme }}</a>
+                            </h5>
+                            <div class="row mt-5">
+                                <div class="col-3 testi-img-res px-2">
+                                    <img src="{{ evenement.image }}" alt=" " class="img-fluid rounded-circle" />
+                                </div>
+                                <div class="col-9 w3_testi_grid mt-xl-2 mt-lg-0 mt-md-2 mt-4">
+                                    <h5 class="text-colors mb-1">{{ evenement.presentateur }}</h5>
+                                    <p><a href="{{ evenement.lien }}" target="_blank">Participer</a></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <a href="{{ path('evenement_index') }}">back to list</a>
+
+                    <a href="{{ path('evenement_edit', {'idEvenement': evenement.idEvenement}) }}">edit</a>
+
+                    {{ include('evenement/_delete_form.html.twig') }}
+                </div>
+                <!-- //blog grid -->
+
+
+
+{% endblock %}

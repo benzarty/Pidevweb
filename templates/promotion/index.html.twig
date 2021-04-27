@@ -1,0 +1,88 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+
+{% block nouvelle %}
+    <li class="nav-item">
+        <a href="{{ path('promotion_top') }}" class="btn btn-default"><span style="color: #7dace0;"><b>Top 5 promos</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
+    <li class="nav-item">
+        <a href="{{ path('promotion_mois') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Promotion du mois</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
+    <li class="nav-item">
+        <a href="{{ path('promotion_new') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Ajouter Promotion</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+{% endblock %}
+{% block form %}<form class="form-inline" action="{{ path('promotion_promo')}} " method="GET">
+        <div class="input-group input-group-sm">
+            <input class="form-control form-control-navbar" name="promo" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block central %}
+
+
+    <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES PROMOTIONS </strong></span></h1>
+
+    <div class="content-header">
+
+        <table id="articles" class="table  table-bordered table-hover table-dark   ">
+
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Promotion</th>
+                <th>Raison</th>
+                <th>Date</th>
+                <th>Apprenant</th>
+                <th>Professeur</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+
+            {% for promotion in promotions %}
+                <tr>
+                    <td>{{ promotion.id_promotion }}</td>
+                    <td>{{ promotion.promotion }}</td>
+                    <td>{{ promotion.raison_promotion }}</td>
+                    <td>{{ promotion.date_promotion ? promotion.date_promotion|date('Y-m-d') : '' }}</td>
+                    <td>{{ promotion.nomAp ~' '~ promotion.prenomAp}}</td>
+                    <td>{{ promotion.nom ~' '~ promotion.prenom}}</td>
+
+                    <td>
+                        <a href="{{ path('promotion_show', {'idPromotion': promotion.id_promotion}) }}" class="btn btn-secondary">Voir</a>
+                        <a href="{{ path('promotion_edit', {'idPromotion': promotion.id_promotion}) }}" class = "btn btn-info" >Editer</a>
+                        <a href="{{ path('promotion_delete', {'idPromotion': promotion.id_promotion}) }}" class="btn btn-danger"
+                           onclick="return confirm('Voulez vous supprimer cet Evenement ?');">Sup</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+    <a href="{{ path('promotion_new') }}">Create new</a>
+{% endblock %}

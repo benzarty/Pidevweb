@@ -1,0 +1,86 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+
+{% block nouvelle %}
+
+    <li class="nav-item">
+        <a href="{{ path('evenement_semaine') }}" class="btn btn-default"><span style="color: #7dace0;"><b>Evenements de la semaine</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
+    <li class="nav-item">
+        <a href="{{ path('evenement_prochain') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Evenements prochains</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
+    <li class="nav-item">
+        <a href="{{ path('evenement_new') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Ajouter Evenement</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{% endblock %}
+
+{% block form %}<form class="form-inline" action="{{ path('evenement_date',{'dat':'5555'})}} " method="GET">
+    <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" name="dateR" type="date" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+            <button class="btn btn-navbar" type="submit">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+
+
+{% block central %}
+
+
+        <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES EVENEMENTS</strong></span></h1>
+
+        <div class="content-header">
+
+                <table id="articles" class="table  table-bordered table-hover table-dark   ">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Lien</th>
+                <th>Theme</th>
+                <th>Date</th>
+                <th>Presentateur</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.idEvenement }}</td>
+                <td>{{ evenement.lien }}</td>
+                <td>{{ evenement.theme }}</td>
+                <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</td>
+                <td>{{ evenement.presentateur }}</td>
+                <td><img src="{{ asset('uploads/' ~ evenement.image ) }}" style="width: 50px;height: 50px"></td>
+                <td>
+                    <a href="{{ path('evenement_show', {'idEvenement': evenement.idEvenement}) }}" class="btn btn-secondary">Voir</a>
+                    <a href="{{ path('evenement_edit', {'idEvenement': evenement.idEvenement}) }}" class="btn btn-info">editer</a>
+                    <a href="{{ path('evenement_delete', {'idEvenement': evenement.idEvenement}) }}" class="btn btn-danger"
+                       onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Suppr</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun évenement enregistré</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+        </div>
+
+
+
+{% endblock %}

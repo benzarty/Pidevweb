@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Entity\Emploidetemps;
 use App\Entity\Users;
 use App\Form\ApprenantInscriptionType;
 use App\Form\ApprenantType;
 use App\Repository\ApprenantRepository;
+use App\Repository\EmploidetempsRepository;
 use App\Repository\UsersRepository;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +32,7 @@ class ApprenantController extends AbstractController
     public function Affiche(UsersRepository $repo)
     {
 
-        $classroom = $repo->findBy([
-            'role' => 'apprenant']);
+        $classroom = $repo->findBy(['role' => 'apprenant']);
         return $this->render('Apprenant/Affiche.html.twig', ['articles' => $classroom]);
     }
 
@@ -227,6 +228,75 @@ class ApprenantController extends AbstractController
 
         return $this->render('Apprenant/ResetPasswordApprenant.html.twig', ['form' => $form->createView()]);
     }
+
+
+    /**
+     * @param EmploidetempsRepository $repo
+     * @return Response
+     * @Route("/AfficheALLEmploi",name="AfficheALLEmploi")
+     */
+    public function AfficheAllEmplois(EmploidetempsRepository $repo)
+    {
+
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->findAll();
+
+        return $this->render('Apprenant/AfficheTousEmploiTemps.html.twig', ['articles' => $article]);
+    }
+
+
+    /**
+     * @Route("/EmploiDetailApprenant/{id}", name="EmploiDetailApprenant")
+     */
+    public function showDetailEmploiApprenant($id)
+    {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        return $this->render('Apprenant/showDetailEmploiApprenant.html.twig', ['articles' => $article]);
+    }
+
+
+    /**
+     * @Route("/ReglageProfilApprenant", name="ReglageProfilApprenant")
+     * Method({"GET", "POST"})
+     */
+    public function ReglageProfilApprenant(Request $request)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
+
+        $form = $this->createForm(ApprenantInscriptionType::class, $article);
+        $form->add('Modifier Profil', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $file = $form->get('photo')->getData();
+
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+            $article->setPhoto($fileName);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('Apprenant/EditProfilApprenant.html.twig', ['form' => $form->createView()]);
+    }
+
+
+
+
 
 
 }
