@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supportcours{% endblock %}
+
+{% block body %}
+    <h1>Supportcours</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdSupportcours</th>
+                <td>{{ supportcour.idSupportcours }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ supportcour.nom }}</td>
+            </tr>
+            <tr>
+                <th>DateDepot</th>
+                <td>{{ supportcour.dateDepot }}</td>
+            </tr>
+            <tr>
+                <th>LangueCours</th>
+                <td>{{ supportcour.langueCours }}</td>
+            </tr>
+            <tr>
+                <th>Liencours</th>
+                <td>{{ supportcour.liencours }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('supportcours_index') }}">back to list</a>
+
+    <a href="{{ path('supportcours_edit', {'idSupportcours': supportcour.idSupportcours}) }}">edit</a>
+
+    {{ include('supportcours/_delete_form.html.twig') }}
+{% endblock %}
