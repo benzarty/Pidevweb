@@ -246,7 +246,18 @@ $article->setIdprof($user);
 
 
 
+    /**
+     * @param UsersRepository $repo
+     * @param Request $request
+     * @Route("ProfSearchnow", name="ProfSearchnow")
+     */
+    public function RechercheProfSearchnow(UsersRepository $repo, Request $request)
+    {
+        $data = $request->get('searchProfn');
+        $student = $repo->SearchProf($data);
+        return $this->render('Professeur/Affiche.html.twig', ['articles' => $student]);
 
+    }
 
 
 

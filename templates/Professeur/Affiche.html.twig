@@ -10,15 +10,15 @@
             <div class="float-sm-right"><a href="/Professeur/new" type="button"><i class="fas fa-plus-circle fa-2x"></i>
                 </a></div>
 
-            <div class="input-group mb-3">
+            <form method="post" action="{{ path('ProfSearchnow') }}">
+                <div class="input-group mb-3">
 
-                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..."
-                       aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2">Search</span>
+                    <input type="text" class="form-control" name="searchProfn" placeholder="Recipient's username" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
                 </div>
-            </div>
-
+            </form>
 
         </div>
         <div class="content-header">
