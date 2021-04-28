@@ -33,7 +33,27 @@ class FormationController extends AbstractController
 
     }
 
+    /**
+     * @param FormationRepository $repo
+     * @return Response
+     * @Route("/AjouterFormationFront",name="ajouterFront")
+     */
+    public function AjouterFormationFront(FormationRepository $repo)
+    {
+        $id_apprenant = $this->get('security.token_storage')->getToken()->getUser();
 
+
+
+
+
+
+
+
+
+
+        return $this->render('Formation/AjouterFormationFront.html.twig');
+
+    }
 
 
 

@@ -35,6 +35,7 @@ class Formation
      *   @ORM\JoinColumn(name="id_users", referencedColumnName="id")
      * })
      */
+
     private $idprof;
 
     /**
@@ -93,23 +94,6 @@ class Formation
     private $volumeHoraire;
 
 
-    /**
-     * @return string
-     */
-    public function getPhoto(): string
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @param string $photo
-     */
-    public function setPhoto(string $photo): void
-    {
-        $this->photo = $photo;
-    }
-
-
 
 
 
@@ -127,6 +111,37 @@ class Formation
      *@Assert\NotBlank(message="Vous devez remplir ce champ")
      */
     private $modeEnseignement;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=50, nullable=false, options={"default"="non actif"})
+     */
+
+
+
+
+    private $status;
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+
+
+
 
     public function getIdFormation(): ?int
     {
