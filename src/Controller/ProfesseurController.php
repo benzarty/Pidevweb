@@ -218,7 +218,7 @@ $article->setIdprof($user);
      * @Route("/ChangeParameterProf", name="ChangeParameterProf")
      * Method({"GET", "POST"})
      */
-    public function editParametreProf(Request $request) {
+    public function editParametreProf(Request $request,UserPasswordEncoderInterface $encoder) {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
 
@@ -235,6 +235,8 @@ $article->setIdprof($user);
 
 
             $article->setPhoto($fileName);
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
 
             $article = $form->getData();

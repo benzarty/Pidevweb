@@ -233,26 +233,23 @@ $article->setStatus("True");
      * @Route("/ReglageProfilApprenant", name="ReglageProfilApprenant")
      * Method({"GET", "POST"})
      */
-    public function ReglageProfilApprenant(Request $request)
-    {
+    public function editParametreProf(Request $request,UserPasswordEncoderInterface $encoder) {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-
         $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
 
-        $form = $this->createForm(ApprenantInscriptionType::class, $article);
+        $form = $this->createForm(ApprenantType::class,$article);
         $form->add('Modifier Profil', SubmitType::class);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
+        if($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photo')->getData();
 
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'), $fileName);
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'),$fileName);
 
-
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
             $article->setPhoto($fileName);
 
 
@@ -267,6 +264,7 @@ $article->setStatus("True");
 
         return $this->render('Apprenant/EditProfilApprenant.html.twig', ['form' => $form->createView()]);
     }
+
 
 
     /**

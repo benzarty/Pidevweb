@@ -81,7 +81,7 @@ class FormationController extends AbstractController
             $formation = $form->getData();
             if($formation->getDateDebut()<$formation->getDateFin()){
 
-                $formation->setIdprof($user);
+                $formation->setIdprof($user->getId());
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($formation);

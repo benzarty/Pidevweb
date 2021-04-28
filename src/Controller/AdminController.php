@@ -192,7 +192,7 @@ class AdminController extends AbstractController
     {
 
 
-        $random = random_int(2, 255);
+        $random = random_int(2, 500000);
 
 
         $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
