@@ -41,13 +41,13 @@ class ApprenantController extends AbstractController
      * @Route("/Apprenant/new", name="new_apprenant")
      * Method({"GET", "POST"})
      */
-    public function new(Request $request)
+    public function new(Request $request,UserPasswordEncoderInterface $encoder)
     {
         $article = new Users();
         $form = $this->createForm(ApprenantType::class, $article);
         $article->setRole("apprenant");
         $form->add('ajouter', SubmitType::class);
-
+$article->setStatus("True");
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,6 +61,12 @@ class ApprenantController extends AbstractController
 
 
             $article->setPhoto($fileName);
+
+
+            $article->setCodesecurity(1);
+
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
 
             $article = $form->getData();
@@ -89,7 +95,7 @@ class ApprenantController extends AbstractController
      * @Route("/Apprenant/edit/{id}", name="edit_apprenant")
      * Method({"GET", "POST"})
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id,UserPasswordEncoderInterface $encoder)
     {
         $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
@@ -99,6 +105,10 @@ class ApprenantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $article->setCodesecurity(1);
+
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
 
             $file = $form->get('photo')->getData();
@@ -123,7 +133,7 @@ class ApprenantController extends AbstractController
     }
 
     /**
-     * @Route("/Apprenant/delete/{id}",name="delete_apprenant")
+     * @Route("/deleteApprenantAdminNow/{id}",name="delete_apprenantAdminNow")
      */
     public function delete(Request $request, $id)
     {
@@ -140,43 +150,7 @@ class ApprenantController extends AbstractController
     }
 
 
-    /**
-     * @Route("/RegisterApprenant",name="RegisterApprenanr")
-     * Method({"GET", "POST"})
-     */
-    public function RegisterApprenant(Request $request)
-    {
-        $article = new Users();
-        $form = $this->createForm(ApprenantInscriptionType::class, $article);
-        $form->add('ajouter', SubmitType::class);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $article->setStatus("False");
-            $article->setRole("apprenant");
-
-            $file = $form->get('photo')->getData();
-
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-            $file->move($this->getParameter('imagedirectory'), $fileName);
-
-
-            $article->setPhoto($fileName);
-
-
-            $article = $form->getData();
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
-            $this->addFlash('info', 'Your request has been added succesfully !!');
-
-            return $this->redirectToRoute('RegisterApprenanr');
-        }
-        return $this->render('Apprenant/Goregister.html.twig', ['form' => $form->createView()]);
-    }
 
 
     /**
@@ -311,5 +285,39 @@ class ApprenantController extends AbstractController
 
 
 
+    /**
+     * @Route("/RegisterApprenanr2", name="RegisterApprenanr2")
+     */
+    public function registration(Request $request,UserPasswordEncoderInterface $encoder)
+    {
+        $user = new Users();
+        $form = $this->createForm(ApprenantInscriptionType::class, $user);
+        $form->add('ajouter', SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+$user->setCodesecurity(1);
+            $user->setStatus("False");
+            $user->setRole("apprenant");
+            $file = $form->get('photo')->getData();
+
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+            $user->setPhoto($fileName);
+
+            $user->setCodesecurity(1);
+
+            $hash=$encoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($hash);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('info', 'Your request has been added succesfully !!');
+
+            return $this->redirectToRoute('RegisterApprenanr2');
+        }
+        return $this->render('Apprenant/Goregister.html.twig', ['form' => $form->createView()]);
+    }
 
 }

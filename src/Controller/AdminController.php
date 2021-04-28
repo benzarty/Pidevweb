@@ -7,9 +7,11 @@ use App\Entity\Apprenant;
 use App\Entity\Formation;
 use App\Entity\Users;
 use App\Form\AdminFomType;
+use App\Form\ProfesseurType;
 use App\Repository\ReclamationRepository;
 use App\Repository\UsersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -140,8 +142,9 @@ class AdminController extends AbstractController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if (($user->getRole() == "apprenant") and ($user->getStatus() == "True"))
             return $this->render('HomeFront/FrontApprenantMain.html.twig');
-        else if (($user->getRole() == "apprenant") and ($user->getStatus() == "False" and ($user->getCodesecurity() > 0)))
+        else if (($user->getRole() == "apprenant") and ($user->getStatus() == "False") and ($user->getCodesecurity() > 1))
             return $this->render('Apprenant/TestCode.html.twig');
+
         else if ($user->getRole() == "professeur")
             return $this->redirectToRoute('AfficheEmploiProf');
         else if ($user->getRole() == "admin")
@@ -189,7 +192,7 @@ class AdminController extends AbstractController
     {
 
 
-        $random = random_int(1, 5000000);
+        $random = random_int(2, 255);
 
 
         $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
@@ -281,6 +284,42 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('home');
 
+    }
+
+    /**
+     * @Route("/newAdmin", name="newAdmin")
+     * Method({"GET", "POST"})
+     */
+    public function new(Request $request,UserPasswordEncoderInterface $encoder) {
+        $article = new Users();
+        $form = $this->createForm(ProfesseurType::class,$article);
+        $article->setRole("admin");
+
+        $form->add('ajouter', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('photo')->getData();
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
+
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'),$fileName);
+
+
+            $article->setPhoto($fileName);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('aficherprof');
+        }
+        return $this->render('Professeur/NewProf.html.twig',['form' => $form->createView()]);
     }
 
 

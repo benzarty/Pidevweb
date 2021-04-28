@@ -25,12 +25,7 @@ class ApprenantType extends AbstractType
             ->add('password',PasswordType::class)
             ->add('confirmPassword',PasswordType::class)
 
-            ->add('status', ChoiceType::class, [
-                'choices'  => [
-                    'Active' => "True",
-                    'Non Active' => "False",
-                ],
-            ]);
+
         ;
     }
 
