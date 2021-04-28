@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProfesseurController extends AbstractController
 {
@@ -50,7 +51,7 @@ class ProfesseurController extends AbstractController
      * @Route("/Professeur/new", name="new_Professeur")
      * Method({"GET", "POST"})
      */
-    public function new(Request $request) {
+    public function new(Request $request,UserPasswordEncoderInterface $encoder) {
         $article = new Users();
         $form = $this->createForm(ProfesseurType::class,$article);
         $article->setRole("professeur");
@@ -61,6 +62,8 @@ class ProfesseurController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photo')->getData();
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('imagedirectory'),$fileName);
@@ -94,7 +97,7 @@ class ProfesseurController extends AbstractController
      * @Route("/Prof/edit/{id}", name="edit_prof")
      * Method({"GET", "POST"})
      */
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id,UserPasswordEncoderInterface $encoder) {
         $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $form = $this->createForm(ProfesseurType::class,$article);
@@ -104,6 +107,8 @@ class ProfesseurController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photo')->getData();
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('imagedirectory'),$fileName);
@@ -213,7 +218,7 @@ $article->setIdprof($user);
      * @Route("/ChangeParameterProf", name="ChangeParameterProf")
      * Method({"GET", "POST"})
      */
-    public function editParametreProf(Request $request) {
+    public function editParametreProf(Request $request,UserPasswordEncoderInterface $encoder) {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
 
@@ -230,6 +235,8 @@ $article->setIdprof($user);
 
 
             $article->setPhoto($fileName);
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
 
             $article = $form->getData();

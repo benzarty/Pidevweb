@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Formation
  *
- * @ORM\Table(name="Formation")
+ * @ORM\Table(name="Formation", indexes={@ORM\Index(name="id_users", columns={"id_users"})}))
  * @ORM\Entity
  */
 class Formation
@@ -38,21 +38,22 @@ class Formation
 
     private $idprof;
 
-    /**
-     * @return \Users
-     */
-    public function getIdprof(): \Users
+
+
+
+    public function getIdprof(): ?Users
     {
         return $this->idprof;
     }
 
-    /**
-     * @param \Users $idprof
-     */
-    public function setIdprof(\Users $idprof): void
+    public function setIdprof(?Users $idprof): self
     {
         $this->idprof = $idprof;
+
+        return $this;
     }
+
+
 
 
 
@@ -60,7 +61,7 @@ class Formation
     /**
      * @var string
      *
-     * @ORM\Column(name="intitule", type="string", length=50, nullable=false)
+     * @ORM\Column(name="intitule", type="string", length=50, nullable=true)
      *@Assert\Length(
      *      min = 8,
      *      max = 50,

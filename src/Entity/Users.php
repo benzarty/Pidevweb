@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -291,17 +292,17 @@ class Users implements UserInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCodesecurity(): string
+    public function getCodesecurity(): int
     {
         return $this->codesecurity;
     }
 
     /**
-     * @param string $codesecurity
+     * @param int $codesecurity
      */
-    public function setCodesecurity(string $codesecurity): void
+    public function setCodesecurity(int $codesecurity): void
     {
         $this->codesecurity = $codesecurity;
     }

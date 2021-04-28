@@ -33,7 +33,6 @@
                         <th>Nom</th>
                         <th>Prenom</th>
                         <th>email </th>
-                        <th>password</th>
                         <th>Image</th>
 
                         <th>status</th>
@@ -48,7 +47,6 @@
                             <td>{{ article.nom }}</td>
                             <td>{{ article.prenom }}</td>
                             <td>{{ article.email }}</td>
-                            <td>{{ article.password }}</td>
                             <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></td>
 
                             <td>{{ article.status }}</td>
@@ -61,7 +59,7 @@
                             <td>
                                 <a href="/Apprenant/{{ article.id }}" class="btn btn-secondary">Détails</a>
                                 <a href="/Apprenant/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
-                                <a href="/Apprenant/delete/{{ article.id }}" class="btn btn-danger"
+                                <a href="/deleteApprenantAdminNow/{{ article.id }}" class="btn btn-danger"
                                    onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
 
                             </td>

@@ -55,7 +55,7 @@ class UsersRepository extends ServiceEntityRepository
             ->where('s.nom LIKE :nom')
             ->setParameter('nom','%'.$nsc.'%')
             ->andWhere('s.role LIKE :apprenant')
-            ->setParameter('professeur','professeur')
+            ->setParameter('apprenant','apprenant')
             ->getQuery()
             ->getResult();
     }

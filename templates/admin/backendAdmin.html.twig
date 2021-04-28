@@ -69,6 +69,10 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
 
+{% block nouvelle %}
+            <li class="nav-item">
+            </li>
+            {% endblock %}
 
 
             <!-- Navbar Search -->
@@ -207,6 +211,15 @@
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Gestion des Evenements
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('Unblock') }}" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Blocked Accounts
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
