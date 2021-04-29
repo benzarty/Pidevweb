@@ -27,7 +27,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/stat", name="stati")
      */
-    public function indexAction()
+    public function indexAction(): Response
     {
         $repository = $this->getDoctrine()->getRepository(Users::class);
 

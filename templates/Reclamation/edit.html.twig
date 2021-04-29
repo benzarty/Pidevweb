@@ -6,8 +6,13 @@
             <div class="content-header">
                 <table id="articles" class="table  table-bordered table-hover table-dark   ">
                     {{ form_start(form) }}
-                    {{ form_widget(form) }}
+                    {{ form_row(form.title) }} {{ form_row(form.etat) }}
+                    {{ form_label(form.recl, 'Reclamation') }}
+                    {{ form_row(form.recl) }}
+                    {{ form_widget(form.Modifier,{'attr':{'class':'btn btn-success'}}) }}
+                    <div class="btn btn-app" style="float: right;" > <a href="/R"><h4><strong><span style="color: #3395FF;">RETURN&nbsp;</span></strong><i class="fas fa-sign-out-alt"></i></h4></a></div>
                     {{ form_end(form) }}
+
                 </table>
             </div></div>
 

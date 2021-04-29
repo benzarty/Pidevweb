@@ -59,6 +59,8 @@ class UsersRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
     function SearchProf($nsc)
     {
         return $this->createQueryBuilder('s')

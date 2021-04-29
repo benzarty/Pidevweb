@@ -3,20 +3,9 @@
 
 
 
-    <div class="content-wrapper">
+    <div class="container-xl">
         <h1 style="text-align: center;"><span style="color: black;"><strong>Emploi de temps</strong></span></h1>
-
-        <div class="container-xl">
-
-
-
-
-        </div>
-
-
       <br>
-        <div class="container">
-        <div class="content-wrapper">
         <div class="content-header">
             {% if articles %}
                 <table id="articles" class="table  table-bordered table-hover table-dark   ">
@@ -40,21 +29,8 @@
                             <td>{{ article.datedebutvalidite |date("F jS \\a\\t g:ia") }} </td>
                             <td>{{ article.datefinvalidite|date("F jS \\a\\t g:ia") }}</td>
                             <td>{{ article.dateajoutemploi |date("F jS \\a\\t g:ia") }}</td>
-
                             <td>{{ article.idprof  }}</td>
-
-
-
-
-
-
-
-
-                            <td>
-
-                                <a href="/EmploiDetailApprenant/{{ article.idemploi }}" class="btn btn-danger">Detail</a>
-
-                            </td>
+                            <td><a href="/EmploiDetailApprenant/{{ article.idemploi }}" class="btn btn-danger">Detail</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -73,8 +49,7 @@
     <!-- /.content -->
 
     <!-- Content Wrapper. Contains page content -->
-        </div>
-    </div>
+
 {% endblock %}
 
 

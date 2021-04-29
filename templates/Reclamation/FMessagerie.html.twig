@@ -1,0 +1,19 @@
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
+{% block body %}
+
+
+    <br><h1 style="text-align: center;"><span  style="color: #000000;"><strong>MESSAGERIE</strong></span></h1>
+
+            <div class="container-xl">
+            <div id="articles" class="content-header">
+                <p class="joli2"><b>{{recl.recl}}</b></p>
+                {{ form_start(form) }}
+                {{ form_row(form.recl) }}
+                {{  form_widget(form.Envoyer,{'attr':{'class':'btn btn-success'}}) }} &nbsp;&nbsp;&nbsp;<span style="color: #3395FF;"><b>{{ alert }}</b></span>
+  <div class="btn btn-app" style="float: right;" > <a href="/FR"><h4><strong><span style="color: #3395FF;">RETURN&nbsp;</span></strong><i class="fas fa-sign-out-alt"></i></h4></a></div>
+                {{ form_end(form) }}
+   </div></div>
+
+
+
+{% endblock %}

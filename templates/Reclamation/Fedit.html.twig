@@ -1,16 +1,19 @@
 
-
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
 {% block body %}
 
-
- <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>MODIFIER DES RECLAMATIONS</strong></span></h1><br>
-
+<div class="content-wrapper"><br><br>
+    <div class="content-header">
+ <h1 style="text-align: center;"><span style="color: #000000;"><strong>MODIFIER DES RECLAMATIONS</strong></span></h1><br>
+        <div class="container">
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    {{ form_end(form) }}
+            {{ form_end(form) }}
+            <center>
+            <div class="btn btn-app"> <a href="/FR"><h4><strong><span style="color: #3395FF;">RETURN&nbsp;</span></strong><i class="fas fa-sign-out-alt"></i></h4></a></div>
+            </center>
+        </div></div></div>
 
-
-        <br><br><br><br><br><br>
 
 {% endblock %}
 
