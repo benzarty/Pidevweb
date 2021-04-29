@@ -84,6 +84,7 @@
     }
 
 
+
     #w3lDemoBar.w3l-demo-bar {
         top: 0;
         right: 0;
@@ -248,27 +249,6 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav ml-auto">
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Evenement
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ path('evenement_prochainF') }}">Prochain Evenements</a>
-                            <a class="dropdown-item" href="{{ path('evenement_semaineF') }}">Evenements dans semaine </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('evenement_aujourdhui') }}">evenement d'aujourd'hui</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Promotion
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ path('promotion_top_front') }}">Top 5 promos </a>
-                            <a class="dropdown-item" href="{{ path('promotion_mois_front') }}">Promotion du mois </a>
-
-                        </div>
-                    </li>
 
                     <li class="nav-item active">
                         <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
@@ -280,12 +260,23 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Services </span>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/FR">Reclamations</a>
-                            <a class="dropdown-item" href="{{ path('AfficheALLEmploi')}}">Emploi de temps</a>
-                            <a class="dropdown-item" href="{{ path('ReglageProfilApprenant')}}">Reglage Profil</a>
-                            <a class="dropdown-item" href="{{ path('afficherFront')}}">Formations</a>
-                        </div>
+                        <ul>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="/FR">Reclamations</a></li>
+                                <li><a class="dropdown-item" href="{{ path('AfficheALLEmploi')}}">Emploi de temps</a></li>
+                                <li><a class="dropdown-item" href="{{ path('ReglageProfilApprenant')}}">Reglage Profil</a></li>
+                                <li><a class="dropdown-item" href="{{ path('afficherFront')}}">Formations</a></li>
+                                <li><a class="dropdown-item" href="{{ path('evenement_prochainF') }}">Prochain Evenements</a></li>
+                                <li><a class="dropdown-item" href="{{ path('evenement_semaineF') }}">Evenements dans semaine </a></li>
+
+                                <li><a class="dropdown-item" href="{{ path('evenement_aujourdhui') }}">evenement d'aujourd'hui</a></li>
+                                <li><a class="dropdown-item" href="{{ path('promotion_top_front') }}">Top 5 promos </a></li>
+                                <li><a class="dropdown-item" href="{{ path('promotion_mois_front') }}">Promotion du mois </a></li>
+
+                            </div>
+
+                        </ul>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
