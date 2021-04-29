@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 
 /**
  * Reclamation
  *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="IDP", columns={"id_prof"}), @ORM\Index(name="IDU", columns={"id_user"})})
+ * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="IDU", columns={"id_user"})})
  * @ORM\Entity
  */
 class Reclamation
@@ -27,20 +28,20 @@ class Reclamation
     /**
      * @var int|null
      *
-     * @ORM\Column(name="id_user", type="integer", nullable=true ,options={"default"="0"})
+     * @ORM\Column(name="id_user", type="integer", nullable=true)
      */
     private $idUser;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="username", type="string", nullable=true )
+     * @ORM\Column(name="username", type="string", length=255, nullable=true)
      */
     private $username;
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="string", length=255, nullable=false )
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
      *     * @Assert\Length(min = 3 ,max = 40,
      *     minMessage = "Le titre d'une reclamation doit comporter au moins {{ limit }} caractères",
      *     maxMessage = "Le titre d'une reclamation doit comporter au plus {{ limit }} caractères"
@@ -49,9 +50,9 @@ class Reclamation
     private $title;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private $date;
 
@@ -63,36 +64,38 @@ class Reclamation
     private $etat = 'non-traitée';
 
     /**
-     * @var string
-     * @ORM\Column(name="recl", type="text", length=65535, nullable=false)
+     * @var string|null
+     * @ORM\Column(name="recl", type="text", length=65535, nullable=true)
      * @Assert\Length(min = 2,
      * minMessage = "La reclamation doit comporter au moins {{ limit }} caractères")
      */
     private $recl;
 
     /**
-     * @var string
-     * @ORM\Column(name="reclmodif", type="text", length=65535, nullable=false)
+     * @var string|null
+     *
+     * @ORM\Column(name="reclmodif", type="text", length=65535, nullable=true)
      */
     private $reclmodif;
 
     /**
-     * @var string
-     * @ORM\Column(name="exp", type="string", length=222, nullable=false)
+     * @var string|null
+     *
+     * @ORM\Column(name="exp", type="string", length=222, nullable=true)
      */
     private $exp;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="msg", type="string", length=222, nullable=false ,options={"default"="0"})
+     * @ORM\Column(name="msg", type="string", length=222, nullable=true)
      */
     private $msg;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="msgA", type="string", length=222, nullable=false ,options={"default"="0"})
+     * @ORM\Column(name="msgA", type="string", length=222, nullable=true)
      */
     private $msgA;
 
@@ -121,6 +124,7 @@ class Reclamation
     public function setUN(?string $username): self
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -141,7 +145,7 @@ class Reclamation
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -165,7 +169,7 @@ class Reclamation
         return $this->recl;
     }
 
-    public function setRecl(string $recl): self
+    public function setRecl(?string $recl): self
     {
         $this->recl = $recl;
 
@@ -177,7 +181,7 @@ class Reclamation
         return $this->reclmodif;
     }
 
-    public function setReclmodif(string $reclmodif): self
+    public function setReclmodif(?string $reclmodif): self
     {
         $this->reclmodif = $reclmodif;
 
@@ -189,7 +193,7 @@ class Reclamation
         return $this->exp;
     }
 
-    public function setExp(string $exp): self
+    public function setExp(?string $exp): self
     {
         $this->exp = $exp;
 
@@ -201,7 +205,7 @@ class Reclamation
         return $this->msg;
     }
 
-    public function setMsg(string $msg): self
+    public function setMsg(?string $msg): self
     {
         $this->msg = $msg;
 
@@ -213,7 +217,7 @@ class Reclamation
         return $this->msgA;
     }
 
-    public function setMsgA(string $msgA): self
+    public function setMsgA(?string $msgA): self
     {
         $this->msgA = $msgA;
 

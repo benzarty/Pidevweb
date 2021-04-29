@@ -25,16 +25,23 @@ class ReclamationRepository extends ServiceEntityRepository
             ->setParameter('msgA','%ACORBEILLE');
         return $query->getResult(); }
 
-    public function findAllURC(){
-        $entityManager = $this->getEntityManager();
-        $query = $entityManager ->createQuery('SELECT r FROM App\Entity\Reclamation r WHERE r.msg LIKE :msg')
-            ->setParameter('msg','%UCORBEILLE');
-        return $query->getResult(); }
+
+
+    function findALLURC($idu)
+    {
+        return $this->createQueryBuilder('r')
+            ->select('r')
+            ->where('r.msg LIKE :exp')
+            ->setParameter('exp','%UCORBEILLE')
+            ->andWhere('r.idUser = :idu')
+            ->setParameter('idu',$idu)
+            ->getQuery()
+            ->getResult();
+    }
 
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     *
      */
     public function NotifCount(){
         $em=$this->getEntityManager();
@@ -44,8 +51,7 @@ return $query->getSingleScalarResult(); }
 
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     *
      */
     function UNotifCount($idu)
     {

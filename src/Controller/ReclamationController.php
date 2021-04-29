@@ -10,6 +10,7 @@ use App\Repository\ReclamationRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,9 @@ class ReclamationController extends AbstractController
     public function UPDF(ReclamationRepository $repo): Response
     {
         // Configure Dompdf according to your needs
-        $classroom = $repo->findBy(['msg' => 'UBR']);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $idu = $user->getId();
+        $classroom = $repo->findBy(['msg' => 'UBR' ,'idUser' => $idu]);
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
 
@@ -57,6 +60,11 @@ class ReclamationController extends AbstractController
         $dompdf->stream("Liste Des reclamations.pdf", ["Attachment" => false]);
     }
 
+    /**
+     * @param ReclamationRepository $repo
+     * @return Response
+     * @Route("/PDF",name="PDF")
+     */
 
     public function PDF(ReclamationRepository $repo): Response
     {
@@ -111,21 +119,17 @@ class ReclamationController extends AbstractController
         $dompdf->render();
 
         // Output the generated PDF to Browser (inline view)
-        $dompdf->stream("Reclamation.pdf", ["Attachment" => false]);
-    }
+        $dompdf->stream("Reclamation.pdf", ["Attachment" => false]);}
+
 
     /**
      * @param ReclamationRepository $repo
-     * @param \App\Repository\UsersRepository $ru
      * @return Response
      * @Route("/R",name="Reclamation")
      */
-    public function Affiche(ReclamationRepository $repo ,UsersRepository $ru): Response
+    public function Affiche(ReclamationRepository $repo): Response
     {   $classroom = $repo->findBy(['msgA' => 'ABR']);
-
-        try {
-            $NotifNB = $repo->NotifCount();
-        } catch (NoResultException | NonUniqueResultException $e) {}
+        $NotifNB = $repo->NotifCount();
         return $this->render('Reclamation/Affiche.html.twig', ['articles' => $classroom ,'NotifNB' => $NotifNB]);}
 
 
@@ -137,9 +141,7 @@ class ReclamationController extends AbstractController
     public function AfficheRC(Request $request ,ReclamationRepository $repo): Response
     {
       $recl = $repo->findAllRC();
-        try {
             $NotifNB = $repo->NotifCount();
-        } catch (NoResultException | NonUniqueResultException $e) {}
         return $this->render('Reclamation/AfficheRC.html.twig',["articles" => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -152,9 +154,7 @@ class ReclamationController extends AbstractController
     public function AfficheRA(Request $request ,ReclamationRepository $repo): Response
     {
         $recl = $repo->findBy(['msgA' => 'AARCHIVE']);
-        try {
             $NotifNB = $repo->NotifCount();
-        } catch (NoResultException | NonUniqueResultException $e) {}
         return $this->render('Reclamation/AfficheRA.html.twig',["articles" => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -164,7 +164,7 @@ class ReclamationController extends AbstractController
      * @Route("/Messagerie/{id}", name="Messagerie")
      * Method({"GET", "POST"})
      */
-    public function Messagerie(Request $request, $id): Response
+    public function Messagerie(Request $request, $id ,FlashyNotifier $flashy): Response
     {
         $r = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $rn = new Reclamation();  $ancien = $r->getRecl(); $r->setReclmodif($ancien); $rn->setUN($r->getUN());
@@ -175,14 +175,17 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request); $alert = "";
         if ( $r->getMsgA() == "AARCHIVE")  $alert = "Si Vous allez envoyer un message la reclamation va etre deplacer vers la boite
          de reception !";
-
         if($form->isSubmitted() && $form->isValid()) {
+            if( $r->getMsg() <> "UCORBEILLE" ) {
+                $flashy->error('L`UTILISATEUR a SUPPRIMER LA RECLAMATION !', 'http://your-awesome-link.com');
+                return $this->redirectToRoute('Reclamation'); }
+            else {
             $new = $form->get('recl')->getData();
             $d = date("Y/m/d h:i:sa"); $r->setExp("ADMIN");
             $r->setRecl($ancien."ADMIN ( $d ) : "."$new"."\n");
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($r);
-            $entityManager->flush();
+            $entityManager->flush(); }
         }
         return $this->render('Reclamation/Messagerie.html.twig', ['form' => $form->createView() ,'alert' => $alert,'recl' => $r]);
     }
@@ -193,7 +196,7 @@ class ReclamationController extends AbstractController
      * @Route("/Reclamation/edit/{id}", name="edit_Reclamation")
      * Method({"GET", "POST"})
      */
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id ,FlashyNotifier $flashy) {
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $msg = $article->getReclmodif(); $article->setRecl("");
         $form = $this->createForm(ReclamationType::class,$article);
@@ -201,6 +204,10 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            if( $article->getExp() <> "ADMIN" ) {
+                $flashy->error('AUCUN MESSAGE SAISIE !', 'http://your-awesome-link.com');
+                return $this->redirectToRoute('Reclamation'); }
+            else {
             $d = date("Y/m/d h:i:sa");
             $msg2 = $form->get('recl')->getData(); $msg2 = "ADMIN ( $d ) : ".$msg2;
             $article = $form->getData(); $article->setRecl($msg.$msg2);
@@ -209,8 +216,7 @@ class ReclamationController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('Reclamation');
         }
-        return $this->render('Reclamation/edit.html.twig', ['form' => $form->createView()]);
-    }
+    }return $this->render('Reclamation/edit.html.twig', ['form' => $form->createView()]); }
 
 
     /**
@@ -275,48 +281,41 @@ class ReclamationController extends AbstractController
      * @Route("/FR",name="FReclamation")
      */
     public function FAffiche(ReclamationRepository $repo): Response
-    {   $classroom = $repo->findBy(['msg' => 'UBR']);
-
+    {
         try {
             $user = $this->get('security.token_storage')->getToken()->getUser();
-            $idu = $user->getId();
+            $idu = $user->getId();  $color = "Nouveau Message !";;
             $NotifNB = $repo->UNotifCount($idu);
+            $classroom = $repo->findBy(['msg' => 'UBR' ,'idUser' => $idu]);
         } catch (NoResultException | NonUniqueResultException $e) {}
         return $this->render('Reclamation/FReclamation.html.twig', ['articles' => $classroom ,'NotifNB' => $NotifNB]);}
 
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param ReclamationRepository $repo
      * @return Response
      * @Route("/FRC",name="FRC")
      */
     public function FAfficheRC(Request $request ,ReclamationRepository $repo): Response
     {
-        $recl = $repo->findAllURC();
-        try {
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $idu = $user->getId();
+            $recl = $repo->findAllURC($idu);
             $NotifNB = $repo->UNotifCount($idu);
-        } catch (NoResultException | NonUniqueResultException $e) {}
-        return $this->render('Reclamation/FAfficheRC.html.twig',['articles' => $recl ,'NotifNB' => $NotifNB]);
-    }
+        return $this->render('Reclamation/FAfficheRC.html.twig',['articles' => $recl ,'NotifNB' => $NotifNB]);}
 
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param ReclamationRepository $repo
      * @return Response
      * @Route("/FRA",name="FRA")
      */
     public function FAfficheRA(Request $request ,ReclamationRepository $repo): Response
     {
-        $recl = $repo->findBy(['msg' => 'UARCHIVE']);
-        try {
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $idu = $user->getId();
             $NotifNB = $repo->UNotifCount($idu);
-        } catch (NoResultException | NonUniqueResultException $e) {}
+            $recl = $repo->findBy(['msg' => 'UARCHIVE' ,'idUser' => $idu]);
         return $this->render('Reclamation/FAfficheRA.html.twig', ['articles' => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -340,7 +339,7 @@ class ReclamationController extends AbstractController
             $r = $form->getData();
             $new = $form->get('recl')->getData();
             $d = date("Y/m/d h:i:sa");
-            $msg = "USER ( $d ) : ".$new."\n";
+            $msg = "$uname ( $d ) : ".$new."\n";
             $r->setRecl($msg);    $r->setExp($uname);    $r->setMsgA('ABR');   $r->setMsg('UBR');
             $r->setDate(new \DateTime());    $r->setIdUser($idu); $r->setUN($uname);
             $entityManager = $this->getDoctrine()->getManager();
@@ -356,7 +355,9 @@ class ReclamationController extends AbstractController
      * @Route("/FReclamation/edit/{id}", name="edit_FReclamation")
      * Method({"GET", "POST"})
      */
-    public function Fedit(Request $request, $id) {
+    public function Fedit(Request $request, $id ,FlashyNotifier $flashy) {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $uname = $user->getNom();
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $msg = $article->getReclmodif(); $article->setRecl("");
         $form = $this->createForm(FReclamationType::class,$article);
@@ -364,61 +365,68 @@ class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            if( $article->getExp() == "ADMIN" ) {
+                $flashy->error('AUCUN MESSAGE SAISIE !', 'http://your-awesome-link.com');
+                return $this->redirectToRoute('FReclamation');  }
+            else {
             $d = date("Y/m/d h:i:sa");
-            $msg2 = $form->get('recl')->getData(); $msg2 = "USER ( $d ) : ".$msg2;
+            $msg2 = $form->get('recl')->getData(); $msg2 = "$uname ( $d ) : ".$msg2;
             $article = $form->getData(); $article->setRecl($msg.$msg2);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
-            return $this->redirectToRoute('FReclamation');
+            return $this->redirectToRoute('FReclamation'); }
         }
         return $this->render('Reclamation/Fedit.html.twig', ['form' => $form->createView()]);
     }
 
 
+
     /**
      * @Route("/FReclamation/corbeille/{id}",name="Fcorbeille")
      */
-    public function Fcorbeille(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function Fcorbeille(Request $request, $id ,FlashyNotifier $flashy): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $article->setMsg('UCORBEILLE');
         $entityManager->persist($article);
         $entityManager->flush();
+        $flashy->primaryDark('RECLAMATION MIS EN CORBEILLE!', 'http://your-awesome-link.com');
         return $this->redirectToRoute('FReclamation');}
 
 
     /**
      * @Route("/FReclamation/restore/{id}",name="Frestore")
      */
-    public function Frestaurer(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function Frestaurer(Request $request, $id ,FlashyNotifier $flashy): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $article->setMsg('UBR');
         $entityManager->persist($article);
         $entityManager->flush();
+        $flashy->primaryDark('RECLAMATION RESTAURÈE', 'http://your-awesome-link.com');
         return $this->redirectToRoute('FReclamation');}
 
     /**
      * @Route("/FReclamation/archive/{id}",name="Farchive")
      */
-    public function Farchiver(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function Farchiver(Request $request, $id ,FlashyNotifier $flashy)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
-    if($article->getEtat() == "Traité") {
         $article->setMsg('UARCHIVE');
         $entityManager->persist($article);
         $entityManager->flush();
-        return $this->redirectToRoute('FReclamation'); }
-    /* else { ('bundle flash '); } */   }
+        $flashy->primaryDark('RECLAMATION ARCHIVER', 'http://your-awesome-link.com');
+        return $this->redirectToRoute('FReclamation');
+      }
 
     /**
      * @Route("/FReclamation/delete/{id}",name="Fdelete_prof")
      */
-    public function Fdelete(Request $request, $id): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function Fdelete(Request $request, $id)
     {
         $article = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
 
@@ -437,7 +445,7 @@ class ReclamationController extends AbstractController
      * @Route("/FMessagerie/{id}", name="FMessagerie")
      * Method({"GET", "POST"})
      */
-    public function FMessagerie(Request $request, $id): Response
+    public function FMessagerie(Request $request, $id ,FlashyNotifier $flashy): Response
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $idu = $user->getId();
@@ -452,15 +460,21 @@ class ReclamationController extends AbstractController
          de reception !";
 
         if($form->isSubmitted() && $form->isValid()) {
+            if( $r->getMsg() <> "ACORBEILLE" ) {
+                $flashy->error('L`ADMIN A SUPPRIMER LA RECLAMATION !', 'http://your-awesome-link.com');
+                return $this->redirectToRoute('FReclamation'); }
+            else {
             $new = $form->get('recl')->getData();    $d = date("Y/m/d h:i:sa");
             $uname = $user->getNom();    $r->setExp($uname);
             $r->setRecl($ancien."$uname ( $d ) : "."$new"."\n");
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($r);
-            $entityManager->flush();
+            $entityManager->flush(); }
         }
         return $this->render('Reclamation/FMessagerie.html.twig', ['form' => $form->createView() ,'alert' => $alert,'recl' => $r]);
     }
+
+
 
 
 }

@@ -30,7 +30,7 @@
                     <th>Etat </th>
                     <th>Title</th>
                     <th> Date </th>
-                    <th>Utilisateur</th>
+                    <th>ID Utilisateur</th>
                     <th>Action</th>
 
                 </tr>
@@ -42,7 +42,7 @@
                         <td style="width: 30px;" >{{ article.etat }}</td>
                         <td style="width: 200px;" >{{ article.title }} </td>
                         <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
-                        <td style="width: 20px;" > {{ article.exp }} </td>
+                        <td style="width: 20px;" > {{ article.idUser }} </td>
                         <td style="width: 80px;" >
                             <a href="/Messagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
                             <a href="/Reclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
