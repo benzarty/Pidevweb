@@ -159,7 +159,7 @@ $article->setStatus("True");
     public function home2(Request $request, AuthenticationUtils $utils): \Symfony\Component\HttpFoundation\Response
     {
 
-        return $this->render('HomeFront/FrontApprenantMain.html.twig');
+        return $this->render('HomeFront/HomeFrontAllUsers.html.twig');
 
 
     }

@@ -79,7 +79,7 @@ class AdminController extends AbstractController
         $pieChart->getData()->setArrayToDataTable(
             [['Superieur à 2021', 'nombres'],
                 ['apprenant', $rd],
-                ['professeur', $es]
+                ['Professeur', $es]
             ]
         );
         $pieChart->getOptions()->setTitle('Pourcentage Usage sur site');
@@ -321,6 +321,21 @@ class AdminController extends AbstractController
         }
         return $this->render('Professeur/NewProf.html.twig',['form' => $form->createView()]);
     }
+
+
+
+    /**
+     * @return Response
+     * @Route("/PasswordForgottenno", name="PasswordForgottenno")
+     */
+    public function PasswordForgotten()
+    {
+        return $this->render('admin/PasswordForgotten.html.twig');
+
+    }
+
+
+
 
 
 }
