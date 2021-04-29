@@ -1,0 +1,22 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+
+{% block nouvelle %}
+    <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>MESSAGERIE</strong></span></h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{% endblock %}
+    {% block central %}
+
+            <div class="container-xl">
+            <div id="articles" class="content-header">
+                <p class="joli"><b>{{recl.recl}}</b></p>
+                {{ form_start(form) }}
+                {{ form_row(form.recl) }}
+                {{  form_widget(form.Envoyer,{'attr':{'class':'btn btn-success'}}) }} &nbsp;&nbsp;&nbsp;<span style="color: #3395FF;"><b>{{ alert }}</b></span>
+  <div class="btn btn-app" style="float: right;" > <a href="/R"><h4><strong><span style="color: #3395FF;">RETURN&nbsp;</span></strong><i class="fas fa-sign-out-alt"></i></h4></a></div>
+                {{ form_end(form) }}
+   </div></div>
+    {% endblock %}

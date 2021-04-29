@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Emploidetemps
@@ -46,15 +48,16 @@ class Emploidetemps
      * @var string
      *
      * @ORM\Column(name="emploi", type="string", length=255, nullable=false)
+     * @Assert\File(mimeTypes={"image/jpeg"},groups = {"create"})
      */
     private $emploi;
 
     /**
-     * @var \Professeur
+     * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Professeur")
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idprof", referencedColumnName="Id_professeur")
+     *   @ORM\JoinColumn(name="idprof", referencedColumnName="id")
      * })
      */
     private $idprof;
@@ -112,17 +115,18 @@ class Emploidetemps
         return $this;
     }
 
-    public function getIdprof(): ?Professeur
+    public function getIdprof(): ?Users
     {
         return $this->idprof;
     }
 
-    public function setIdprof(?Professeur $idprof): self
+    public function setIdprof(?Users $idprof): self
     {
         $this->idprof = $idprof;
 
         return $this;
     }
+
 
 
 }

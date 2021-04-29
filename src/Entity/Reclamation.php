@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Reclamation
@@ -24,21 +27,24 @@ class Reclamation
     /**
      * @var int|null
      *
-     * @ORM\Column(name="id_user", type="integer", nullable=true)
+     * @ORM\Column(name="id_user", type="integer", nullable=true ,options={"default"="0"})
      */
     private $idUser;
 
     /**
-     * @var int|null
+     * @var string
      *
-     * @ORM\Column(name="id_prof", type="integer", nullable=true)
+     * @ORM\Column(name="username", type="string", nullable=true )
      */
-    private $idProf;
+    private $username;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @ORM\Column(name="title", type="string", length=255, nullable=false )
+     *     * @Assert\Length(min = 3 ,max = 40,
+     *     minMessage = "Le titre d'une reclamation doit comporter au moins {{ limit }} caractères",
+     *     maxMessage = "Le titre d'une reclamation doit comporter au plus {{ limit }} caractères"
+     * )
      */
     private $title;
 
@@ -51,28 +57,27 @@ class Reclamation
 
     /**
      * @var string
-     *
      * @ORM\Column(name="etat", type="string", length=50, nullable=false, options={"default"="non-traitée"})
+     * @Assert\NotBlank(message="Vous devez remplir ce champs")
      */
     private $etat = 'non-traitée';
 
     /**
      * @var string
-     *
      * @ORM\Column(name="recl", type="text", length=65535, nullable=false)
+     * @Assert\Length(min = 2,
+     * minMessage = "La reclamation doit comporter au moins {{ limit }} caractères")
      */
     private $recl;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="reclmodif", type="text", length=65535, nullable=false)
      */
     private $reclmodif;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="exp", type="string", length=222, nullable=false)
      */
     private $exp;
@@ -80,14 +85,14 @@ class Reclamation
     /**
      * @var string
      *
-     * @ORM\Column(name="msg", type="string", length=222, nullable=false)
+     * @ORM\Column(name="msg", type="string", length=222, nullable=false ,options={"default"="0"})
      */
     private $msg;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="msgA", type="string", length=222, nullable=false)
+     * @ORM\Column(name="msgA", type="string", length=222, nullable=false ,options={"default"="0"})
      */
     private $msgA;
 
@@ -108,15 +113,14 @@ class Reclamation
         return $this;
     }
 
-    public function getIdProf(): ?int
+    public function getUN(): ?string
     {
-        return $this->idProf;
+        return $this->username;
     }
 
-    public function setIdProf(?int $idProf): self
+    public function setUN(?string $username): self
     {
-        $this->idProf = $idProf;
-
+        $this->username = $username;
         return $this;
     }
 

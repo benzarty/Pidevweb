@@ -1,23 +1,21 @@
 {% extends 'admin/backendAdmin.html.twig' %}
 {% block central %}
 
-
-
-
-
         <div class="container-xl">
 
 
             <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES APPRENANTS</strong></span></h1>
             <div class="float-sm-right"> <a href="/Apprenant/new" type="button"  ><i class="fas fa-plus-circle fa-2x"></i> </a></div>
 
-            <div class="input-group mb-3">
+            <form method="post" action="{{ path('gogogogogogo') }}">
+                <div class="input-group mb-3">
 
-                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2">Search</span>
+                    <input type="text" class="form-control" name="search" placeholder="Recipient's username" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
 
@@ -31,7 +29,6 @@
                         <th>Nom</th>
                         <th>Prenom</th>
                         <th>email </th>
-                        <th>password</th>
                         <th>Image</th>
 
                         <th>status</th>
@@ -46,7 +43,6 @@
                             <td>{{ article.nom }}</td>
                             <td>{{ article.prenom }}</td>
                             <td>{{ article.email }}</td>
-                            <td>{{ article.password }}</td>
                             <td><img src="{{ asset('uploads/' ~ article.photo) }}" style="width: 50px;height: 50px"></td>
 
                             <td>{{ article.status }}</td>
@@ -59,7 +55,7 @@
                             <td>
                                 <a href="/Apprenant/{{ article.id }}" class="btn btn-secondary">Détails</a>
                                 <a href="/Apprenant/edit/{{ article.id }}" class="btn btn-info">Modifier</a>
-                                <a href="/Apprenant/delete/{{ article.id }}" class="btn btn-danger"
+                                <a href="/deleteApprenantAdminNow/{{ article.id }}" class="btn btn-danger"
                                    onclick="return confirm('Etes-vous sûr de supprimer cet article?');">Supprimer</a>
 
                             </td>

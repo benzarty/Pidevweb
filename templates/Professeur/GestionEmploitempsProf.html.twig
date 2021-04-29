@@ -1,0 +1,77 @@
+{% extends 'Professeur/dashboardProf.html.twig' %}
+{% block central %}
+
+
+    <div class="container-xl">
+
+
+        <h1 style="text-align: center;"><span
+                    style="color: #ffffff;"><strong>GESTIONS Emploi de temps</strong></span></h1>
+        <div class="float-sm-right"><a href="/Prof/newEmploiTemps" type="button"
+            ><i class="fas fa-plus-circle fa-2x"></i> </a></div>
+
+
+    </div>
+
+
+    </b>
+    <div class="content-header">
+        {% if articles %}
+            <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                <thead>
+                <tr>
+                    <th>Id Emploi</th>
+                    <th>Date debut validite</th>
+                    <th>Date fin validite</th>
+                    <th>Date ajout emploi</th>
+                    <th>Nom du professeur</th>
+
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody id="geeks">
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.idemploi }}</td>
+
+                        <td>{{ article.datedebutvalidite|date("F jS \\a\\t g:ia") }}</td>
+                        <td>{{ article.datefinvalidite |date("F jS \\a\\t g:ia") }}</td>
+                        <td>{{ article.dateajoutemploi |date("F jS \\a\\t g:ia") }}</td>
+
+                        </td>
+
+
+                        <td>{{ article.idprof }}</td>
+
+
+                        <td>
+                            <a href="/SupprimerEmploiTemps/{{ article.idemploi }}" class="btn btn-danger">Supprimer</a>
+                            <a href="/showDetailEmploiProf/{{ article.idemploi }}" class="btn btn-warning">Detail</a>
+
+
+
+
+                        </td>
+                    </tr>
+
+
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun articles</p>
+        {% endif %}
+
+
+    </div>
+    <!-- /.content-header -->
+
+
+
+
+
+
+
+
+{% endblock %}

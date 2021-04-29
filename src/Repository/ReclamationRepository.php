@@ -25,39 +25,39 @@ class ReclamationRepository extends ServiceEntityRepository
             ->setParameter('msgA','%ACORBEILLE');
         return $query->getResult(); }
 
+    public function findAllURC(){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager ->createQuery('SELECT r FROM App\Entity\Reclamation r WHERE r.msg LIKE :msg')
+            ->setParameter('msg','%UCORBEILLE');
+        return $query->getResult(); }
 
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
     public function NotifCount(){
         $em=$this->getEntityManager();
         $query=$em->createQuery('SELECT count(r) FROM App\Entity\Reclamation r WHERE r.exp <> :exp')
 ->setParameter('exp','ADMIN');
 return $query->getSingleScalarResult(); }
 
-    // /**
-    //  * @return Reclamation[] Returns an array of Reclamation objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Reclamation
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    function UNotifCount($idu)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('r')
+            ->select('count(r)')
+            ->where('r.exp LIKE :exp')
+            ->setParameter('exp','ADMIN')
+            ->andWhere('r.idUser = :idu')
+            ->setParameter('idu',$idu)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
+
+
 }

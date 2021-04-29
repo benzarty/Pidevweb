@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,6 +44,12 @@ class Users implements UserInterface
     private $nom;
 
 
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+
 
     /**
      * @var string
@@ -51,6 +58,13 @@ class Users implements UserInterface
      */
     private $role;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codesecurity", type="integer", nullable=true)
+     */
+    private $codesecurity;
     /**
      * @var string
      *
@@ -77,8 +91,10 @@ class Users implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     *@Assert\Email(message = "The email '{{ value }}' is not a valid email.")
+     *@Assert\Email(message = "The email '{{ value }}' is not a valid email.",
+     * mode = "strict")
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     *
      */
     private $email;
 
@@ -273,4 +289,28 @@ class Users implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->nom . "   " . $this->prenom;
+        // to show the id of the Category in the select
+        // return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCodesecurity(): int
+    {
+        return $this->codesecurity;
+    }
+
+    /**
+     * @param int $codesecurity
+     */
+    public function setCodesecurity(int $codesecurity): void
+    {
+        $this->codesecurity = $codesecurity;
+    }
+
 }

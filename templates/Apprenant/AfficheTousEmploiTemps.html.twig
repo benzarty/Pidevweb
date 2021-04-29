@@ -1,0 +1,56 @@
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
+{% block body %}
+
+
+
+    <div class="container-xl">
+        <h1 style="text-align: center;"><span style="color: black;"><strong>Emploi de temps</strong></span></h1>
+      <br>
+        <div class="content-header">
+            {% if articles %}
+                <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                    <thead>
+                    <tr>
+                        <th>Id Emploi</th>
+                        <th>Date Debut Validite</th>
+                        <th>Date Fin Validite</th>
+                        <th>Date Ajout Emploi </th>
+                        <th>Nom prenom Prof </th>
+
+
+                        <th>Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="geeks">
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.idemploi  }}</td>
+                            <td>{{ article.datedebutvalidite |date("F jS \\a\\t g:ia") }} </td>
+                            <td>{{ article.datefinvalidite|date("F jS \\a\\t g:ia") }}</td>
+                            <td>{{ article.dateajoutemploi |date("F jS \\a\\t g:ia") }}</td>
+                            <td>{{ article.idprof  }}</td>
+                            <td><a href="/EmploiDetailApprenant/{{ article.idemploi }}" class="btn btn-danger">Detail</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun emploi</p>
+            {% endif %}
+
+        </div>
+        <!-- /.content-header -->
+    </div>
+
+
+    <!-- Main content -->
+
+    <!-- /.content -->
+
+    <!-- Content Wrapper. Contains page content -->
+
+{% endblock %}
+
+
+

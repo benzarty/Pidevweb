@@ -1,14 +1,20 @@
-
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
 {% block body %}
 
-        {% block title %}Ajouter Reclamation{% endblock %}
+
+
     <div class="content-wrapper"><br><br>
     <div class="content-header">
+        <h1 style="text-align: center;"><span  style="color: #000000;"><strong>AJOUTER UNE RECLAMATION </strong></span></h1>
+        <br>
     <div class="container">
         <table id="articles" class="table  table-bordered table-hover table-dark   ">
             {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
             {{ form_widget(form) }}
             {{ form_end(form) }}
+            <center>
+            <div class="btn btn-app"> <a href="/FR"><h4><strong><span style="color: #3395FF;">RETURN&nbsp;</span></strong><i class="fas fa-sign-out-alt"></i></h4></a></div>
+            </center>
         </table>
     </div></div></div>
 

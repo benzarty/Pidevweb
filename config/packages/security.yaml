@@ -1,6 +1,6 @@
 security:
   encoders:
-    App\Entity\Users: plaintext
+    App\Entity\Users: bcrypt
 
 
 

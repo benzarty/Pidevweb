@@ -1,727 +1,80 @@
-
-
-
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
 {% block body %}
-<!doctype html>
-<html lang="en">
 
-<!-- Mirrored from demo.w3layouts.com/demos_new/template_demo/18-03-2021/digicorp-liberty-demo_Free/337603937/web/landing-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 Apr 2021 18:34:52 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <title>The squad</title>
+    <div class="container-xl"><br>
+        <h1 style="text-align: center;"><span  style="color: #000000;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
+        <span style="color: #871111;"><h4><p style="text-align: left;"><strong><center>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!</center>
+            </strong></p></h4></span><br>
+        <div><center><a href="/FReclamation/new" type="button"  class="btn btn-primary" ><b>+</b> </a>
+                <a href="/FR" class="btn btn-primary"><b><span style="color : #ffffff;">BOITE RECEPTION : {{ NotifNB }}</span></b></a>
+                <a href="/FRC" class="btn btn-primary"><b><span style="color : #ffffff;">CORBEILLE</span></b></a>
+                <a href="/FRA" class="btn btn-primary"><b><span style="color : #ffffff;">ARCHIVE</span></b></a></center>
 
+        </div><br>
+            <div class="input-group mb-3">
+                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
+                <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
+            </div></div>
+        <div class="content-header">
+            {% if articles %}
+                <table id="articles" class="table  table-bordered table-hover table-dark"
+                       style="width:90%; margin-left: 67px;" >
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Etat </th>
+                        <th>Title</th>
+                        <th>Date </th>
+                        <th>Action</th>
 
-    <!-- Google fonts -->
-    <link href="http://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
-    <link href="http://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&amp;display=swap" rel="stylesheet">
-
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/css/style-liberty.css">
-
-
-    <script>
-
-        (function(){
-            if(typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('flexbar', 'CKYI627U', 'placement:w3layoutscom');
-            }
-        })();
-    </script>
-    <script>
-        (function(){
-            if(typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('fancybar', 'CKYDL2JN', 'placement:demo');
-            }
-        })();
-    </script>
-    <script>
-        (function(){
-            if(typeof _bsa !== 'undefined' && _bsa) {
-                // format, zoneKey, segment:value, options
-                _bsa.init('stickybox', 'CKYI653J', 'placement:w3layoutscom');
-            }
-        })();
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src='https://www.googletagmanager.com/gtag/js?id=UA-149859901-1'></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-149859901-1');
-    </script>
-
-    <script>
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', 'UA-149859901-1', 'demo.w3layouts.com');
-        ga('require', 'eventTracker');
-        ga('require', 'outboundLinkTracker');
-        ga('require', 'urlChangeTracker');
-        ga('send', 'pageview');
-    </script>
-    <script async src='../../../../../../js/autotrack.js'></script>
-
-    <meta name="robots" content="noindex">
-    <link rel="stylesheet" href="../../../../../../assests/css/font-awesome.min.css">
-    <!-- New toolbar-->
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-        }
-
-
-        #w3lDemoBar.w3l-demo-bar {
-            top: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9999;
-            padding: 40px 5px;
-            padding-top:70px;
-            margin-bottom: 70px;
-            background: #0D1326;
-            border-top-left-radius: 9px;
-            border-bottom-left-radius: 9px;
-        }
-
-        #w3lDemoBar.w3l-demo-bar a {
-            display: block;
-            color: #e6ebff;
-            text-decoration: none;
-            line-height: 24px;
-            opacity: .6;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        #w3lDemoBar.w3l-demo-bar span.w3l-icon {
-            display: block;
-        }
-
-        #w3lDemoBar.w3l-demo-bar a:hover {
-            opacity: 1;
-        }
-
-        #w3lDemoBar.w3l-demo-bar .w3l-icon svg {
-            color: #e6ebff;
-        }
-        #w3lDemoBar.w3l-demo-bar .responsive-icons {
-            margin-top: 30px;
-            border-top: 1px solid #41414d;
-            padding-top: 40px;
-        }
-        #w3lDemoBar.w3l-demo-bar .demo-btns {
-            border-top: 1px solid #41414d;
-            padding-top: 30px;
-        }
-        #w3lDemoBar.w3l-demo-bar .responsive-icons a span.fa {
-            font-size: 26px;
-        }
-        #w3lDemoBar.w3l-demo-bar .no-margin-bottom{
-            margin-bottom:0;
-        }
-        .toggle-right-sidebar span {
-            background: #0D1326;
-            width: 50px;
-            height: 50px;
-            line-height: 50px;
-            text-align: center;
-            color: #e6ebff;
-            border-radius: 50px;
-            font-size: 26px;
-            cursor: pointer;
-            opacity: .5;
-        }
-        .pull-right {
-            float: right;
-            position: fixed;
-            right: 0px;
-            top: 70px;
-            width: 90px;
-            z-index: 99999;
-            text-align: center;
-        }
-        /* ============================================================
-        RIGHT SIDEBAR SECTION
-        ============================================================ */
-
-        #right-sidebar {
-            width: 90px;
-            position: fixed;
-            height: 100%;
-            z-index: 1000;
-            right: 0px;
-            top: 0;
-            margin-top: 60px;
-            -webkit-transition: all .5s ease-in-out;
-            -moz-transition: all .5s ease-in-out;
-            -o-transition: all .5s ease-in-out;
-            transition: all .5s ease-in-out;
-            overflow-y: auto;
-        }
-
-
-        /* ============================================================
-        RIGHT SIDEBAR TOGGLE SECTION
-        ============================================================ */
-
-        .hide-right-bar-notifications {
-            margin-right: -300px !important;
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            -o-transition: all .3s ease-in-out;
-            transition: all .3s ease-in-out;
-        }
-
-
-
-        @media (max-width: 992px) {
-            #w3lDemoBar.w3l-demo-bar a.desktop-mode{
-                display: none;
-
-            }
-        }
-        @media (max-width: 767px) {
-            #w3lDemoBar.w3l-demo-bar a.tablet-mode{
-                display: none;
-
-            }
-        }
-        @media (max-width: 568px) {
-            #w3lDemoBar.w3l-demo-bar a.mobile-mode{
-                display: none;
-            }
-            #w3lDemoBar.w3l-demo-bar .responsive-icons {
-                margin-top: 0px;
-                border-top: none;
-                padding-top: 0px;
-            }
-            #right-sidebar,.pull-right {
-                width: 90px;
-            }
-            #w3lDemoBar.w3l-demo-bar .no-margin-bottom-mobile{
-                margin-bottom: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-
-
-
-<div class="right-sidebar-panel-content animated fadeInRight" tabindex="5003"
-     style="overflow: hidden; outline: none;">
-</div>
-</div>
-</div>
-</div>
-
-<!--header-->
-<header id="site-header" class="fixed-top">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg stroke px-0">
-            <h1> <a class="navbar-brand" href="/">
-                    Polyways learning
-                </a></h1>
-            <!-- if logo is image enable this
-    <a class="navbar-brand" href="#index.html">
-        <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-    </a> -->
-            <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse"
-                    data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon fa icon-expand fa-bars">   </span>
-                <span class="navbar-toggler-icon fa icon-close fa-times"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#whoweare">Who we are</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Services </span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/FR">Reclamations</a>
-                            <a class="dropdown-item" href="#why">Emploi de temps</a>
-                            <a class="dropdown-item" href="#testimonials">Testimonials</a>
-                            <a class="dropdown-item" href="#blog">Blog posts</a>
-                            <a class="dropdown-item" href="#subscribe">Subscribe</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('logout') }}">Logout</a>
-                    </li>
-                    <!--/search-right-->
-
-                    <!--//search-right-->
-                    <div class="box-support ml-lg-3 mr-lg-4">
-                        <p>Welcome Mr/Mrs </p>
-                        <h5><a>{{ app.user.username }} {{ app.user.prenom }}</a></h5>
-                    </div>
-                </ul>
-            </div>
-            <!-- toggle switch for light and dark theme -->
-
-            <!-- //toggle switch for light and dark theme -->
-        </nav>
-    </div>
-</header>
-<!--/header-->
-<!-- banner section -->
-<section id="home" class="w3l-banner py-5">
-    <div id="particles-js"></div>
-    <div class="container py-lg-5 py-md-4">
-        <div class="align-items-center py-4">
-            <div class="banner-content mt-5">
-                <h3 class="mb-2">Learnings new Things has never been so easy!!!!!!!!</h3>
-
-            </div>
-        </div>
-    </div>
-</section>
-<!-- //banner section -->
-<div style="margin: 8px auto; display: block; text-align:center;">
-    <!---728x90--->
-
-</div>
-<!-- home page block1 -->
-<section id="about" class="home-services py-5">
-    <div class="container py-lg-3">
-        <div class="row">
-            <div class="col-lg-4 col-sm-6">
-                <div class="box-wrap">
-                    <div class="box-wrap-grid">
-                        <img src="assets/images/icon1.png" alt="" />
-                        <div class="info">
-                            <p>CALL TODAY</p>
-                            <h4><a href="tel: +12 311 4567">+12 311 4567</a></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mt-sm-0 mt-4">
-                <div class="box-wrap">
-                    <div class="box-wrap-grid">
-                        <img src="assets/images/icon2.png" alt="" />
-                        <div class="info">
-                            <p>FAX US </p>
-                            <h4><a href="tel: +12 311 4567">+12 311 4567</a></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mt-lg-0 mt-4">
-                <div class="box-wrap">
-                    <div class="box-wrap-grid">
-                        <img src="assets/images/icon3.png" alt="" />
-                        <div class="info">
-                            <p>EMAIL US</p>
-                            <h4><a href="emailto:info@mail.com">info@mail.com</a></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- //home page block1 -->
-<div style="margin: 8px auto; display: block; text-align:center;">
-    <!---728x90--->
-</div>
-
-<div style="margin: 8px auto; display: block; text-align:center;">
-    <!---728x90--->
-</div>
-
-
-<!-- stats -->
-<section class="w3l-stats py-5" id="stats">
-    <div class="container py-lg-5 py-md-4 py-2">
-        <div class="row stats-con">
-
-
-            <div class="content-wrapper"><br><br>
-                <div class="content-header">
-                    <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DES RECLAMATIONS</strong></span></h1><br>
-                    <div><center><a href="/FReclamation/new" type="button" class="btn btn-primary" ><b>+</b></a>
-                            <a href="/FR" class="btn btn-primary">Boite Reception : </a>&nbsp;
-                            <a href="/FRC" class="btn btn-primary">Corbeille</a>
-                            <a href="/FRA" class="btn btn-primary">Archive</a></center></div><br>
-                    <div class="input-group mb-3">
-                        <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
-                        <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
-                    </div></div><br>
-                {% if articles %}
-                    <table id="articles" class="table  table-bordered table-hover table-dark   ">
-                        <thead>
+                    </tr>
+                    </thead>
+                    <tbody id="geeks">
+                    {% for article in articles %}
                         <tr>
-                            <th>Id Reclamation</th>
-                            <th>Title</th>
-                            <th>Etat </th>
-                            <th>Reclamation</th>
-                            <th>Action</th>
+                            <td style="width: 5px;">{{ article.id }}</td>
+                            <td style="width: 30px;" >{{ article.etat }}</td>
+                            <td style="width: 200px;" >{{ article.title }} </td>
+                            <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
+                            <td style="width: 80px;" >
+                                <a href="/FMessagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
+                                <a href="/FReclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
+                                    <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;
+                                <a href="/FReclamation/corbeille/{{ article.id }}"
+                                   onclick="return confirm('Etes-vous sûr de deplacer cet reclamation dans la corbeille?');">
+                                    <i class="far fa-trash-alt"></i></a>&nbsp;&nbsp;
+                                <a href="/Reclamation/PDF/{{ article.id }}" ><i class="far fa-file-pdf"></i></a>
 
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody id="geeks">
-                        {% for article in articles %}
-                            <tr>
-                                <td>{{ article.id }}</td>
-                                <td>{{ article.title }}</td>
-                                <td>{{ article.etat }}</td>
-                                <td>{{ article.recl}}</td>
-                                <td>
-                                    <a href="/FMessagerie" class="btn btn-secondary">Messagerie</a><br>
-                                    <a href="/FReclamation/edit/{{ article.id }}" class="btn btn-info">Modifier</a><br>
-                                    <a href="/FReclamation/corbeille/{{ article.id }}" class="btn btn-danger"
-                                       onclick="return confirm('Etes-vous sûr de supprimer cet reclamation?');">Corbeille</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table><br><br><br><br>
-                {% else %}
-                    <p>Aucune reclamation</p>
-                {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-            </div>
-            <!-- /.content-header -->
-
-            <!-- Main content -->
-
-            <!-- /.content -->
-        </div>
-
+            {% else %}
+                <p>Aucune reclamation</p>
+            {% endif %}
 
         </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+
+        <!-- /.content -->
         </div>
-    </div>
-</section>
-
-
-<!-- footer -->
-<footer class="py-5">
-    <div class="container py-md-3">
-        <div class="footer-grids">
-            <div class="footer-grid left">
-                <h2 class="logo"><a> The Squad</a></h2>
-            </div>
-            <div class="middle">
-                <p>© 2020 The Squad . All Rights Reserved | Design by Benzarti</p>
-            </div>
-
-        </div>
-    </div>
-    <!-- move top -->
-    <button onclick="topFunction()" id="movetop" title="Go to top">
-        &#10548;
-    </button>
-    <script>
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function () {
-            scrollFunction()
-        };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                document.getElementById("movetop").style.display = "block";
-            } else {
-                document.getElementById("movetop").style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-    </script>
-    <!-- /move top -->
-</footer>
-<!-- //footer -->
-
-<!-- Common jquery plugin -->
-
-<!-- responsive tabs -->
-<script src="assets/js/jquery-1.9.1.min.js"></script>
-
-<script src="assets/js/easyResponsiveTabs.js"></script>
-<!--Plug-in Initialisation-->
-<script type="text/javascript">
-    $(document).ready(function () {
-        //Horizontal Tab
-        $('#parentHorizontalTab').easyResponsiveTabs({
-            type: 'default', //Types: default, vertical, accordion
-            width: 'auto', //auto or any width like 600px
-            fit: true, // 100% fit in a container
-            tabidentify: 'hor_1', // The tab groups identifier
-            activate: function (event) { // Callback function if tab is switched
-                var $tab = $(this);
-                var $info = $('#nested-tabInfo');
-                var $name = $('span', $info);
-                $name.text($tab.text());
-                $info.show();
-            }
-        });
-    });
-</script>
-
-<script src="assets/js/theme-change.js"></script><!-- theme switch js (light and dark)-->
-
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.popup-with-zoom-anim').magnificPopup({
-            type: 'inline',
-
-            fixedContentPos: false,
-            fixedBgPos: true,
-
-            overflowY: 'auto',
-
-            closeBtnInside: true,
-            preloader: false,
-
-            midClick: true,
-            removalDelay: 300,
-            mainClass: 'my-mfp-zoom-in'
-        });
-
-        $('.popup-with-move-anim').magnificPopup({
-            type: 'inline',
-
-            fixedContentPos: false,
-            fixedBgPos: true,
-
-            overflowY: 'auto',
-
-            closeBtnInside: true,
-            preloader: false,
-
-            midClick: true,
-            removalDelay: 300,
-            mainClass: 'my-mfp-slide-bottom'
-        });
-    });
-</script>
-
-
-<script src="assets/js/particles.js"></script>
-
-<script>
-    particlesJS("particles-js", {
-        "particles": {
-            "number": {
-                "value": 80,
-                "density": {
-                    "enable": true,
-                    "value_area": 800
-                }
-            },
-            "color": {
-                "value": "#ffffff"
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 0,
-                    "color": "#000000"
-                },
-                "polygon": {
-                    "nb_sides": 5
-                }
-            },
-            "opacity": {
-                "value": 0.5,
-                "random": false,
-                "anim": {
-                    "enable": false,
-                    "speed": 1,
-                    "opacity_min": 0.1,
-                    "sync": false
-                }
-            },
-            "size": {
-                "value": 3,
-                "random": true,
-                "anim": {
-                    "enable": false,
-                    "speed": 40,
-                    "size_min": 0.1,
-                    "sync": false
-                }
-            },
-            "line_linked": {
-                "enable": true,
-                "distance": 150,
-                "color": "#ffffff",
-                "opacity": 0.4,
-                "width": 1
-            },
-            "move": {
-                "enable": true,
-                "speed": 6,
-                "direction": "none",
-                "random": true,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false,
-                "attract": {
-                    "enable": false,
-                    "rotateX": 600,
-                    "rotateY": 1200
-                }
-            }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": true,
-                    "mode": "grab"
-                },
-                "onclick": {
-                    "enable": true,
-                    "mode": "push"
-                },
-                "resize": true
-            },
-            "modes": {
-                "grab": {
-                    "distance": 140,
-                    "line_linked": {
-                        "opacity": 1
-                    }
-                },
-                "bubble": {
-                    "distance": 400,
-                    "size": 40,
-                    "duration": 2,
-                    "opacity": 8,
-                    "speed": 3
-                },
-                "repulse": {
-                    "distance": 200,
-                    "duration": 0.4
-                },
-                "push": {
-                    "particles_nb": 4
-                },
-                "remove": {
-                    "particles_nb": 2
-                }
-            }
-        },
-        "retina_detect": true
-    });
-</script>
-<script src="assets/js/owl.carousel.js"></script><!-- owl carousel -->
-
-<!-- script for tesimonials carousel slider -->
-<script>
-    $(document).ready(function () {
-        $("#owl-demo1").owlCarousel({
-            loop: true,
-            margin: 20,
-            nav: false,
-            responsiveClass: true,
-            responsive: {
-                0: {
-                    items: 1,
-                    nav: false
-                },
-                1000: {
-                    items: 1,
-                    nav: false,
-                    loop: false
-                }
-            }
-        })
-    })
-</script>
-<!-- //script for tesimonials carousel slider -->
-
-<!--/MENU-JS-->
-<script>
-    $(window).on("scroll", function () {
-        var scroll = $(window).scrollTop();
-
-        if (scroll >= 80) {
-            $("#site-header").addClass("nav-fixed");
-        } else {
-            $("#site-header").removeClass("nav-fixed");
-        }
-    });
-
-    //Main navigation Active Class Add Remove
-    $(".navbar-toggler").on("click", function () {
-        $("header").toggleClass("active");
-    });
-    $(document).on("ready", function () {
-        if ($(window).width() > 991) {
-            $("header").removeClass("active");
-        }
-        $(window).on("resize", function () {
-            if ($(window).width() > 991) {
-                $("header").removeClass("active");
-            }
-        });
-    });
-</script>
-<!--//MENU-JS-->
-<script>
-    $(document).ready(function() {
-        $("#gfg").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#geeks tr").filter(function() {
-                $(this).toggle($(this).text()
-                    .toLowerCase().indexOf(value) > -1)
+        <script>
+            $(document).ready(function() {
+                $("#gfg").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#geeks tr").filter(function() {
+                        $(this).toggle($(this).text()
+                            .toLowerCase().indexOf(value) > -1)
+                    });
+                });
             });
-        });
-    });
-</script>
-<!-- disable body scroll which navbar is in active -->
-<script>
-    $(function () {
-        $('.navbar-toggler').click(function () {
-            $('body').toggleClass('noscroll');
-        })
-    });
-</script>
-<!-- //disable body scroll which navbar is in active -->
-
-<!--bootstrap-->
-<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}">
-
-<script src="assets/js/bootstrap.min.js"></script>
-<!-- //bootstrap-->
-{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+        </script>
 
 
-
-<div id = "v-w3layouts"></div><script>(function(v,d,o,ai){ai=d.createElement('script');ai.defer=true;ai.async=true;ai.src=v.location.protocol+o;d.head.appendChild(ai);})(window, document, '../../../../../../../a.vdo.ai/core/v-w3layouts/vdo.ai.js');</script>
-</body>
-
-
-<!-- Mirrored from demo.w3layouts.com/demos_new/template_demo/18-03-2021/digicorp-liberty-demo_Free/337603937/web/landing-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 Apr 2021 18:34:52 GMT -->
-</html>{% endblock %}
+{% endblock %}

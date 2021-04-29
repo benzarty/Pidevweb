@@ -78,9 +78,6 @@
             {% block nouvelle %}
             <li class="nav-item">
 
-              <button>Nouvelle</button>
-
-
             </li>
             {% endblock %}
 
@@ -149,7 +146,7 @@
                 </div>
                 <div class="info">
                     {% if app.user %}
-                        {{ app.user.username }}&nbsp; ,&nbsp;  <a href="{{ path('logout') }}">Logout</a>
+                        {{ app.user.username }}</a>
                     {% endif %}
                 </div>
             </div>

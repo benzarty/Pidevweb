@@ -1,0 +1,425 @@
+
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <h1>Formation disponible</h1>
+
+        <div class="container-xl">
+
+
+
+
+        </div>
+
+
+        <br>
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="content-header">
+                        {% if formations %}
+                            <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                                <thead>
+                                <tr>
+                                    <th>Id formation</th>
+                                    <th>Intitule</th>
+                                    <th>Date de début </th>
+                                    <th>Date de fin </th>
+                                    <th>Volume horaire</th>
+                                    <th>Langue</th>
+                                    <th>Mode enseignement </th>
+                                </tr>
+                                </thead>
+                                <tbody id="geeks">
+                                {% for formation in formations %}
+
+                                    <tr>
+                                        <td>{{  formation.idFormation }}</td>
+                                        <td>{{ formation.intitule }}</td>
+                                        <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d') : ''  }}</td>
+                                        <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d') : '' }}</td>
+                                        <td>{{ formation.volumeHoraire }}</td>
+                                        <td>{{ formation.langue }}</td>
+                                        <td>{{ formation.modeEnseignement }}</td>
+
+
+                                        <td>
+                                            <a href="/AjouterFormationFront/{{formation.idFormation}}" class="btn btn-secondary">S'inscrire dans cette formation</a><br>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table><br><br><br><br>
+                        {% else %}
+                            <p>Aucune formation disponible, veuillez patienter........</p>
+                        {% endif %}
+
+
+                        <h1>MES FORMATION</h1>
+                        {% if formation1 %}
+
+                            <table id="articles" class="table  table-bordered table-hover table-dark   ">
+                                <thead>
+                                <tr>
+                                    <th>Id formation</th>
+                                    <th>Intitule</th>
+                                    <th>Date de début </th>
+                                    <th>Date de fin </th>
+                                    <th>Volume horaire</th>
+                                    <th>Langue</th>
+                                    <th>Mode enseignement </th>
+                                </tr>
+                                </thead>
+                                <tbody id="geeks">
+                                {% for formation in formation1 %}
+                                    {% if formation.status!="false" %}
+                                        <tr>
+                                            <td>{{  formation.idFormation }}</td>
+                                            <td>{{ formation.intitule }}</td>
+                                            <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d') : ''  }}</td>
+                                            <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d') : '' }}</td>
+                                            <td>{{ formation.volumeHoraire }}</td>
+                                            <td>{{ formation.langue }}</td>
+                                            <td>{{ formation.modeEnseignement }}</td>
+
+
+                                            <td>
+                                                <a href="/SupprimerFormationFront/{{ formation.idFormation}}" class="btn btn-secondary">Se désinscrire de cette formation</a><br>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table><br><br><br><br>
+                        {% else %}
+                            <p>Vous étes inscrit dans aucune formation </p>
+                        {% endif %}
+
+
+
+                    </div>
+                    <!-- /.content-header -->
+
+                    <!-- Main content -->
+
+                    <!-- /.content -->
+                </div>
+                <!-- /.content-header -->
+
+                <!-- Main content -->
+
+                <!-- /.content -->
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+
+    <!-- footer -->
+    <footer class="py-5">
+        <div class="container py-md-3">
+            <div class="footer-grids">
+                <div class="footer-grid left">
+                    <h2 class="logo"><a> The Squad</a></h2>
+                </div>
+                <div class="middle">
+                    <p>© 2020 The Squad . All Rights Reserved | Design by Benzarti</p>
+                </div>
+
+            </div>
+        </div>
+        <!-- move top -->
+        <button onclick="topFunction()" id="movetop" title="Go to top">
+            &#10548;
+        </button>
+        <script>
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () {
+                scrollFunction()
+            };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("movetop").style.display = "block";
+                } else {
+                    document.getElementById("movetop").style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+        <!-- /move top -->
+    </footer>
+    <!-- //footer -->
+
+    <!-- Common jquery plugin -->
+
+    <!-- responsive tabs -->
+    <script src="assets/js/jquery-1.9.1.min.js"></script>
+
+    <script src="assets/js/easyResponsiveTabs.js"></script>
+    <!--Plug-in Initialisation-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Horizontal Tab
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+                activate: function (event) { // Callback function if tab is switched
+                    var $tab = $(this);
+                    var $info = $('#nested-tabInfo');
+                    var $name = $('span', $info);
+                    $name.text($tab.text());
+                    $info.show();
+                }
+            });
+        });
+    </script>
+
+    <script src="assets/js/theme-change.js"></script><!-- theme switch js (light and dark)-->
+
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.popup-with-zoom-anim').magnificPopup({
+                type: 'inline',
+
+                fixedContentPos: false,
+                fixedBgPos: true,
+
+                overflowY: 'auto',
+
+                closeBtnInside: true,
+                preloader: false,
+
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in'
+            });
+
+            $('.popup-with-move-anim').magnificPopup({
+                type: 'inline',
+
+                fixedContentPos: false,
+                fixedBgPos: true,
+
+                overflowY: 'auto',
+
+                closeBtnInside: true,
+                preloader: false,
+
+                midClick: true,
+                removalDelay: 300,
+                mainClass: 'my-mfp-slide-bottom'
+            });
+        });
+    </script>
+
+
+    <script src="assets/js/particles.js"></script>
+
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+    <script src="assets/js/owl.carousel.js"></script><!-- owl carousel -->
+
+    <!-- script for tesimonials carousel slider -->
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo1").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: false,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false
+                    },
+                    1000: {
+                        items: 1,
+                        nav: false,
+                        loop: false
+                    }
+                }
+            })
+        })
+    </script>
+    <!-- //script for tesimonials carousel slider -->
+    <script>
+        $(document).ready(function() {
+            $("#gfg").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function() {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+    <!--/MENU-JS-->
+    <script>
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        //Main navigation Active Class Add Remove
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+    <!--//MENU-JS-->
+
+    <!-- disable body scroll which navbar is in active -->
+    <script>
+        $(function () {
+            $('.navbar-toggler').click(function () {
+                $('body').toggleClass('noscroll');
+            })
+        });
+    </script>
+    <!-- //disable body scroll which navbar is in active -->
+
+    <!--bootstrap-->
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}">
+
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- //bootstrap-->
+    {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+
+
+
+    <div id = "v-w3layouts"></div><script>(function(v,d,o,ai){ai=d.createElement('script');ai.defer=true;ai.async=true;ai.src=v.location.protocol+o;d.head.appendChild(ai);})(window, document, '../../../../../../../a.vdo.ai/core/v-w3layouts/vdo.ai.js');</script>
+    </body>
+
+
+    <!-- Mirrored from demo.w3layouts.com/demos_new/template_demo/18-03-2021/digicorp-liberty-demo_Free/337603937/web/landing-single.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 Apr 2021 18:34:52 GMT -->
+    </html>
+{% endblock %}

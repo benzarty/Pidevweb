@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Reclamation;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,10 +18,8 @@ class ReclamationType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('etat')
-            ->add('recl',TextareaType::class)
-        ;
-    }
+            ->add('etat' ,ChoiceType::class, ['choices' => ['Traité' => 'Traité', 'En-Cours' => 'En-Cours', 'Non-Traité' => 'Non-Traité']])
+            ->add('recl',TextareaType::class ,array('label' => false));}
 
     public function configureOptions(OptionsResolver $resolver)
     {

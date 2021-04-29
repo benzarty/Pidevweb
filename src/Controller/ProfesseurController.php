@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Apprenant;
+use App\Entity\Emploidetemps;
 use App\Entity\Professeur;
 use App\Entity\Users;
+use App\Form\EmploiTempsType;
 use App\Form\ProfesseurType;
 use App\Repository\ProfesseurRepository;
 use App\Repository\UsersRepository;
@@ -14,18 +16,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ProfesseurController extends AbstractController
 {
 
     /**
-     * @Route("/prof", name="prof")
+     * @Route("/AfficheEmploiProf", name="AfficheEmploiProf")
      */
-    public function index(): Response
+    public function AfficheEmploiProf(): Response
     {
-        return $this->render('Professeur/dashboardProf.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->findAll($user->getId());
+
+
+        return $this->render('Professeur/GestionEmploitempsProf.html.twig',['articles' => $article]);
     }
 
     /**
@@ -46,7 +51,7 @@ class ProfesseurController extends AbstractController
      * @Route("/Professeur/new", name="new_Professeur")
      * Method({"GET", "POST"})
      */
-    public function new(Request $request) {
+    public function new(Request $request,UserPasswordEncoderInterface $encoder) {
         $article = new Users();
         $form = $this->createForm(ProfesseurType::class,$article);
         $article->setRole("professeur");
@@ -57,6 +62,8 @@ class ProfesseurController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photo')->getData();
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('imagedirectory'),$fileName);
@@ -90,7 +97,7 @@ class ProfesseurController extends AbstractController
      * @Route("/Prof/edit/{id}", name="edit_prof")
      * Method({"GET", "POST"})
      */
-    public function edit(Request $request, $id) {
+    public function edit(Request $request, $id,UserPasswordEncoderInterface $encoder) {
         $article = $this->getDoctrine()->getRepository(Users::class)->find($id);
 
         $form = $this->createForm(ProfesseurType::class,$article);
@@ -100,6 +107,8 @@ class ProfesseurController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('photo')->getData();
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
 
             $fileName= md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('imagedirectory'),$fileName);
@@ -137,4 +146,128 @@ class ProfesseurController extends AbstractController
 
         return $this->redirectToRoute('aficherprof');
     }
+    /**
+     * @Route("/Prof/newEmploiTemps", name="newEmploiTemps")
+     * Method({"GET", "POST"})
+     */
+    public function newEmploiTemps(Request $request)
+    {        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $article = new Emploidetemps();
+        $form = $this->createForm(EmploiTempsType::class, $article);
+        $form->add('ajouter', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+$article->setIdprof($user);
+            //$file = $article->getPhoto();
+            $file = $form->get('emploi')->getData();
+
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+            $article->setEmploi($fileName);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('AfficheEmploiProf');
+        }
+        return $this->render('Professeur/AddEmploisTemps.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/SupprimerEmploiTemps/{id}",name="SupprimerEmploiTemps")
+     */
+    public function SupprimerEmploistemps(Request $request, $id)
+    {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+
+        return $this->redirectToRoute('AfficheEmploiProf');
+    }
+
+
+    /**
+     * @Route("/showDetailEmploiProf/{id}", name="showDetailEmploiProf")
+     */
+    public function showDetailEmploiProf($id) {
+        $article = $this->getDoctrine()->getRepository(Emploidetemps::class)->find($id);
+
+        return $this->render('Professeur/DetailEmploiTemps.html.twig', array('article' => $article));
+    }
+
+
+
+
+
+    /**
+     * @Route("/ChangeParameterProf", name="ChangeParameterProf")
+     * Method({"GET", "POST"})
+     */
+    public function editParametreProf(Request $request,UserPasswordEncoderInterface $encoder) {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $article = $this->getDoctrine()->getRepository(Users::class)->find($user->getId());
+
+        $form = $this->createForm(ProfesseurType::class,$article);
+        $form->add('Modifier Profil', SubmitType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('photo')->getData();
+
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('imagedirectory'),$fileName);
+
+
+            $article->setPhoto($fileName);
+            $hash=$encoder->encodePassword($article,$article->getPassword());
+            $article->setPassword($hash);
+
+
+            $article = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('Professeur/EditProfilProf.html.twig', ['form' => $form->createView()]);
+    }
+
+
+
+    /**
+     * @param UsersRepository $repo
+     * @param Request $request
+     * @Route("ProfSearchnow", name="ProfSearchnow")
+     */
+    public function RechercheProfSearchnow(UsersRepository $repo, Request $request)
+    {
+        $data = $request->get('searchProfn');
+        $student = $repo->SearchProf($data);
+        return $this->render('Professeur/Affiche.html.twig', ['articles' => $student]);
+
+    }
+
+
+
+
 }
+
