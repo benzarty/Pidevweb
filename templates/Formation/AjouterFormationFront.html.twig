@@ -2,7 +2,7 @@
 {% extends 'HomeFront/baseFrontApprenant.html.twig' %}
 
 {% block body %}
-    <div class="content-wrapper">
+
         <h1>Formation disponible</h1>
 
         <div class="container-xl">
@@ -14,8 +14,8 @@
 
 
         <br>
-        <div class="container">
-            <div class="content-wrapper">
+
+
                 <div class="content-header">
                         {% if formations %}
                             <table id="articles" class="table  table-bordered table-hover table-dark   ">
@@ -109,52 +109,15 @@
                 <!-- Main content -->
 
                 <!-- /.content -->
-            </div>
 
-        </div>
-        </div>
+
+
+
     </section>
 
 
     <!-- footer -->
-    <footer class="py-5">
-        <div class="container py-md-3">
-            <div class="footer-grids">
-                <div class="footer-grid left">
-                    <h2 class="logo"><a> The Squad</a></h2>
-                </div>
-                <div class="middle">
-                    <p>© 2020 The Squad . All Rights Reserved | Design by Benzarti</p>
-                </div>
 
-            </div>
-        </div>
-        <!-- move top -->
-        <button onclick="topFunction()" id="movetop" title="Go to top">
-            &#10548;
-        </button>
-        <script>
-            // When the user scrolls down 20px from the top of the document, show the button
-            window.onscroll = function () {
-                scrollFunction()
-            };
-
-            function scrollFunction() {
-                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                    document.getElementById("movetop").style.display = "block";
-                } else {
-                    document.getElementById("movetop").style.display = "none";
-                }
-            }
-
-            // When the user clicks on the button, scroll to the top of the document
-            function topFunction() {
-                document.body.scrollTop = 0;
-                document.documentElement.scrollTop = 0;
-            }
-        </script>
-        <!-- /move top -->
-    </footer>
     <!-- //footer -->
 
     <!-- Common jquery plugin -->

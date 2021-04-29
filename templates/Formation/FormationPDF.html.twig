@@ -1,0 +1,39 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF</title>
+</head>
+<body>
+<div class="content-wrapper">    {% if formation %}
+        <table style=" width: 100%; height: 47px;" border="2">
+            <tbody>
+            <tr>
+                <td style="width: 100%;"> <h2><span style="color: #bd0c0c;"><strong>&nbsp;Formation : {{ formation.intitule }}</strong></span></h2></td>
+            </tr>
+            </tbody>
+        </table><br><br>
+
+
+        <table style="border-collapse: collapse; width: 100%; height: 17px;" border="1">
+            <tbody> <tr style="height: 17px;"> <td style="width: 100%; height: 17px;">
+
+                    <table style="border-collapse: collapse; width: 100%; height: 20px;" border="2">
+                        <tbody><tr><td style="width: 100%;" > <span style="color: #5a0a0a; "> <br><br> "&nbsp;ID de la formation : {{ formation.idFormation }} "</br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>" Date de début : {{   formation.dateDebut ? formation.dateDebut|date('Y-m-d') : ''}} "</br>
+                                    <br>" Date de fin : {{   formation.dateFin ? formation.dateFin|date('Y-m-d') : ''}} "</br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <br>" Volume horaire  : {{ formation.volumeHoraire }} "</br><br>" Langue : {{ formation.langue }} "</br><br>"Mode d'enseignement:{{ formation.modeEnseignement }}</br><br>Aperçu de la formation  {{ formation.photo}}     </br>
+                                    </h2></span></td></tr></tbody></table>
+
+
+
+                </td></tr></tbody></table>
+        <br>
+    {% else %}
+        <p>Aucune formation</p>
+    {% endif %}
+
+</div>
+
+
+</body>
+</html>

@@ -175,10 +175,41 @@ class Formation
 
     private $status;
 
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="test", type="integer", length=50)
+     */
+
+
+
+
+    private $test;
+
+
+
+
+    /**
+     * @return int
+     */
+    public function getTest(): ?int
+    {
+        return $this->test;
+    }
+
+    /**
+     * @param int $test
+     */
+    public function setTest(int $test): void
+    {
+        $this->test = $test;
+    }
+
     /**
      * @return string
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
@@ -278,14 +309,3 @@ class Formation
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

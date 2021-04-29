@@ -1,5 +1,3 @@
-
-
 <!-- Content here -->
 <!DOCTYPE html>
 <html lang="en">
@@ -131,8 +129,9 @@
                     <thead>
                     <tr>
                         <th>Nom support</th>
-                        <th>Lien cours</th>
-                        <th>Langue du cours</th>
+                        <th>Langue cours</th>
+                        <th>Support cours</th>
+                        <th>Support cours deposer</th>
                         <th>Date de depot</th>
 
                     </tr>
@@ -142,7 +141,7 @@
                         <tr>
                             <td>{{ support.nom }}</td>
                             <td>{{ support.languecours }}</td>
-                            <td>{{ support.liencours }}</td>
+                            <td><img src="{{ asset('uploads/' ~ support.supportcours) }}" style="width: 50px;height: 50px"></td>
                             <td>{{ support.datedepot }}</td>
 
 
@@ -214,5 +213,3 @@
 <script src="dist/js/pages/dashboard2.js"></script>
 </body>
 </html>
-
-

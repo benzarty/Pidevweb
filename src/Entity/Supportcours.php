@@ -47,9 +47,9 @@ class Supportcours
     /**
      * @var string
      *
-     * @ORM\Column(name="lien_cours", type="string", length=300, nullable=false)
+     * @ORM\Column(name="supportcours", type="string", length=300, nullable=false)
      */
-    private $liencours;
+    private $supportcours;
 
 
 
@@ -96,22 +96,20 @@ class Supportcours
         return $this;
     }
 
-
-
     /**
      * @return string
      */
-    public function getLiencours(): ?string
+    public function getSupportcours(): ?string
     {
-        return $this->liencours;
+        return $this->supportcours;
     }
 
     /**
-     * @param string $liencours
+     * @param string $supportcours
      */
-    public function setLiencours(string $liencours): void
+    public function setSupportcours(string $supportcours): void
     {
-        $this->liencours = $liencours;
+        $this->supportcours = $supportcours;
     }
 
 

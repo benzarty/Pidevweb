@@ -1,0 +1,82 @@
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block central %}
+
+    <div class="container-xl">
+
+
+        <h1 style="text-align: center;"><span style="color: #ffffff;"><strong>GESTIONS DE FORMATION</strong></span></h1>
+
+
+
+    </div>
+
+
+    </b>
+    <div class="content-header">
+        {% if formations %}
+            <table id="articles" class="table  table-bordered table-hover table-dark   ">
+
+                <thead>
+                <tr>
+                    <th>IdFormation</th>
+                    <th>Intitule</th>
+                    <th>DateDebut</th>
+                    <th>DateFin</th>
+                    <th>VolumeHoraire</th>
+                    <th>Langue</th>
+                    <th>Image</th>
+                    <th>ModeEnseignement</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for formation in formations %}
+                    <tr>
+                        <td>{{ formation.idFormation }}</td>
+                        <td>{{ formation.intitule }}</td>
+                        <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d') : '' }}</td>
+                        <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d') : '' }}</td>
+                        <td>{{ formation.volumeHoraire }}</td>
+                        <td>{{ formation.langue }}</td>
+                        <td><img src="{{ asset('uploads/' ~ formation.photo) }}" style="width: 50px;height: 50px"></td>
+
+                        <td>{{ formation.modeEnseignement }}</td>
+
+
+
+
+
+                        <td>
+                            <a href="/AccepterFormationBack/{{ formation.idFormation }}" class="btn btn-secondary">Accepter </a>
+                            <a href="/Refuser/{{ formation.idFormation }}" class="btn btn-danger"
+                               onclick="return confirm('Etes-vous sûr de refuser ette formation?');">Refuser</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucune formation à accepter</p>
+        {% endif %}
+
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+
+    <!-- /.content -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <script>
+        $(document).ready(function() {
+            $("#gfg").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function() {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

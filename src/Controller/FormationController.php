@@ -8,6 +8,8 @@ use App\Entity\Formationapprenant;
 use App\Entity\Users;
 use App\Form\FormationType;
 use App\Repository\FormationRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,9 +21,93 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FormationController extends AbstractController
 {
+//Partie administrateur
 
 
+    /**
+     * @param FormationRepository $repo
+     * @return Response
+     * @Route("/AfficheFormationBack",name="AfficheBack")
+     */
+
+    public function AfficheFormationBack(FormationRepository $repo)
+    {
+
+
+        $status="false";
+
+        $formation =$this->getDoctrine()->getRepository(Formation::class)->findBy([
+            "status" => "false"
+        ]);
+
+
+        //$formation1= $this->getDoctrine()->getRepository(Formation::class)->find($user);
+
+
+
+
+        return $this->render('Formation/AccepterFormationBack.html.twig', ['formations' => $formation]);
+
+    }
+
+    /**
+     * @param $id
+     * @param FormationRepository $repo
+     * @return Response
+     * @Route("/AccepterFormationBack/{id}",name="accepter" , methods={"GET"})
+     */
+    public function accepterFormation($id,FormationRepository $repo) : Response
+    {
+        $formation = $this->getDoctrine()->getRepository(Formation::class)->find($id);
+        $formation->setStatus("true");
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($formation);
+        $entityManager->flush();
+
+
+
+
+
+        return $this->redirectToRoute('AfficheBack');
+
+    }
     //Partie apprenant
+    /**
+     * @param $id
+     * @return Response
+     * @Route("/PDFFormation/{id}",name="PDFbyOneFormation" , methods={"GET"})
+     */
+    public function PDFbyOne($id) : Response
+    {
+        $formation = $this->getDoctrine()->getRepository(Formation::class)->find($id);
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('Formation/FormationPDF.html.twig', ['formation' => $formation]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A3', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("Formation.pdf", ["Attachment" => false]);
+    }
+
+
+
+
+
+
 
     /**
      * @param FormationRepository $repo
@@ -34,11 +120,13 @@ class FormationController extends AbstractController
 
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $formation = $repo->findAll();
-
+        $formation = $this->getDoctrine()->getRepository(Formation::class)->findBy([
+            "status" => "true"
+        ]);
 
         $formation1 = $this->getDoctrine()->getRepository(Formation::class)->findBy([
-            "idApprenant" => $user
+            "idApprenant" => $user,
+            "status" => "true"
         ]);
         //$formation1= $this->getDoctrine()->getRepository(Formation::class)->find($user);
 
@@ -66,7 +154,7 @@ class FormationController extends AbstractController
 
 
         $formation->setIdApprenant($id_apprenant);
-        $formation->setStatus("true");
+        $formation->setTest(1);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($formation);
@@ -92,7 +180,7 @@ class FormationController extends AbstractController
 
 
         $formation =$this->getDoctrine()->getRepository(Formation::class)->find($id) ;
-        $formation->setStatus("false");
+        $formation->setTest(1);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($formation);
@@ -174,7 +262,7 @@ class FormationController extends AbstractController
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($id);
 
-        return $this->render('Formation/show.html.twig', array('Formation' => $formation));
+        return $this->render('Formation/show.html.twig', array('formation' => $formation));
     }
 
     /**
