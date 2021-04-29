@@ -176,9 +176,10 @@ class ReclamationController extends AbstractController
         if ( $r->getMsgA() == "AARCHIVE")  $alert = "Si Vous allez envoyer un message la reclamation va etre deplacer vers la boite
          de reception !";
         if($form->isSubmitted() && $form->isValid()) {
-            if( $r->getMsg() <> "UCORBEILLE" ) {
+            if( $r->getMsg() == "UCORBEILLE" ) {
                 $flashy->error('L`UTILISATEUR a SUPPRIMER LA RECLAMATION !', 'http://your-awesome-link.com');
-                return $this->redirectToRoute('Reclamation'); }
+                return $this->redirectToRoute('Reclamation');
+                }
             else {
             $new = $form->get('recl')->getData();
             $d = date("Y/m/d h:i:sa"); $r->setExp("ADMIN");
@@ -460,7 +461,7 @@ class ReclamationController extends AbstractController
          de reception !";
 
         if($form->isSubmitted() && $form->isValid()) {
-            if( $r->getMsg() <> "ACORBEILLE" ) {
+            if( $r->getMsgA() == "ACORBEILLE" ) {
                 $flashy->error('L`ADMIN A SUPPRIMER LA RECLAMATION !', 'http://your-awesome-link.com');
                 return $this->redirectToRoute('FReclamation'); }
             else {
