@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Polyways Learning</title>
+    <!--  Calendar  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.css" integrity="sha256-5HuG2aW/68IIDxuOqCHWngmosRqa5J+3Op6XWwNuevc=" crossorigin="anonymous">
+    <!--Calendar -->
 
 
     <!-- Meta tag Keywords -->
@@ -31,6 +34,8 @@
     <!-- Font-Awesome-Icons-CSS -->
     <!-- //Custom-Files -->
 
+
+
     <!-- Web-Fonts -->
     <link href="//fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&amp;subset=latin-ext"
           rel="stylesheet">
@@ -50,10 +55,12 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
     <!-- Preloader -->
+    {% block loader %}
     <div class="preloader flex-column justify-content-center align-items-center">
         <img class="animation__wobble" src="{{ asset("dist/img/images.png") }}" alt="AdminLTELogo" height="60" width="60">
         <h1>Polyways Learning</h1>
     </div>
+    {% endblock %}
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-dark">
@@ -289,6 +296,11 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<!-- Calendar -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.js" integrity="sha256-B6c3Jlm2z3U2MC5nQzjWHStB27kZIAC4Gb79tffnVms=" crossorigin="anonymous"></script>
+
+
+<!-- Calendar-->
 <!-- jQuery -->
 <script src="{{ asset("plugins/jquery/jquery.min.js") }}"></script>
 <!-- Bootstrap -->
@@ -311,5 +323,8 @@
 <script src="{{ asset("dist/js/demo.js") }}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset("dist/js/pages/dashboard2.js") }}"></script>
+
+{% block cal %}
+{% endblock %}
 </body>
 </html>

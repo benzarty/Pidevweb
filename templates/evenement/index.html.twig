@@ -1,4 +1,7 @@
 {% extends 'admin/backendAdmin.html.twig' %}
+{% block loader %}
+
+{% endblock %}
 
 {% block nouvelle %}
 
@@ -10,11 +13,10 @@
     </li>&nbsp;&nbsp;&nbsp;
     <li class="nav-item">
         <a href="{{ path('evenement_new') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Ajouter Evenement</b></span></a>
-    </li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </li>&nbsp;&nbsp;&nbsp;
+    <li class="nav-item">
+        <a href="{{ path('evenement_calendar') }}" class="btn btn-default" ><span style="color: #7dace0;"><b>Editer Calendar</b></span></a>
+    </li>&nbsp;&nbsp;&nbsp;
 {% endblock %}
 
 {% block form %}<form class="form-inline" action="{{ path('evenement_date',{'dat':'5555'})}} " method="GET">
