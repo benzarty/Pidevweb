@@ -4,11 +4,14 @@ namespace App\Controller;
 
 
 use App\Entity\Formation;
+use App\Entity\Formationapprenant;
+use App\Entity\Users;
 use App\Form\FormationType;
 use App\Repository\FormationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,41 +30,76 @@ class FormationController extends AbstractController
      */
     public function AfficheFormationFront(FormationRepository $repo)
     {
+        $id_apprenant = $this->get('security.token_storage')->getToken()->getUser();
 
+
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $formation = $repo->findAll();
-        return $this->render('Formation/AjouterFormationFront.html.twig', ['formations' => $formation]);
+
+
+        $formation1 = $this->getDoctrine()->getRepository(Formation::class)->findBy([
+            "idApprenant" => $user
+        ]);
+        //$formation1= $this->getDoctrine()->getRepository(Formation::class)->find($user);
+
+
+
+
+        return $this->render('Formation/AjouterFormationFront.html.twig', ['formations' => $formation, 'formation1' => $formation1]);
 
     }
 
+
     /**
+     * @Route("/AjouterFormationFront/{id}", name="ajouterFront")
+     * @param $id
      * @param FormationRepository $repo
      * @return Response
-     * @Route("/AjouterFormationFront",name="ajouterFront")
      */
-    public function AjouterFormationFront(FormationRepository $repo)
+
+    public function AjouterFormationFront($id, FormationRepository $repo): Response
+    {
+        $id_apprenant = $this->get('security.token_storage')->getToken()->getUser();
+
+
+        $formation =$this->getDoctrine()->getRepository(Formation::class)->find($id) ;
+
+
+        $formation->setIdApprenant($id_apprenant);
+        $formation->setStatus("true");
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($formation);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('afficherFront');
+
+    }
+
+
+
+    /**
+     * @Route("/SupprimerFormationFront/{id}", name="supprimerFront")
+     * @param $id
+     * @param FormationRepository $repo
+     * @return Response
+     */
+
+    public function SupprimerFormationFront($id, FormationRepository $repo): Response
     {
         $id_apprenant = $this->get('security.token_storage')->getToken()->getUser();
 
 
 
+        $formation =$this->getDoctrine()->getRepository(Formation::class)->find($id) ;
+        $formation->setStatus("false");
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($formation);
+        $entityManager->flush();
 
-
-
-
-
-
-        return $this->render('Formation/AjouterFormationFront.html.twig');
-
+        return $this->redirectToRoute('afficherFront');
     }
-
-
-
-
-
-
-
-
 
     //Partie professeur
 
@@ -101,7 +139,7 @@ class FormationController extends AbstractController
             $formation = $form->getData();
             if($formation->getDateDebut()<$formation->getDateFin()){
 
-                $formation->setIdprof($user->getId());
+                $formation->setIdprof($user);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($formation);

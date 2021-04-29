@@ -44,6 +44,12 @@ class Users implements UserInterface
     private $nom;
 
 
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+
 
     /**
      * @var string

@@ -22,7 +22,7 @@ class Formationapprenant
     private $id;
 
     /**
-     * @var \Apprenant
+     * @var Apprenant
      *
      * @ORM\ManyToOne(targetEntity="Apprenant")
      * @ORM\JoinColumns({
@@ -32,7 +32,7 @@ class Formationapprenant
     private $idApprenant;
 
     /**
-     * @var \Formation
+     * @var Formation
      *
      * @ORM\ManyToOne(targetEntity="Formation")
      * @ORM\JoinColumns({

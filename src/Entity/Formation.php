@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Formation
  *
- * @ORM\Table(name="Formation", indexes={@ORM\Index(name="id_users", columns={"id_users"})}))
+ * @ORM\Table(name="Formation", indexes={@ORM\Index(name="id_users", columns={"id_users"}),@ORM\Index(name="id_users1", columns={"id_users1"})}))
  * @ORM\Entity
  */
 class Formation
@@ -28,7 +28,7 @@ class Formation
 
 
     /**
-     * @var \Users
+     * @var Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
@@ -38,7 +38,29 @@ class Formation
 
     private $idprof;
 
+    /**
+     * @var Users
+     *
+     * @ORM\ManyToOne(targetEntity="Users")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_users1", referencedColumnName="id")
+     * })
+     */
 
+    private $idApprenant;
+
+
+    public function getIdApprenant(): ?Users
+    {
+        return $this->idApprenant;
+    }
+
+
+    public function setIdApprenant(?Users $idApprenant): self
+    {
+        $this->idApprenant = $idApprenant;
+        return $this;
+    }
 
 
     public function getIdprof(): ?Users
@@ -116,7 +138,7 @@ class Formation
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="string", length=50, nullable=false, options={"default"="non actif"})
+     * @ORM\Column(name="status", type="string", length=50, nullable=false)
      */
 
 
@@ -132,15 +154,20 @@ class Formation
         return $this->status;
     }
 
-    /**
-     * @param string $status
-     */
-    public function setStatus(string $status): void
+
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
+        return $this;
     }
 
-
+    /**
+     * @param string $idFormation
+     */
+    public function setIdFormation(string $idFormation): void
+    {
+        $this->idFormation = $idFormation;
+    }
 
 
 
