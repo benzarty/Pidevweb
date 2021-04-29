@@ -20,6 +20,7 @@ class FormationType extends AbstractType
             ->add('intitule')
             ->add('dateDebut')
             ->add('dateFin')
+            ->add('photo',FileType::class, ['mapped' =>false])
             ->add('volumeHoraire')
             ->add('mode_enseignement',ChoiceType::class, [
                 'choices'  => [

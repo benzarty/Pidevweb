@@ -140,6 +140,13 @@ class FormationController extends AbstractController
             if($formation->getDateDebut()<$formation->getDateFin()){
 
                 $formation->setIdprof($user);
+                $file = $form->get('photo')->getData();
+
+                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                $file->move($this->getParameter('imagedirectory'), $fileName);
+
+
+                $formation->setPhoto($fileName);
 
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($formation);

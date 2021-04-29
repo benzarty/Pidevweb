@@ -38,6 +38,35 @@ class Formation
 
     private $idprof;
 
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="photo", type="string", length=300, nullable=true)
+     * @Assert\File(mimeTypes={"image/jpeg"},groups = {"create"})
+     */
+    private $photo;
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string|null $photo
+     */
+    public function setPhoto(?string $photo): void
+    {
+        $this->photo = $photo;
+    }
+
+
+
+
+
     /**
      * @var Users
      *
