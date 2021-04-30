@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="content-wrapper">
-        <h1>Formation disponible</h1>
+        <h1>Support disponible</h1>
 
         <div class="container-xl">
 
@@ -16,99 +16,33 @@
         <div class="container">
             <div class="content-wrapper">
                 <div class="content-header">
-                    {% if formations %}
+                    {% if support %}
                         <table id="articles" class="table  table-bordered table-hover table-dark   ">
                             <thead>
                             <tr>
-                                <th>Id formation</th>
-                                <th>Intitule</th>
-                                <th>Date de début </th>
-                                <th>Date de fin </th>
-                                <th>Volume horaire</th>
-                                <th>Photo</th>
-                                <th>Langue</th>
-                                <th>Mode enseignement </th>
+                                <th>Nom support</th>
+                                <th>Langue cours</th>
+                                <th>Support cours</th>
+                                <th>Support cours deposer</th>
+                                <th>Date de depot</th>
                             </tr>
                             </thead>
                             <tbody id="geeks">
-                            {% for formation in formations %}
-
+                            {% for support in support %}
                                 <tr>
-                                    <td>{{  formation.idFormation }}</td>
-                                    <td>{{ formation.intitule }}</td>
-                                    <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d') : ''  }}</td>
-                                    <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d') : '' }}</td>
-                                    <td>{{ formation.volumeHoraire }}</td>
-                                    <td>{{ formation.photo }}</td>
-                                    <td>{{ formation.langue }}</td>
-                                    <td>{{ formation.modeEnseignement }}</td>
+                                    <td>{{ support.nom }}</td>
+                                    <td>{{ support.languecours }}</td>
+                                    <td><img src="{{ asset('uploads/' ~ support.supportcours) }}" style="width: 50px;height: 50px"></td>
+                                    <td>{{ support.datedepot }}</td>
 
-
-                                    <td>
-                                        <a href="/AjouterFormationFront/{{formation.idFormation}}" class="btn btn-secondary">S'inscrire dans cette formation</a><br>
-                                    </td>
-
-                                    <td>
-                                        <a href="/PDFFormation/{{ formation.idFormation }}" class="btn btn-secondary">PDF</a><br>
-                                    </td>
 
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table><br><br><br><br>
                     {% else %}
-                        <p>Aucune formation disponible, veuillez patienter........</p>
+                        <p>Aucun support disponible, veuillez patienter........</p>
                     {% endif %}
-
-
-                    <h1>MES FORMATION</h1>
-                    {% if formation1 %}
-
-                        <table id="articles" class="table  table-bordered table-hover table-dark   ">
-                            <thead>
-                            <tr>
-                                <th>Id formation</th>
-                                <th>Intitule</th>
-                                <th>Date de début </th>
-                                <th>Date de fin </th>
-                                <th>Volume horaire</th>
-                                <th>Photo</th>
-                                <th>Langue</th>
-                                <th>Mode enseignement </th>
-                            </tr>
-                            </thead>
-                            <tbody id="geeks">
-                            {% for formation in formation1 %}
-                                {% if formation.test==1 %}
-                                    <tr>
-                                        <td>{{  formation.idFormation }}</td>
-                                        <td>{{ formation.intitule }}</td>
-                                        <td>{{ formation.dateDebut ? formation.dateDebut|date('Y-m-d') : ''  }}</td>
-                                        <td>{{ formation.dateFin ? formation.dateFin|date('Y-m-d') : '' }}</td>
-                                        <td>{{ formation.volumeHoraire }}</td>
-                                        <td>{{ formation.photo }}</td>
-                                        <td>{{ formation.langue }}</td>
-                                        <td>{{ formation.modeEnseignement }}</td>
-
-
-                                        <td>
-                                            <a href="/PDFFormation/{{ formation.idFormation }}" class="btn btn-secondary">PDF</a>
-                                        </td>
-                                        <td>
-                                            <a href="/SupprimerFormationFront/{{ formation.idFormation}}" class="btn btn-secondary">Se désinscrire de cette formation</a><br>
-                                        </td>
-
-
-
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table><br><br><br><br>
-                    {% else %}
-                        <p>Vous étes inscrit dans aucune formation </p>
-                    {% endif %}
-
 
 
                 </div>

@@ -140,8 +140,8 @@ class ReclamationController extends AbstractController
      */
     public function AfficheRC(Request $request ,ReclamationRepository $repo): Response
     {
-      $recl = $repo->findAllRC();
-            $NotifNB = $repo->NotifCount();
+        $recl = $repo->findAllRC();
+        $NotifNB = $repo->NotifCount();
         return $this->render('Reclamation/AfficheRC.html.twig',["articles" => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -154,7 +154,7 @@ class ReclamationController extends AbstractController
     public function AfficheRA(Request $request ,ReclamationRepository $repo): Response
     {
         $recl = $repo->findBy(['msgA' => 'AARCHIVE']);
-            $NotifNB = $repo->NotifCount();
+        $NotifNB = $repo->NotifCount();
         return $this->render('Reclamation/AfficheRA.html.twig',["articles" => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -168,8 +168,8 @@ class ReclamationController extends AbstractController
     {
         $r = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $rn = new Reclamation();  $ancien = $r->getRecl(); $r->setReclmodif($ancien); $rn->setUN($r->getUN());
-    $rn->setTitle($r->getTitle()); $rn->setDate($r->getDate()); $rn->setMsg($r->getMsg()); $rn->setEtat($r->getEtat());
-    $rn->setExp($r->getExp());  $rn->setIdUser($r->getIdUser());  $rn->setMsgA($r->getMsgA());
+        $rn->setTitle($r->getTitle()); $rn->setDate($r->getDate()); $rn->setMsg($r->getMsg()); $rn->setEtat($r->getEtat());
+        $rn->setExp($r->getExp());  $rn->setIdUser($r->getIdUser());  $rn->setMsgA($r->getMsgA());
         $form = $this->createForm(MessagerieType::class,$rn);
         $form->add('Envoyer', SubmitType::class);
         $form->handleRequest($request); $alert = "";
@@ -181,12 +181,12 @@ class ReclamationController extends AbstractController
                 return $this->redirectToRoute('Reclamation');
                 }
             else {
-            $new = $form->get('recl')->getData();
-            $d = date("Y/m/d h:i:sa"); $r->setExp("ADMIN");
-            $r->setRecl($ancien."ADMIN ( $d ) : "."$new"."\n");
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($r);
-            $entityManager->flush(); }
+                $new = $form->get('recl')->getData();
+                $d = date("Y/m/d h:i:sa"); $r->setExp("ADMIN");
+                $r->setRecl($ancien."ADMIN ( $d ) : "."$new"."\n");
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($r);
+                $entityManager->flush(); }
         }
         return $this->render('Reclamation/Messagerie.html.twig', ['form' => $form->createView() ,'alert' => $alert,'recl' => $r]);
     }
@@ -209,15 +209,15 @@ class ReclamationController extends AbstractController
                 $flashy->error('AUCUN MESSAGE SAISIE !', 'http://your-awesome-link.com');
                 return $this->redirectToRoute('Reclamation'); }
             else {
-            $d = date("Y/m/d h:i:sa");
-            $msg2 = $form->get('recl')->getData(); $msg2 = "ADMIN ( $d ) : ".$msg2;
-            $article = $form->getData(); $article->setRecl($msg.$msg2);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
-            return $this->redirectToRoute('Reclamation');
-        }
-    }return $this->render('Reclamation/edit.html.twig', ['form' => $form->createView()]); }
+                $d = date("Y/m/d h:i:sa");
+                $msg2 = $form->get('recl')->getData(); $msg2 = "ADMIN ( $d ) : ".$msg2;
+                $article = $form->getData(); $article->setRecl($msg.$msg2);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($article);
+                $entityManager->flush();
+                return $this->redirectToRoute('Reclamation');
+            }
+        }return $this->render('Reclamation/edit.html.twig', ['form' => $form->createView()]); }
 
 
     /**
@@ -230,7 +230,7 @@ class ReclamationController extends AbstractController
         $article->setMsgA('ACORBEILLE');
         $entityManager->persist($article);
         $entityManager->flush();
-       return $this->redirectToRoute('Reclamation');}
+        return $this->redirectToRoute('Reclamation');}
 
 
     /**
@@ -299,10 +299,10 @@ class ReclamationController extends AbstractController
      */
     public function FAfficheRC(Request $request ,ReclamationRepository $repo): Response
     {
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            $idu = $user->getId();
-            $recl = $repo->findAllURC($idu);
-            $NotifNB = $repo->UNotifCount($idu);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $idu = $user->getId();
+        $recl = $repo->findAllURC($idu);
+        $NotifNB = $repo->UNotifCount($idu);
         return $this->render('Reclamation/FAfficheRC.html.twig',['articles' => $recl ,'NotifNB' => $NotifNB]);}
 
 
@@ -313,10 +313,11 @@ class ReclamationController extends AbstractController
      */
     public function FAfficheRA(Request $request ,ReclamationRepository $repo): Response
     {
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            $idu = $user->getId();
-            $NotifNB = $repo->UNotifCount($idu);
-            $recl = $repo->findBy(['msg' => 'UARCHIVE' ,'idUser' => $idu]);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $idu = $user->getId();
+        $recl = $repo->findAllURC($idu);
+        $NotifNB = $repo->UNotifCount($idu);
+        $recl = $repo->findBy(['msg' => 'UARCHIVE' ,'idUser' => $idu]);
         return $this->render('Reclamation/FAfficheRA.html.twig', ['articles' => $recl ,'NotifNB' => $NotifNB]);
     }
 
@@ -370,13 +371,13 @@ class ReclamationController extends AbstractController
                 $flashy->error('AUCUN MESSAGE SAISIE !', 'http://your-awesome-link.com');
                 return $this->redirectToRoute('FReclamation');  }
             else {
-            $d = date("Y/m/d h:i:sa");
-            $msg2 = $form->get('recl')->getData(); $msg2 = "$uname ( $d ) : ".$msg2;
-            $article = $form->getData(); $article->setRecl($msg.$msg2);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
-            return $this->redirectToRoute('FReclamation'); }
+                $d = date("Y/m/d h:i:sa");
+                $msg2 = $form->get('recl')->getData(); $msg2 = "$uname ( $d ) : ".$msg2;
+                $article = $form->getData(); $article->setRecl($msg.$msg2);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($article);
+                $entityManager->flush();
+                return $this->redirectToRoute('FReclamation'); }
         }
         return $this->render('Reclamation/Fedit.html.twig', ['form' => $form->createView()]);
     }
@@ -422,7 +423,7 @@ class ReclamationController extends AbstractController
         $entityManager->flush();
         $flashy->primaryDark('RECLAMATION ARCHIVER', 'http://your-awesome-link.com');
         return $this->redirectToRoute('FReclamation');
-      }
+    }
 
     /**
      * @Route("/FReclamation/delete/{id}",name="Fdelete_prof")
@@ -465,12 +466,12 @@ class ReclamationController extends AbstractController
                 $flashy->error('L`ADMIN A SUPPRIMER LA RECLAMATION !', 'http://your-awesome-link.com');
                 return $this->redirectToRoute('FReclamation'); }
             else {
-            $new = $form->get('recl')->getData();    $d = date("Y/m/d h:i:sa");
-            $uname = $user->getNom();    $r->setExp($uname);
-            $r->setRecl($ancien."$uname ( $d ) : "."$new"."\n");
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($r);
-            $entityManager->flush(); }
+                $new = $form->get('recl')->getData();    $d = date("Y/m/d h:i:sa");
+                $uname = $user->getNom();    $r->setExp($uname);
+                $r->setRecl($ancien."$uname ( $d ) : "."$new"."\n");
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($r);
+                $entityManager->flush(); }
         }
         return $this->render('Reclamation/FMessagerie.html.twig', ['form' => $form->createView() ,'alert' => $alert,'recl' => $r]);
     }

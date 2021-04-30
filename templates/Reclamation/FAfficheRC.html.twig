@@ -1,76 +1,80 @@
-{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
-{% block body %}
+{% extends 'admin/backendAdmin.html.twig' %}
+{% block nouvelle %}
+    <span style="color: #61aac9;"><h4><p style="text-align: left;"><strong>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p></h4></span>
+{% endblock %}
+{% block central %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <div class="container-xl"><br>
-        <h1 style="text-align: center;"><span  style="color: #000000;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
-        <span style="color: #871111;"><h4><p style="text-align: left;"><strong><center>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!</center>
-            </strong></p></h4></span><br>
-        <div><center><a href="/FReclamation/new" type="button"  class="btn btn-primary" ><b>+</b> </a>
-                <a href="/FR" class="btn btn-primary"><b><span style="color : #ffffff;">BOITE RECEPTION : {{ NotifNB }}</span></b></a>
-                <a href="/FRC" class="btn btn-primary"><b><span style="color : #ffffff;">CORBEILLE</span></b></a>
-                <a href="/FRA" class="btn btn-primary"><b><span style="color : #ffffff;">ARCHIVE</span></b></a></center>
+    <div class="container-xl">
+        <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
+        <div><center>
+                <a href="/R" class="btn btn-default"><b><span style="color : #25a2ee;">BOITE RECEPTION : {{ NotifNB }}</span></b></a>
+                <a href="/RC" class="btn btn-default"><b><span style="color : #25a2ee;">CORBEILLE</span></b></a>
+                <a href="/RA" class="btn btn-default"><b><span style="color : #25a2ee;">ARCHIVE</span></b></a></center>
 
         </div><br>
-            <div class="input-group mb-3">
-                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
-                <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
-            </div></div>
-        <div class="content-header">
-            {% if articles %}
-                <table id="articles" class="table  table-bordered table-hover table-dark"
-                       style="width:90%; margin-left: 70px;" >
-                    <thead>
+        <div class="input-group mb-3">
+            <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
+            <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
+        </div></div>
+    <div class="content-header">
+        {% if articles %}
+            <table id="articles" class="table  table-bordered table-hover table-dark"
+                   style="width:90%; margin-left: 70px;" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Etat </th>
+                    <th>Title</th>
+                    <th> Date </th>
+                    <th>ID Utilisateur</th>
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody id="geeks">
+                {% for article in articles %}
                     <tr>
-                        <th>ID</th>
-                        <th>Etat </th>
-                        <th>Title</th>
-                        <th> Date </th>
-                        <th>Action</th>
-
+                        <td style="width: 5px;">{{ article.id }}</td>
+                        <td style="width: 30px;" >{{ article.etat }}</td>
+                        <td style="width: 200px;" >{{ article.title }} </td>
+                        <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
+                        <td style="width: 20px;" > {{ article.idUser }} </td>
+                        <td style="width: 80px;" >
+                            <a href="/Messagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
+                            <a href="/Reclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
+                                <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;
+                            <a href="/Reclamation/delete/{{ article.id }}"
+                               onclick="return confirm('Etes-vous sûr de supprimer définitivement cet reclamation?');">
+                                <i class="far fa-trash-alt"></i></a>&nbsp;
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody id="geeks">
-                    {% for article in articles %}
-                        <tr>
-                            <td style="width: 5px;">{{ article.id }}</td>
-                            <td style="width: 30px;" >{{ article.etat }}</td>
-                            <td style="width: 200px;" >{{ article.title }} </td>
-                            <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
-                            <td style="width: 80px;" >
-                                <a href="/FMessagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
-                                <a href="/FReclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
-                                    <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;
-                                <a href="/FReclamation/delete/{{ article.id }}"
-                                   onclick="return confirm('Etes-vous sûr de supprimer définitivement cet reclamation?');">
-                                    <i class="far fa-trash-alt"></i></a>&nbsp;
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table><br><br><br><br>
-            {% else %}
-                <p>Aucune reclamation</p>
-            {% endif %}
+                {% endfor %}
+                </tbody>
+            </table><br><br><br><br>
+        {% else %}
+            <p>Aucune reclamation</p>
+        {% endif %}
 
-        </div>
-        <!-- /.content-header -->
+    </div>
+    <!-- /.content-header -->
 
-        <!-- Main content -->
+    <!-- Main content -->
 
-        <!-- /.content -->
-        </div>
-        <script>
-            $(document).ready(function() {
-                $("#gfg").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#geeks tr").filter(function() {
-                        $(this).toggle($(this).text()
-                            .toLowerCase().indexOf(value) > -1)
-                    });
+    <!-- /.content -->
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#gfg").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function() {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
                 });
             });
-        </script>
-
+        });
+    </script>
 {% endblock %}

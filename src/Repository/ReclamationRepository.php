@@ -46,8 +46,8 @@ class ReclamationRepository extends ServiceEntityRepository
     public function NotifCount(){
         $em=$this->getEntityManager();
         $query=$em->createQuery('SELECT count(r) FROM App\Entity\Reclamation r WHERE r.exp <> :exp')
-->setParameter('exp','ADMIN');
-return $query->getSingleScalarResult(); }
+            ->setParameter('exp','ADMIN');
+        return $query->getSingleScalarResult(); }
 
 
     /**

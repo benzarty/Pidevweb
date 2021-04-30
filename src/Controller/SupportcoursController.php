@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SupportcoursController extends AbstractController
 {
+    /**
+     * @param SupportcoursRepository $repo
+     * @return Response
+     * @Route("/Affichesupporttt",name="affichersupportFront")
+     */
+    public function AffichersupportFront(SupportcoursRepository $repo)
+    {
+
+        $support = $repo->findAll();
+        return $this->render('supportcours/AjouterSupportFront.html.twig', ['support' => $support]);
+    }
 
     /**
      * @param SupportcoursRepository $repo
@@ -39,7 +50,7 @@ class SupportcoursController extends AbstractController
     public function new(Request $request)
     {
         $support = new Supportcours();
-        $form = $this->createForm(SupportcoursType::class,$support);
+        $form = $this->createForm(SupportcoursType::class, $support);
         $form->add('ajouter', SubmitType::class);
 
         $form->handleRequest($request);
@@ -57,7 +68,6 @@ class SupportcoursController extends AbstractController
 
                 $formation->setPhoto($fileName);
  */
-
 
 
             $entityManager = $this->getDoctrine()->getManager();

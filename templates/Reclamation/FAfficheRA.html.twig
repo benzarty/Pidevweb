@@ -1,7 +1,7 @@
 {% extends 'HomeFront/baseFrontApprenant.html.twig' %}
 {% block body %}
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <div class="container-xl"><br>
         <h1 style="text-align: center;"><span  style="color: #000000;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
@@ -13,68 +13,68 @@
                 <a href="/FRA" class="btn btn-primary"><b><span style="color : #ffffff;">ARCHIVE</span></b></a></center>
 
         </div><br>
-            <div class="input-group mb-3">
-                <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
-                <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
-            </div></div>
-        <div class="content-header">
-            {% if articles %}
-                <table id="articles" class="table  table-bordered table-hover table-dark"
-                       style="width:90%; margin-left: 67px;" >
-                    <thead>
+        <div class="input-group mb-3">
+            <input id="gfg" type="text" class="form-control" placeholder="Enter your text..." aria-label="Enter your text..." aria-describedby="basic-addon2">
+            <div class="input-group-append"><span class="input-group-text" id="basic-addon2">Search</span></div>
+        </div></div>
+    <div class="content-header">
+        {% if articles %}
+            <table id="articles" class="table  table-bordered table-hover table-dark"
+                   style="width:90%; margin-left: 67px;" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Etat </th>
+                    <th>Title</th>
+                    <th>Date </th>
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody id="geeks">
+                {% for article in articles %}
                     <tr>
-                        <th>ID</th>
-                        <th>Etat </th>
-                        <th>Title</th>
-                        <th>Date </th>
-                        <th>Action</th>
+                        <td style="width: 5px;">{{ article.id }}</td>
+                        <td style="width: 30px;" >{{ article.etat }}</td>
+                        <td style="width: 200px;" >{{ article.title }} </td>
+                        <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
+                        <td style="width: 80px;" >
+                            <a href="/FMessagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
+                            <a href="/FReclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
+                                <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;
+                            <a href="/FReclamation/corbeille/{{ article.id }}"
+                               onclick="return confirm('Etes-vous sûr de deplacer cet reclamation dans la corbeille?');">
+                                <i class="far fa-trash-alt"></i></a>&nbsp;&nbsp;
+                            <a href="/Reclamation/PDF/{{ article.id }}" ><i class="far fa-file-pdf"></i></a>
 
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody id="geeks">
-                    {% for article in articles %}
-                        <tr>
-                            <td style="width: 5px;">{{ article.id }}</td>
-                            <td style="width: 30px;" >{{ article.etat }}</td>
-                            <td style="width: 200px;" >{{ article.title }} </td>
-                            <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
-                            <td style="width: 80px;" >
-                                <a href="/FMessagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
-                                <a href="/FReclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
-                                    <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;
-                                <a href="/FReclamation/corbeille/{{ article.id }}"
-                                   onclick="return confirm('Etes-vous sûr de deplacer cet reclamation dans la corbeille?');">
-                                    <i class="far fa-trash-alt"></i></a>&nbsp;&nbsp;
-                                <a href="/Reclamation/PDF/{{ article.id }}" ><i class="far fa-file-pdf"></i></a>
+                {% endfor %}
+                </tbody>
+            </table>
 
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+        {% else %}
+            <p>Aucune reclamation</p>
+        {% endif %}
 
-            {% else %}
-                <p>Aucune reclamation</p>
-            {% endif %}
+    </div>
+    <!-- /.content-header -->
 
-        </div>
-        <!-- /.content-header -->
+    <!-- Main content -->
 
-        <!-- Main content -->
-
-        <!-- /.content -->
-        </div>
-        <script>
-            $(document).ready(function() {
-                $("#gfg").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#geeks tr").filter(function() {
-                        $(this).toggle($(this).text()
-                            .toLowerCase().indexOf(value) > -1)
-                    });
+    <!-- /.content -->
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#gfg").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#geeks tr").filter(function() {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
                 });
             });
-        </script>
+        });
+    </script>
 
 
 {% endblock %}
