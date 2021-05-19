@@ -36,9 +36,9 @@
                     <tr>
                         <td style="width: 5px;">{{ article.id }}</td>
                         <td style="width: 30px;" >{{ article.etat }}</td>
-                        <td style="width: 200px;" >{{ article.title }} </td>
+                        <td style="width: 180px;" >{{ article.title }} </td>
                         <td style="width: 70px;" > {{ article.date ? article.date|date('d - m - Y') : '' }} </td>
-                        <td style="width: 80px;" >
+                        <td style="width: 90px;" >
                             <a href="/FMessagerie/{{ article.id }}"><i class="fas fa-envelope-open-text"></i></a>&nbsp;&nbsp;
                             <a href="/FReclamation/restore/{{ article.id }}" onclick="return confirm('Etes-vous sûr de restaurer la reclamation ?');">
                                 <i class="fas fa-undo-alt"></i></a>&nbsp;&nbsp;

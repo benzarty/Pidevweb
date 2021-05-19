@@ -100,7 +100,7 @@ public function AfficheRUJson(Request $request ,ReclamationRepository $repo, Ser
     }
 
     /**
-     * @Route("/AddRUJson/{id}", name="AddRUJson")
+     * @Route("/AddRUJson", name="AddRUJson")
      * @Method("POST")
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
@@ -129,7 +129,7 @@ public function AddRUJson(Request $request): JsonResponse
 
 
  /**
- * @Route("/DeleteRUJson/{id}", name="DeleteRUJson")
+ * @Route("/DeleteRUJson", name="DeleteRUJson")
  * @Method("DELETE")
  * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
  */
@@ -151,7 +151,7 @@ public function DeleteRUJson(Request $request): JsonResponse
 
 
     /**
-     * @Route("/UpdateRUJson/{id}", name="UpdateRUJson")
+     * @Route("/UpdateRUJson", name="UpdateRUJson")
      * @Method("PUT")
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
@@ -177,7 +177,7 @@ public function UpdateRUJson(Request $request): JsonResponse
 
 
     /**
-     * @Route("/MessagerieRUJson/{id}", name="MessagerieRUJson")
+     * @Route("/MessagerieRUJson", name="MessagerieRUJson")
      * @Method("GET")
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
@@ -197,7 +197,7 @@ public function MessagerieRUJson(Request $request): JsonResponse
 
 
     /**
-     * @Route("/CorbeilleJson/{id}",name="xFcorbeille")
+     * @Route("/CorbeilleJson",name="CorbeilleJson")
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function FcorbeilleJSON(Request $request): JsonResponse
@@ -214,7 +214,7 @@ public function MessagerieRUJson(Request $request): JsonResponse
 
 
     /**
-     * @Route("/RestorerJson/{id}",name="xFrestore")
+     * @Route("/RestorerJson",name="RestorerJson")
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function FRestaurerJSON(Request $request): JsonResponse
@@ -231,7 +231,7 @@ public function MessagerieRUJson(Request $request): JsonResponse
 
 
     /**
-     * @Route("/ArchiverJson/{id}",name="xFarchive")
+     * @Route("/ArchiverJson",name="ArchiverJson")
      */
     public function FArchiverJSON(Request $request): JsonResponse
     {
