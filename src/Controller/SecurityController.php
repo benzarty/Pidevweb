@@ -130,7 +130,7 @@ if($user)
     }
 }
 else {
-    return new Response("user not found ");
+    return new Response("user not found");
 }
 
     }
@@ -176,6 +176,23 @@ else {
     }
 
 
+    /**
+     * @Route("/GetEmailPASSWORDjSON", name="GetEmailPASSWORDjSON")
+     */
+
+    public function GetEmailPASSWORDjSON(Request $request) {
+
+        $email = $request->get('email');
+        $user = $this->getDoctrine()->getManager()->getRepository(Users::class)->findOneBy(['email'=>$email]);
+        if($user) {
+            $password = $user->getPassword();
+            $serializer = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serializer->normalize($password);
+            return new JsonResponse($formatted);
+        }
+        return new Response("user not found");
+
+    }
 
 
 }
