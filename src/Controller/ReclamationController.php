@@ -22,9 +22,232 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Validator\Constraints\Json;
 
 class ReclamationController extends AbstractController
 {
+
+//////--------------------------------------ESPACE JSON USER ----------------------------------------------/////////////////////
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Repository\ReclamationRepository $repo
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @Route("/RUjson/{id}",name="RUjson")
+     */
+public function AfficheRUJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
+{
+    try {
+        $idu = $request->get("id");
+        $classroom = $repo->findBy(['msg' => 'UBR' ,'idUser' => $idu]);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer([$normalizer], [$encoder]);
+    $formatted = $serializer->normalize($classroom);
+    return new JsonResponse($formatted);
+    } catch (NoResultException | NonUniqueResultException $e) {}
+}
+
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Repository\ReclamationRepository $repo
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @Route("/RUAjson/{id}",name="RUAjson")
+     */
+    public function AfficheRUAJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
+    {
+        try {
+            $idu = $request->get("id");
+            $recl = $repo->findBy(['msg' => 'UARCHIVE' ,'idUser' => $idu]);
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $serializer = new Serializer([$normalizer], [$encoder]);
+            $formatted = $serializer->normalize($recl);
+            return new JsonResponse($formatted);
+        } catch (NoResultException | NonUniqueResultException $e) {}
+    }
+
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \App\Repository\ReclamationRepository $repo
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @Route("/RUCjson/{id}",name="RUCjson")
+     */
+    public function AfficheRUCJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
+    {
+        try {
+            $idu = $request->get("id");
+            $recl = $repo->findAllURC($idu);
+            $encoder = new JsonEncoder();
+            $normalizer = new ObjectNormalizer();
+            $serializer = new Serializer([$normalizer], [$encoder]);
+            $formatted = $serializer->normalize($recl);
+            return new JsonResponse($formatted);
+        } catch (NoResultException | NonUniqueResultException $e) {}
+    }
+
+    /**
+     * @Route("/AddRUJson/{id}", name="AddRUJson")
+     * @Method("POST")
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+
+public function AddRUJson(Request $request): JsonResponse
+{
+    $r = new Reclamation();
+    $user = $this->get('security.token_storage')->getToken()->getUser();
+    $idu = $user->getId();   $uname = $user->getNom();
+    $new = $request->query->get("recl");
+    $d = date("Y/m/d h:i:sa");
+    $msg = "$uname ( $d ) : ".$new."\n";
+    $title = $request->query->get("title");
+
+    $em = $this->getDoctrine()->getManager();
+    $r->setRecl($msg);    $r->setExp($uname);    $r->setMsgA('ABR');   $r->setMsg('UBR');
+    $r->setDate(new \DateTime());    $r->setIdUser($idu); $r->setUN($uname); $r->setTitle($title);
+
+    $em->persist($r);
+    $em->flush();
+    $serializer = new Serializer([new ObjectNormalizer()]);
+    $formatted = $serializer->normalize($r);
+    return new JsonResponse($formatted);
+}
+
+
+
+ /**
+ * @Route("/DeleteRUJson/{id}", name="DeleteRUJson")
+ * @Method("DELETE")
+ * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+ */
+public function DeleteRUJson(Request $request): JsonResponse
+{
+    $id = $request->get("id");
+    $em = $this->getDoctrine()->getManager();
+    $r = $em->getRepository(Reclamation::class)->find($id);
+    if ($r != null) {
+        $em->remove($r);
+        $em->flush();
+
+        $serialize = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serialize->normalize("La reclamation a été supprimée avec success.");
+        return new JsonResponse($formatted);
+    }
+    return new JsonResponse("id Reclamation invalide.");
+}
+
+
+    /**
+     * @Route("/UpdateRUJson/{id}", name="UpdateRUJson")
+     * @Method("PUT")
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+public function UpdateRUJson(Request $request): JsonResponse
+{
+    $user = $this->get('security.token_storage')->getToken()->getUser();
+    $uname = $user->getNom();
+    $d = date("Y/m/d h:i:sa");
+    $em = $this->getDoctrine()->getManager();
+    $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
+    $r->setRecl("");
+    $r->setNom($request->get("nom"));
+    $msg = $request->get("reclmodif");  $msg2 = $request->get("recl");
+    $msg2 = "$uname ( $d ) : ".$msg2;
+    $r->setRecl($msg.$msg2);
+
+    $em->persist($r);
+    $em->flush();
+    $serializer = new Serializer([new ObjectNormalizer()]);
+    $formatted = $serializer->normalize($r);
+    return new JsonResponse("Apprenant a ete modifiee avec success.");
+}
+
+
+    /**
+     * @Route("/MessagerieRUJson/{id}", name="MessagerieRUJson")
+     * @Method("GET")
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+
+public function MessagerieRUJson(Request $request): JsonResponse
+{
+    $id = $request->get("id");
+    $em = $this->getDoctrine()->getManager();
+    $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($id);
+    $encoder = new JsonEncoder();
+    $normalizer = new ObjectNormalizer();
+
+    $serializer = new Serializer([$normalizer], [$encoder]);
+    $formatted = $serializer->normalize($r);
+    return new JsonResponse($formatted);
+}
+
+
+    /**
+     * @Route("/CorbeilleJson/{id}",name="xFcorbeille")
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function FcorbeilleJSON(Request $request): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
+        $r->setMsg('UCORBEILLE');
+        $em->persist($r);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($r);
+        return new JsonResponse("La Reclamation a été mis en corbeille ");
+    }
+
+
+    /**
+     * @Route("/RestorerJson/{id}",name="xFrestore")
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
+    public function FRestaurerJSON(Request $request): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
+        $r->setMsg('UBR');
+        $em->persist($r);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($r);
+        return new JsonResponse("La Reclamation a été mis en corbeille ");
+    }
+
+
+    /**
+     * @Route("/ArchiverJson/{id}",name="xFarchive")
+     */
+    public function FArchiverJSON(Request $request): JsonResponse
+    {
+        $em = $this->getDoctrine()->getManager();
+        $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
+        $r->setMsg('UBR');
+        $em->persist($r);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($r);
+        return new JsonResponse("La Reclamation a été mis en corbeille ");
+    }
+
+
+
+//////--------------------------------------ESPACE ADMIN ----------------------------------------------/////////////////////
 
     /**
      * @param ReclamationRepository $repo

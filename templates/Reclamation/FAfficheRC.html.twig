@@ -1,19 +1,15 @@
-{% extends 'admin/backendAdmin.html.twig' %}
-{% block nouvelle %}
-    <span style="color: #61aac9;"><h4><p style="text-align: left;"><strong>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></p></h4></span>
-{% endblock %}
-{% block central %}
+{% extends 'HomeFront/baseFrontApprenant.html.twig' %}
+{% block body %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <div class="container-xl">
-        <h1 style="text-align: center;"><span  style="color: #ffffff;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
-        <div><center>
-                <a href="/R" class="btn btn-default"><b><span style="color : #25a2ee;">BOITE RECEPTION : {{ NotifNB }}</span></b></a>
-                <a href="/RC" class="btn btn-default"><b><span style="color : #25a2ee;">CORBEILLE</span></b></a>
-                <a href="/RA" class="btn btn-default"><b><span style="color : #25a2ee;">ARCHIVE</span></b></a></center>
+    <div class="container-xl"><br>
+        <h1 style="text-align: center;"><span  style="color: #000000;"><strong>GESTIONS DES RECLAMATIONS </strong></span></h1>
+        <span style="color: #871111;"><h4><p style="text-align: left;"><strong><center>Vous avez recu (&nbsp;{{ NotifNB}} ) Nouveaux Messages !!</center>
+            </strong></p></h4></span><br>
+        <div><center><a href="/FReclamation/new" type="button"  class="btn btn-primary" ><b>+</b> </a>
+                <a href="/FR" class="btn btn-primary"><b><span style="color : #ffffff;">BOITE RECEPTION : {{ NotifNB }}</span></b></a>
+                <a href="/FRC" class="btn btn-primary"><b><span style="color : #ffffff;">CORBEILLE</span></b></a>
+                <a href="/FRA" class="btn btn-primary"><b><span style="color : #ffffff;">ARCHIVE</span></b></a></center>
 
         </div><br>
         <div class="input-group mb-3">
