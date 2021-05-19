@@ -12,12 +12,65 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/evenement")
  */
 class EvenementController extends AbstractController
 {
+    /**
+     * @Route ("/mobile", name="evenement_mobile", methods={"GET","POST"})
+     */
+    public function affichemobileEvenement(EvenementRepository $evenementRepository, NormalizerInterface $serializer): Response
+    {
+        $evenement =  $evenementRepository->findAll();
+        $json = $serializer->normalize($evenement, 'json');
+        return new Response(json_encode($json));
+
+    }
+    /**
+     * @Route ("/mobileAjouter", name="evenement_mobile_ajouter", methods={"GET","POST"})
+     */
+    public function mobileEvenementAjouter(Request $request, NormalizerInterface $serializer): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $evenement = new Evenement();
+        echo "la date est".$request->query->get('date');
+
+        $g = "2018-09-10";
+        $reçudate = $request->query->get('date');
+
+
+        echo "//////////////////\n";
+        echo $g;
+        echo "//////////////////\n";
+        echo $reçudate;
+        echo "//////////////////\n";
+
+
+        echo "le type de g ".gettype($g);
+        echo "le type de date ".gettype($request->query->get('date'));
+
+        $evenement->setDateEvenement(\DateTime::createFromFormat('Y-m-d', $reçudate));
+        $evenement->setTheme($request->query->get('theme'));
+        $evenement->setPresentateur($request->get('presentateur'));
+        $evenement->setLien($request->query->get('lien'));
+        $evenement->setImage('cf352dbf44943ec822cd8905ed357c9d.jpeg');
+
+        $em->persist($evenement);
+        $em->flush();
+        $json = $serializer->normalize($evenement, 'json');
+        return new Response(json_encode($json));
+
+
+
+    }
+
+/////PArtie MOBILE EN HAUT
     /**
      * @Route("/", name="evenement_index", methods={"GET"})
      */
@@ -28,7 +81,7 @@ class EvenementController extends AbstractController
         ]);
     }
 
-/*  le methodes pour calendar*/
+    /*  le methodes pour calendar*/
 
     /**
      * @Route("/calendar", name="evenement_calendar", methods={"GET"})
@@ -352,4 +405,6 @@ class EvenementController extends AbstractController
 
         return $this->redirectToRoute('evenement_index');
     }
+
+
 }
