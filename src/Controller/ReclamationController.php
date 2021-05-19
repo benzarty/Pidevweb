@@ -237,12 +237,12 @@ public function MessagerieRUJson(Request $request): JsonResponse
     {
         $em = $this->getDoctrine()->getManager();
         $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
-        $r->setMsg('UBR');
+        $r->setMsg('UARCHIVE');
         $em->persist($r);
         $em->flush();
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($r);
-        return new JsonResponse("La Reclamation a été mis en corbeille ");
+        return new JsonResponse("La Reclamation a été archiver ");
     }
 
 
