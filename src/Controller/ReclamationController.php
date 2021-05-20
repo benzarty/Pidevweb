@@ -35,14 +35,10 @@ class ReclamationController extends AbstractController
 
 //////--------------------------------------ESPACE JSON USER ----------------------------------------------/////////////////////
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \App\Repository\ReclamationRepository $repo
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @param ReclamationRepository $repo
      * @Route("/RUjson/{id}",name="RUjson")
      */
-public function AfficheRUJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
+public function AfficheRUJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer)
 {
     try {
         $idu = $request->get("id");
@@ -57,11 +53,7 @@ public function AfficheRUJson(Request $request ,ReclamationRepository $repo, Ser
 
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \App\Repository\ReclamationRepository $repo
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @param ReclamationRepository $repo
      * @Route("/RUAjson/{id}",name="RUAjson")
      */
     public function AfficheRUAJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
@@ -79,11 +71,7 @@ public function AfficheRUJson(Request $request ,ReclamationRepository $repo, Ser
 
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \App\Repository\ReclamationRepository $repo
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @param ReclamationRepository $repo
      * @Route("/RUCjson/{id}",name="RUCjson")
      */
     public function AfficheRUCJson(Request $request ,ReclamationRepository $repo, SerializerInterface $serializer): JsonResponse
@@ -102,22 +90,19 @@ public function AfficheRUJson(Request $request ,ReclamationRepository $repo, Ser
     /**
      * @Route("/AddRUJson", name="AddRUJson")
      * @Method("POST")
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
 
-public function AddRUJson(Request $request): JsonResponse
+public function AddRUJson(Request $request)
 {
     $r = new Reclamation();
-    $user = $this->get('security.token_storage')->getToken()->getUser();
-    $idu = $user->getId();   $uname = $user->getNom();
     $new = $request->query->get("recl");
     $d = date("Y/m/d h:i:sa");
-    $msg = "$uname ( $d ) : ".$new."\n";
+    $msg = "USERNAME ( $d ) : ".$new."\n";
     $title = $request->query->get("title");
 
     $em = $this->getDoctrine()->getManager();
-    $r->setRecl($msg);    $r->setExp($uname);    $r->setMsgA('ABR');   $r->setMsg('UBR');
-    $r->setDate(new \DateTime());    $r->setIdUser($idu); $r->setUN($uname); $r->setTitle($title);
+    $r->setRecl($msg);    $r->setExp('USERNAME');    $r->setMsgA('ABR');   $r->setMsg('UBR');
+    $r->setDate(new \DateTime());    $r->setIdUser(42); $r->setUN('USERNAME'); $r->setTitle($title);
 
     $em->persist($r);
     $em->flush();
@@ -131,9 +116,8 @@ public function AddRUJson(Request $request): JsonResponse
  /**
  * @Route("/DeleteRUJson", name="DeleteRUJson")
  * @Method("DELETE")
- * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
  */
-public function DeleteRUJson(Request $request): JsonResponse
+public function DeleteRUJson(Request $request)
 {
     $id = $request->get("id");
     $em = $this->getDoctrine()->getManager();
@@ -153,19 +137,16 @@ public function DeleteRUJson(Request $request): JsonResponse
     /**
      * @Route("/UpdateRUJson", name="UpdateRUJson")
      * @Method("PUT")
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-public function UpdateRUJson(Request $request): JsonResponse
+public function UpdateRUJson(Request $request)
 {
-    $user = $this->get('security.token_storage')->getToken()->getUser();
-    $uname = $user->getNom();
     $d = date("Y/m/d h:i:sa");
     $em = $this->getDoctrine()->getManager();
     $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
     $r->setRecl("");
     $r->setNom($request->get("nom"));
     $msg = $request->get("reclmodif");  $msg2 = $request->get("recl");
-    $msg2 = "$uname ( $d ) : ".$msg2;
+    $msg2 = "USERNAME ( $d ) : ".$msg2;
     $r->setRecl($msg.$msg2);
 
     $em->persist($r);
@@ -178,29 +159,42 @@ public function UpdateRUJson(Request $request): JsonResponse
 
     /**
      * @Route("/MessagerieRUJson", name="MessagerieRUJson")
-     * @Method("GET")
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * Method({"GET", "POST"})
      */
 
-public function MessagerieRUJson(Request $request): JsonResponse
+public function MessagerieRUJson(Request $request)
 {
+    $entityManager = $this->getDoctrine()->getManager();
     $id = $request->get("id");
-    $em = $this->getDoctrine()->getManager();
     $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($id);
+
+    $rn = new Reclamation();  $ancien = $r->getRecl(); $r->setReclmodif($ancien); $rn->setUN($r->getUN());
+    $rn->setTitle($r->getTitle()); $rn->setDate($r->getDate()); $rn->setMsg($r->getMsg()); $rn->setEtat($r->getEtat());
+    $rn->setExp($r->getExp());  $rn->setIdUser($r->getIdUser());  $rn->setMsgA($r->getMsgA());
+
+    $new = $request->get("recl");
+    $d = date("Y/m/d h:i:sa"); $r->setExp("USERNAME");
+    $r->setRecl($ancien."USERNAME ( $d ) : "."$new"."\n");
+    $entityManager->persist($r);
+    $entityManager->flush();
+
     $encoder = new JsonEncoder();
     $normalizer = new ObjectNormalizer();
-
     $serializer = new Serializer([$normalizer], [$encoder]);
     $formatted = $serializer->normalize($r);
     return new JsonResponse($formatted);
 }
 
 
+
+
+
+
+
     /**
      * @Route("/CorbeilleJson",name="CorbeilleJson")
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function FcorbeilleJSON(Request $request): JsonResponse
+    public function FcorbeilleJSON(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
@@ -215,9 +209,8 @@ public function MessagerieRUJson(Request $request): JsonResponse
 
     /**
      * @Route("/RestorerJson",name="RestorerJson")
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function FRestaurerJSON(Request $request): JsonResponse
+    public function FRestaurerJSON(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
@@ -233,7 +226,7 @@ public function MessagerieRUJson(Request $request): JsonResponse
     /**
      * @Route("/ArchiverJson",name="ArchiverJson")
      */
-    public function FArchiverJSON(Request $request): JsonResponse
+    public function FArchiverJSON(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $r = $this->getDoctrine()->getManager()->getRepository(Reclamation::class)->find($request->get("id"));
