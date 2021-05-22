@@ -49,13 +49,13 @@ class UsersRepository extends ServiceEntityRepository
     }
     */
 
-    function SearchApprenant($nsc)
+    function SearchApprenant($nsc) //requette en plusieur etape 
     {
         return $this->createQueryBuilder('s')
             ->where('s.nom LIKE :nom')
             ->setParameter('nom','%'.$nsc.'%')
-            ->andWhere('s.role LIKE :apprenant')
-            ->setParameter('apprenant','apprenant')
+            ->andWhere('s.role LIKE :apprenant')  
+            ->setParameter('apprenant','apprenant')   //label valeur
             ->getQuery()
             ->getResult();
     }

@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\File;
 use App\Repository\ApprenantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * Formation
@@ -23,20 +25,21 @@ class Formation
      * @ORM\Column(name="id_formation", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $idFormation;
 
+    /*
+        /**
+         * @var Users
+         *
+         * @ORM\ManyToOne(targetEntity="Users")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="id_users", referencedColumnName="id")
+         * })
+         */
 
-    /**
-     * @var Users
-     *
-     * @ORM\ManyToOne(targetEntity="Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_users", referencedColumnName="id")
-     * })
-     */
-
-    private $idprof;
+    // private $idprof;
 
 
     /**
@@ -44,6 +47,7 @@ class Formation
      *
      * @ORM\Column(name="photo", type="string", length=300, nullable=true)
      * @Assert\File(mimeTypes={"image/jpeg"},groups = {"create"})
+     * @Groups("post:read")
      */
     private $photo;
 
@@ -91,22 +95,19 @@ class Formation
         return $this;
     }
 
+    /*
+        public function getIdprof(): ?Users
+        {
+            return $this->idprof;
+        }
 
-    public function getIdprof(): ?Users
-    {
-        return $this->idprof;
-    }
+        public function setIdprof(?Users $idprof): self
+        {
+            $this->idprof = $idprof;
 
-    public function setIdprof(?Users $idprof): self
-    {
-        $this->idprof = $idprof;
-
-        return $this;
-    }
-
-
-
-
+            return $this;
+        }
+    */
 
 
     /**
@@ -120,6 +121,7 @@ class Formation
      *      maxMessage = "L'intitulé d'une formation ne doit pas depasser {{ limit }} caractères"
      * )
      *@Assert\NotBlank (message="Vous devez remplir ce champs")
+     * @Groups("post:read")
      */
     private $intitule;
 
@@ -127,6 +129,7 @@ class Formation
      * @var \DateTime
      * @Assert\NotBlank
      * @ORM\Column(name="date_debut", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateDebut;
 
@@ -134,6 +137,7 @@ class Formation
      * @var \DateTime
      * @Assert\NotBlank
      * @ORM\Column(name="date_fin", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $dateFin;
 
@@ -142,6 +146,7 @@ class Formation
      *
      * @ORM\Column(name="volume_horaire", type="integer", nullable=false)
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     * @Groups("post:read")
      */
     private $volumeHoraire;
 
@@ -154,6 +159,7 @@ class Formation
      *
      * @ORM\Column(name="langue", type="string", length=50, nullable=false, options={"default"="French"})
      *@Assert\NotBlank(message="Vous devez remplir ce champs")
+     * @Groups("post:read")
      */
     private $langue;
     /**
@@ -161,6 +167,7 @@ class Formation
      *
      * @ORM\Column(name="mode_enseignement", type="string", length=50, nullable=false, options={"default"="presentiel"})
      *@Assert\NotBlank(message="Vous devez remplir ce champ")
+     * @Groups("post:read")
      */
     private $modeEnseignement;
 
@@ -180,6 +187,7 @@ class Formation
      * @var int
      *
      * @ORM\Column(name="test", type="integer", length=50)
+     * @Groups("post:read")
      */
 
 
@@ -209,7 +217,7 @@ class Formation
     /**
      * @return string
      */
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }

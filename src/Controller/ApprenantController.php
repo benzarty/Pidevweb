@@ -452,6 +452,20 @@ class ApprenantController extends AbstractController
 
 
     }
+    /**
+     * @param UsersRepository $repo
+     * @Route("/AfficheAllUsersJason",name="AfficheAllUsersJason")
+     */
+    public function AfficheAllUsersJason(UsersRepository $repo, SerializerInterface $serializer)
+    {
+
+        $classroom = $repo->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($classroom);
+
+        return new JsonResponse($formatted);
+    }
+
 
 
 }

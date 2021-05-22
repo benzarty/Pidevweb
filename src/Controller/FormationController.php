@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class FormationController extends AbstractController
 {
@@ -180,7 +181,7 @@ class FormationController extends AbstractController
 
 
         $formation =$this->getDoctrine()->getRepository(Formation::class)->find($id) ;
-        $formation->setTest(1);
+        $formation->setStatus("false");
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($formation);
@@ -202,6 +203,26 @@ class FormationController extends AbstractController
         $formation = $repo->findAll();
         return $this->render('Formation/affiche.html.twig', ['formations' => $formation]);
     }
+
+
+
+    /**
+     * @Route("/AfficheJSON", name="Allaff")
+     */
+    public function Allproducts(NormalizerInterface $Normalizer)
+    {
+
+        $repository=$this->getDoctrine()->getRepository(Formation::class);
+        $formations= $repository->findAll();
+
+        $jsonContent= $Normalizer->normalize($formations,'json',['groups'=>'post:read']);
+
+        return new Response(json_encode($jsonContent));
+    }
+
+
+
+
 
 
 
@@ -227,15 +248,15 @@ class FormationController extends AbstractController
             $formation = $form->getData();
             if($formation->getDateDebut()<$formation->getDateFin()){
 
-                $formation->setIdprof($user);
-                $file = $form->get('photo')->getData();
+                // $formation->setIdprof($user);
+                /*  $file = $form->get('photo')->getData();
 
-                $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-                $file->move($this->getParameter('imagedirectory'), $fileName);
+                  $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+                  $file->move($this->getParameter('imagedirectory'), $fileName);
 
 
-                $formation->setPhoto($fileName);
-
+                  $formation->setPhoto($fileName);
+  */
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($formation);
                 $entityManager->flush();
@@ -253,6 +274,73 @@ class FormationController extends AbstractController
     }
 
 
+
+
+    /*************************JSON AJOUT ********************** */
+    /**
+     * @Route("/AddformationJSON/new", name="AddformationJSON")
+     */
+
+    public function addProdJSON(Request $request, NormalizerInterface $Normalizer){
+
+        $em= $this->getDoctrine()->getManager();
+        $formation= new Formation();
+
+        /* $produits->setName($request->get('name'));
+         $produits->setImage($request->get('image'));
+         $produits->setSubtitle($request->get('subtitle'));
+         $produits->setPrix($request->get('prix'));
+         $produits->setDescription($request->get('description'));
+
+         /*$produits->setCategory($request->get('category', EntityType::class,
+         [
+             'class' => Category::class,
+             'choice_label' => 'name'
+         ]
+
+         ));
+
+
+         $produits->setLat($request->get('lat'));
+         $produits->setLon($request->get('lon'));
+ */
+
+
+
+        $formation->setIntitule($request->get('intitule'));
+        // $formation->setDateDebut($request->get('datedebut'));
+        //$formation->setDateFin($request->get('datefin'));
+        $formation->setVolumeHoraire($request->get('volumehoraire'));
+        $formation->setModeEnseignement($request->get('modeEnseignement'));
+        $formation->setLangue($request->get('langue'));
+
+
+
+        $em->persist($formation);
+        $em->flush();
+        $jsonContent= $Normalizer->normalize($formation,'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));;
+
+
+    }
+
+
+
+
+
+//*****************************END JSON*********************** */
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/Formation/{id}", name="Formation_show")
      * @param $id
@@ -262,8 +350,44 @@ class FormationController extends AbstractController
     {
         $formation = $this->getDoctrine()->getRepository(Formation::class)->find($id);
 
-        return $this->render('Formation/show.html.twig', array('formation' => $formation));
+        return $this->render('Formation/show.html.twig', array('Formation' => $formation));
     }
+
+
+
+
+
+
+    //*************************JSON UPDATE ********************** */
+    /**
+     * @Route("/updateformJSON/{id}", name="updateformJSON")
+     */
+
+    public function updateProdJSON(Request $request, NormalizerInterface $Normalizer,$id){
+        $em= $this->getDoctrine()->getManager();
+        $formation= $em->getRepository(Formation::class)->find($id);
+
+        $formation->setIntitule($request->get('intitule'));
+        // $formation->setDateDebut($request->get('datedebut'));
+        //$formation->setDateFin($request->get('datefin'));
+        $formation->setVolumeHoraire($request->get('volumehoraire'));
+        $formation->setModeEnseignement($request->get('modeEnseignement'));
+        $formation->setLangue($request->get('langue'));
+
+
+        // $em->persist($produits);
+        $em->flush();
+        $jsonContent= $Normalizer->normalize($formation,'json',['groups'=>'post:read']);
+        return new Response("Information updated successfully".json_encode($jsonContent));;
+
+
+    }
+
+
+
+
+
+    //*****************************END JSON*********************** */
 
     /**
      * @Route("/Formation/edit/{id}", name="edit_Formation")
@@ -298,6 +422,37 @@ class FormationController extends AbstractController
         ));
     }
 
+
+
+
+
+
+    //*************************JSON DELETE ********************** */
+    /**
+     * @Route("/deleteformJSON/{id}", name="deleteformJSON")
+     */
+
+    public function deleteProdJSON(Request $request, NormalizerInterface $Normalizer,$id){
+        $em= $this->getDoctrine()->getManager();
+        $formation= $em->getRepository(Formation::class)->find($id);
+
+
+
+        $em->remove($formation);
+        $em->flush();
+        $jsonContent= $Normalizer->normalize($formation,'json',['groups'=>'post:read']);
+        return new Response("Information Deleted successfully".json_encode($jsonContent));;
+
+
+    }
+
+
+
+
+
+    //*****************************END JSON*********************** */
+
+
     /**
      * @Route("/Formation/delete/{id}",name="delete_apprenant")
      * @param Request $request
@@ -316,6 +471,7 @@ class FormationController extends AbstractController
         $response->send();
 
         return $this->redirectToRoute('afficher');
+
     }
 
 }
